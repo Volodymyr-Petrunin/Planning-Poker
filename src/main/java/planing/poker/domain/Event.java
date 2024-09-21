@@ -18,5 +18,6 @@ public class Event {
     private Room room;
 
     @OneToMany
+    @JoinTable(name = "events_event_messages")
     private List<EventMessage> eventMessages;
 }

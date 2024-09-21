@@ -16,7 +16,7 @@ public class EventMessage {
     @SequenceGenerator(name = "event_message_seq", sequenceName = "event_message_seq", allocationSize = 100)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "event_message_user")
     private User user;
 

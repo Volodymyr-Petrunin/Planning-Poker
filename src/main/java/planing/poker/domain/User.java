@@ -17,13 +17,13 @@ public class User {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 50)
     private Long id;
 
-    @Column(name = "user_firstname")
+    @Column(name = "user_firstname", length = 50)
     private String firstName;
 
-    @Column(name = "user_lastname")
+    @Column(name = "user_lastname", length = 50)
     private String lastName;
 
-    @Column(name = "user_nickname")
+    @Column(name = "user_nickname", length = 100)
     private String nickname;
 
     @Column(name = "user_email")
@@ -32,7 +32,7 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
-    @Column(name = "user_role")
+    @Column(name = "user_role", length = 20)
     @Enumerated(EnumType.STRING)
     private Role role;
 

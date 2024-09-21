@@ -21,7 +21,7 @@ public class Room {
     @Column(name = "room_code")
     private String roomCode;
 
-    @Column(name = "room_name")
+    @Column(name = "room_name", length = 100)
     private String roomName;
 
     @OneToOne
