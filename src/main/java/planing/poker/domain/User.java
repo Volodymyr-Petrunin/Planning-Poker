@@ -3,7 +3,7 @@ package planing.poker.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import planing.poker.commons.Role;
+import planing.poker.common.Role;
 
 import java.util.List;
 

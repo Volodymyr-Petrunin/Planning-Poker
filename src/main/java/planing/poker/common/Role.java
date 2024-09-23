@@ -1,4 +1,4 @@
-package planing.poker.commons;
+package planing.poker.common;
 
 public enum Role {
     USER_PRESENTER,
