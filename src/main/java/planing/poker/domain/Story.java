@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "stories")
 @Getter
@@ -24,4 +25,26 @@ public class Story {
 
     @OneToMany(mappedBy = "story")
     private List<Vote> votes;
+
+    public Story() {
+    }
+
+    public Story(Long id, String title, String storyLink, List<Vote> votes) {
+        this.id = id;
+        this.title = title;
+        this.storyLink = storyLink;
+        this.votes = votes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Story story)) return false;
+        return Objects.equals(id, story.id) && Objects.equals(title, story.title) && Objects.equals(storyLink, story.storyLink);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, storyLink);
+    }
 }

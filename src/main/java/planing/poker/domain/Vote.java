@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity(name = "votes")
 @Getter
 @Setter
@@ -24,4 +26,26 @@ public class Vote {
     @ManyToOne
     @JoinColumn(name = "story_id")
     private Story story;
+
+    public Vote() {
+    }
+
+    public Vote(Long id, User voter, Integer points, Story story) {
+        this.id = id;
+        this.voter = voter;
+        this.points = points;
+        this.story = story;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vote vote)) return false;
+        return Objects.equals(id, vote.id) && Objects.equals(voter, vote.voter) && Objects.equals(points, vote.points) && Objects.equals(story, vote.story);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, voter, points, story);
+    }
 }
