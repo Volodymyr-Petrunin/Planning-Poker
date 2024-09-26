@@ -6,6 +6,7 @@ import lombok.Setter;
 import planing.poker.common.Role;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "users")
 @Getter
@@ -38,4 +39,47 @@ public class User {
 
     @ManyToMany(mappedBy = "invitedUsers")
     private List<Room> rooms;
+
+    public User() {
+    }
+
+    public User(final Long id, final String firstName, final String lastName, final String nickname,
+                final String email, final String password, final Role role, final List<Room> rooms) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.rooms = rooms;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName) && Objects.equals(nickname, user.nickname)
+                && Objects.equals(email, user.email) && Objects.equals(password, user.password)
+                && role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, nickname, email, password, role);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }
