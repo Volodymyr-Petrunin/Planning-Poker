@@ -40,11 +40,22 @@ public class Story {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Story story)) return false;
-        return Objects.equals(id, story.id) && Objects.equals(title, story.title) && Objects.equals(storyLink, story.storyLink);
+        return Objects.equals(id, story.id) && Objects.equals(title, story.title)
+                && Objects.equals(storyLink, story.storyLink);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, title, storyLink);
+    }
+
+    @Override
+    public String toString() {
+        return "Story{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", storyLink='" + storyLink + '\'' +
+                ", votes=" + votes +
+                '}';
     }
 }

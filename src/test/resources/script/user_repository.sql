@@ -1,4 +1,4 @@
--- Clear the tables and reset sequences
+-- Clear the tables
 TRUNCATE TABLE users CASCADE;
 
 -- Reset the sequences and fill the data
