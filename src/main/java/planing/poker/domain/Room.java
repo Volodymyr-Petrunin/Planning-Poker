@@ -1,16 +1,30 @@
 package planing.poker.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "rooms")
 @Getter
 @Setter
+@NoArgsConstructor
+@Accessors(chain = true)
 public class Room {
     @Id
     @Column(unique = true, nullable = false, name = "room_id")
@@ -62,4 +76,43 @@ public class Room {
 
     @Column(name = "room_is_voting_open")
     private Boolean isVotingOpen;
+
+    @OneToOne(mappedBy = "room")
+    private Event event;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room room)) return false;
+        return Objects.equals(id, room.id) && Objects.equals(roomCode, room.roomCode)
+                && Objects.equals(roomName, room.roomName) && Objects.equals(creator, room.creator)
+                && Objects.equals(invitedUsers, room.invitedUsers) && Objects.equals(startDate, room.startDate)
+                && Objects.equals(startTime, room.startTime) && Objects.equals(currentStory, room.currentStory)
+                && Objects.equals(stories, room.stories) && Objects.equals(voteDuration, room.voteDuration)
+                && Objects.equals(isActive, room.isActive) && Objects.equals(isVotingOpen, room.isVotingOpen);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, roomCode, roomName, creator, invitedUsers, startDate, startTime, currentStory,
+                stories, voteDuration, isActive, isVotingOpen);
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", roomCode='" + roomCode + '\'' +
+                ", roomName='" + roomName + '\'' +
+                ", creator=" + creator +
+                ", invitedUsers=" + invitedUsers +
+                ", startDate=" + startDate +
+                ", startTime=" + startTime +
+                ", currentStory=" + currentStory +
+                ", stories=" + stories +
+                ", voteDuration=" + voteDuration +
+                ", isActive=" + isActive +
+                ", isVotingOpen=" + isVotingOpen +
+                '}';
+    }
 }
