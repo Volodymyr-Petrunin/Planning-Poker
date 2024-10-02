@@ -11,23 +11,18 @@ import planing.poker.domain.Story;
 import java.util.Collections;
 import java.util.List;
 
+import static planing.poker.factory.utils.ExpectedEntityUtils.getStory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @DisplayName("Story Repository Tests")
-@Sql(value = "classpath:script/story_repository.sql")
+@Sql(scripts = {"classpath:script/init_expected_data.sql"})
 @Transactional
 class StoryRepositoryTest {
 
-    private static final Long EXPECTED_ID = 1L;
-
-    private static final String EXPECTED_TITLE = "Sample Story Title";
-
-    private static final String EXPECTED_LINK = "https://example.com/story";
-
-    private static final Story EXPECTED_STORY = new Story(EXPECTED_ID, EXPECTED_TITLE, EXPECTED_LINK, Collections.emptyList());
+    private static final Story EXPECTED_STORY = getStory();
 
     @Autowired
     private StoryRepository storyRepository;
@@ -38,7 +33,7 @@ class StoryRepositoryTest {
     @Test
     @DisplayName("Create Story: Should create a story and return it with a generated ID")
     void testCreateStory_ShouldCreateExpectedStory_AndReturnStoryWithId() {
-        expected = new Story(null, EXPECTED_TITLE, EXPECTED_LINK, Collections.emptyList());
+        expected = new Story(null, "New Title", "https://link", Collections.emptyList());
 
         actual = storyRepository.save(expected);
 
@@ -50,11 +45,10 @@ class StoryRepositoryTest {
     @Test
     @DisplayName("Find Story by ID: Should find a story by its ID and return the expected story")
     void testFindById_ShouldFindStoryById_AndReturnExpectedStory() {
-        final Long storyId = EXPECTED_ID;
-        expected = new Story(storyId, EXPECTED_TITLE, EXPECTED_LINK, Collections.emptyList());
+        expected = getStory();
 
-        actual = storyRepository.findById(storyId).orElseThrow(
-                () -> new IllegalArgumentException("Can't fetch story with id: " + storyId));
+        actual = storyRepository.findById(expected.getId()).orElseThrow(
+                () -> new IllegalArgumentException("Can't fetch story with id: " + expected.getId()));
 
         assertEquals(expected, actual);
     }
@@ -68,7 +62,7 @@ class StoryRepositoryTest {
     @Test
     @DisplayName("Delete Story by ID: Should delete a story by ID and return the remaining stories")
     void testDeleteStoryById_ShouldDeleteStoryWithCorrectId_AndFindAllShouldReturnRemainingStories() {
-        storyRepository.deleteById(EXPECTED_ID);
+        storyRepository.deleteById(getStory().getId());
 
         final List<Story> remainingStories = storyRepository.findAll();
 

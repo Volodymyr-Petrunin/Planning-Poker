@@ -3,12 +3,14 @@ package planing.poker.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.Objects;
 
 @Entity(name = "votes")
 @Getter
 @Setter
+@Accessors(chain = true)
 public class Vote {
     @Id
     @Column(unique = true, nullable = false, name = "vote_id")
@@ -48,5 +50,15 @@ public class Vote {
     @Override
     public int hashCode() {
         return Objects.hash(id, voter, points, story);
+    }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "id=" + id +
+                ", voter=" + voter.getNickname() +
+                ", points=" + points +
+                ", story=" + story.getTitle() +
+                '}';
     }
 }

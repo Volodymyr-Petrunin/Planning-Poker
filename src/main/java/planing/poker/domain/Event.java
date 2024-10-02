@@ -1,17 +1,17 @@
 package planing.poker.domain;
 
-import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
-import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.Id;
 import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.GenerationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,7 +40,10 @@ public class Event {
     private Room room;
 
     @OneToMany
-    @JoinTable(name = "events_event_messages")
+    @JoinTable(name = "events_messages_connection",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_message_id")
+    )
     private List<EventMessage> eventMessages;
 
     public Event() {}

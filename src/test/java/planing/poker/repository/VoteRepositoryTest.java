@@ -11,30 +11,30 @@ import planing.poker.common.Role;
 import planing.poker.domain.Story;
 import planing.poker.domain.User;
 import planing.poker.domain.Vote;
+import planing.poker.factory.utils.ExpectedEntityUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static planing.poker.factory.utils.ExpectedEntityUtils.getVote;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@Sql(value = "classpath:script/vote_repository.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Transactional
 @DisplayName("Vote Repository Tests")
+@Sql(scripts = {"classpath:script/init_expected_data.sql"})
+@Transactional
 class VoteRepositoryTest {
-    private static final Long EXPECTED_ID = 1L;
 
-    private static final Integer EXPECTED_POINTS = 5;
+    private static final User EXPECTED_ELECTOR = ExpectedEntityUtils.getUserElector();
 
-    private static final User EXPECTED_ELECTOR = new User(EXPECTED_ID, "Voter Name", "Voter Lastname",
-            "Voter Nickname", "voter@email.com", "voter_pass", Role.USER_ELECTOR, null);
+    private static final Story EXPECTED_STORY = ExpectedEntityUtils.getStory();
 
-    private static final Story EXPECTED_STORY = new Story(EXPECTED_ID, "Story Title", "Story Description", Collections.emptyList());
+    private static final Vote EXPECTED_VOTE = getVote();
 
-    private static final Vote EXPECTED_VOTE = new Vote(EXPECTED_ID, EXPECTED_ELECTOR, EXPECTED_POINTS, EXPECTED_STORY);
+    private static final Integer EXPECTED_POINTS = 3;
 
     @Autowired
     private VoteRepository voteRepository;
@@ -63,11 +63,10 @@ class VoteRepositoryTest {
     @Test
     @DisplayName("Find Vote by ID: Should find a vote by its ID and return the expected vote")
     void testFindById_ShouldFindVoteById_AndReturnExpectedVote() {
-        final Long voteId = EXPECTED_ID;
-        expected = new Vote(voteId, EXPECTED_ELECTOR, EXPECTED_POINTS, EXPECTED_STORY);
+        expected = getVote();
 
-        actual = voteRepository.findById(voteId).orElseThrow(
-                () -> new IllegalArgumentException("Can't fetch vote with id: " + voteId));
+        actual = voteRepository.findById(expected.getId()).orElseThrow(
+                () -> new IllegalArgumentException("Can't fetch vote with id: " + expected.getId()));
 
         assertEquals(expected, actual);
     }
@@ -75,15 +74,13 @@ class VoteRepositoryTest {
     @Test
     @DisplayName("Find All Votes: Should return all votes and match expected list")
     void testFindAllVotes_ShouldReturnAllVotes_AndReturnExpectedList() {
-        final List<Vote> actual = voteRepository.findAll();
-
-       assertEquals(List.of(EXPECTED_VOTE), actual);
+       assertEquals(List.of(getVote()), voteRepository.findAll());
     }
 
     @Test
     @DisplayName("Delete Vote by ID: Should delete a vote and return remaining votes")
     void testDeleteVoteById_ShouldDeleteVoteWithCorrectId_AndFindAllShouldReturnRemainingVotes() {
-        voteRepository.deleteById(EXPECTED_ID);
+        voteRepository.deleteById(getVote().getId());
 
         final List<Vote> remainingVotes = voteRepository.findAll();
 
@@ -99,13 +96,13 @@ class VoteRepositoryTest {
         final Story newStory = new Story(null, "Another Story", "Another Description", Collections.emptyList());
 
         final List<Vote> voteBatch = Arrays.asList(
-                new Vote(null, EXPECTED_ELECTOR, 3, EXPECTED_STORY),
-                new Vote(null, newUser,8, newStory)
+                new Vote(null, EXPECTED_ELECTOR, EXPECTED_POINTS, EXPECTED_STORY),
+                new Vote(null, newUser,EXPECTED_POINTS, newStory)
         );
 
         final List<Vote> actualVotes = voteRepository.saveAll(voteBatch);
 
-        newUser.setId(2L);
+        newUser.setId(3L); // set id 3 because we insert two users each time
         newStory.setId(2L);
 
         voteBatch.forEach(vote -> vote.setVoter(newUser));

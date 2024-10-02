@@ -2,7 +2,9 @@ package planing.poker.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import planing.poker.common.Role;
 
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.Objects;
 @Entity(name = "users")
 @Getter
 @Setter
+@NoArgsConstructor
+@Accessors(chain = true)
 public class User {
     @Id
     @Column(unique = true, nullable = false, name = "user_id")
@@ -39,9 +43,6 @@ public class User {
 
     @ManyToMany(mappedBy = "invitedUsers")
     private List<Room> rooms;
-
-    public User() {
-    }
 
     public User(final Long id, final String firstName, final String lastName, final String nickname,
                 final String email, final String password, final Role role, final List<Room> rooms) {
