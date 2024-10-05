@@ -1,6 +1,7 @@
 package planing.poker.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 public class User {
     @Id
@@ -41,20 +43,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "security_role", length = 20)
+    @Enumerated(EnumType.STRING)
+    private SecurityRole securityRole;
+
     @ManyToMany(mappedBy = "invitedUsers")
     private List<Room> rooms;
-
-    public User(final Long id, final String firstName, final String lastName, final String nickname,
-                final String email, final String password, final Role role, final List<Room> rooms) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.nickname = nickname;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.rooms = rooms;
-    }
 
     @Override
     public boolean equals(Object o) {
