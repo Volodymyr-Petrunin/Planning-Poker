@@ -16,8 +16,8 @@ public class EventMessageService {
     private final EventMessageMapper eventMessageMapper;
 
     @Autowired
-    public EventMessageService(EventMessageRepository eventMessageRepository,
-                               EventMessageMapper eventMessageMapper) {
+    public EventMessageService(final EventMessageRepository eventMessageRepository,
+                               final EventMessageMapper eventMessageMapper) {
         this.eventMessageRepository = eventMessageRepository;
         this.eventMessageMapper = eventMessageMapper;
     }

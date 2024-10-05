@@ -16,8 +16,7 @@ public class EventService {
     private final EventMapper eventMapper;
 
     @Autowired
-    public EventService(EventRepository eventRepository,
-                        EventMapper eventMapper) {
+    public EventService(final EventRepository eventRepository, final EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
     }
