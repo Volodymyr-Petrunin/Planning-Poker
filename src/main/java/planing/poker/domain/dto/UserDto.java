@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import planing.poker.common.Role;
+import planing.poker.domain.SecurityRole;
 
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class UserDto {
 
     @NotNull
     private Role role;
+
+    @NotNull
+    private SecurityRole securityRole;
 
     @NotNull
     private List<RoomDto> rooms;
