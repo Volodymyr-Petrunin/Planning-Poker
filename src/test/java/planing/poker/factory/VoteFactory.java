@@ -9,7 +9,7 @@ public class VoteFactory {
     private static final Long EXPECTED_ID = 1L;
     private static final Integer EXPECTED_POINTS = 5;
 
-    public static Vote createVote(User voter, Story story) {
+    public static Vote createVote(final User voter, final Story story) {
         return new Vote()
                 .setId(EXPECTED_ID)
                 .setVoter(voter)

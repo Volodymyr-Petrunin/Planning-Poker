@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.Role;
+import planing.poker.domain.SecurityRole;
 import planing.poker.domain.Story;
 import planing.poker.domain.User;
 import planing.poker.domain.Vote;
@@ -91,7 +92,7 @@ class VoteRepositoryTest {
     @DisplayName("Insert Batch of Votes: Should insert a batch of votes and return the expected list")
     void testInsertBatchOfVotes_ShouldInsertBatchOfVotes_AndReturnExpectedList() {
         final User newUser = new User(null, "Other Voter", "Lastname", "Nickname",
-                "other@email.com", "pass", Role.USER_ELECTOR, Collections.emptyList());
+                "other@email.com", "pass", Role.USER_ELECTOR, SecurityRole.ROLE_USER, Collections.emptyList());
 
         final Story newStory = new Story(null, "Another Story", "Another Description", Collections.emptyList());
 

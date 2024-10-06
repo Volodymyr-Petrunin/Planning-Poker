@@ -4,8 +4,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import planing.poker.common.Role;
+import planing.poker.domain.SecurityRole;
 
 import java.util.List;
 
@@ -15,6 +18,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Accessors(chain = true)
+@NoArgsConstructor
 public class UserDto {
     @Positive
     private Long id;
@@ -39,6 +44,9 @@ public class UserDto {
 
     @NotNull
     private Role role;
+
+    @NotNull
+    private SecurityRole securityRole;
 
     @NotNull
     private List<RoomDto> rooms;

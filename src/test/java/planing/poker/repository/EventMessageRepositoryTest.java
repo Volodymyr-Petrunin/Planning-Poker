@@ -8,6 +8,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.Role;
 import planing.poker.domain.EventMessage;
+import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 
@@ -77,7 +78,7 @@ class EventMessageRepositoryTest {
     @DisplayName("Insert Batch of Event Messages: Should insert a batch of messages and return the expected list")
     void testInsertBatchOfEventMessages_ShouldInsertBatchOfMessages_AndReturnExpectedList() {
         final User newUser = new User(null, "Another User", "Lastname", "Nickname",
-                "another@email.com", "password", Role.USER_SPECTATOR, Collections.emptyList());
+                "another@email.com", "password", Role.USER_SPECTATOR, SecurityRole.ROLE_USER, Collections.emptyList());
 
         final List<EventMessage> messageBatch = Arrays.asList(
                 new EventMessage(null, ExpectedEntityUtils.getUserElector(), "First event message", LocalDateTime.now()),

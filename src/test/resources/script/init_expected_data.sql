@@ -10,15 +10,15 @@ TRUNCATE TABLE event_messages CASCADE;
 ALTER SEQUENCE user_seq RESTART WITH 1;
 
 -- Insert data into the 'users' table
-INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, user_role)
-VALUES (nextval('user_seq'), 'Expected Name', 'Expected Lastname', 'Expected Nickname', 'expected@email.gg', 'Expected pass', 'USER_ELECTOR');
+INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, user_role, security_role)
+VALUES (nextval('user_seq'), 'Expected Name', 'Expected Lastname', 'Expected Nickname', 'expected@email.gg', 'Expected pass', 'USER_ELECTOR', 'ROLE_USER');
 
 -- Adjust sequence
 ALTER SEQUENCE user_seq RESTART WITH 2;
 
 -- Insert data into the 'users' table
-INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, user_role)
-VALUES (nextval('user_seq'), 'User', 'Creator', 'UserCreator', 'UserCreator@email.gg', 'UserCreatorPass', 'USER_PRESENTER');
+INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, user_role, security_role)
+VALUES (nextval('user_seq'), 'User', 'Creator', 'UserCreator', 'UserCreator@email.gg', 'UserCreatorPass', 'USER_PRESENTER', 'ROLE_ADMIN');
 
 -- Adjust sequence
 ALTER SEQUENCE story_seq RESTART WITH 1;
