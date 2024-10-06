@@ -1,10 +1,10 @@
-package planing.poker.factory;
+package planing.poker.factory.dto;
 
 import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
-import planing.poker.domain.User;
+import planing.poker.domain.dto.UserDto;
 
-public class UserFactory {
+public class UserDtoFactory {
     private static final Long EXPECTED_ID = 1L;
     private static final Long EXPECTED_CREATOR_ID = 2L;
 
@@ -24,8 +24,8 @@ public class UserFactory {
     private static final Role CREATOR_ROLE = Role.USER_PRESENTER;
     private static final SecurityRole CREATOR_SECURITY_ROLE = SecurityRole.ROLE_ADMIN;
 
-    public static User createExpectedElector() {
-        return new User()
+    public static UserDto createExpectedElectorDto() {
+        return new UserDto()
                 .setId(EXPECTED_ID)
                 .setFirstName(EXPECTED_NAME)
                 .setLastName(EXPECTED_LASTNAME)
@@ -36,8 +36,20 @@ public class UserFactory {
                 .setSecurityRole(EXPECTED_SECURITY_ROLE);
     }
 
-    public static User createUserCreator() {
-        return new User()
+    public static UserDto createExpectedElectorDto(final Long id) {
+        return new UserDto()
+                .setId(id)
+                .setFirstName(EXPECTED_NAME)
+                .setLastName(EXPECTED_LASTNAME)
+                .setNickname(EXPECTED_NICKNAME)
+                .setEmail(EXPECTED_EMAIL)
+                .setPassword(EXPECTED_PASS)
+                .setRole(EXPECTED_ROLE)
+                .setSecurityRole(EXPECTED_SECURITY_ROLE);
+    }
+
+    public static UserDto createExpectedCreatorDto() {
+        return new UserDto()
                 .setId(EXPECTED_CREATOR_ID)
                 .setFirstName(CREATOR_NAME)
                 .setLastName(CREATOR_LASTNAME)
@@ -48,10 +60,10 @@ public class UserFactory {
                 .setSecurityRole(CREATOR_SECURITY_ROLE);
     }
 
-    public static User createCustomUser(final Long id, final String name, final String lastName,
+    public static UserDto createCustomUserDto(final Long id, final String name, final String lastName,
                                         final String nickname, final String email, final String password,
                                         final Role role) {
-        return new User()
+        return new UserDto()
                 .setId(id)
                 .setFirstName(name)
                 .setLastName(lastName)

@@ -4,7 +4,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.time.LocalTime;
 import java.util.Date;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@Accessors(chain = true)
 public class RoomDto {
     @Positive
     private Long id;
