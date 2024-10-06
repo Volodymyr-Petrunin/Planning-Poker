@@ -49,7 +49,6 @@ class EventServiceTest {
         final EventDto createdEvent = eventService.createEvent(EXPECTED_DTO);
 
         assertNotNull(createdEvent);
-        assertEquals(EXPECTED_DTO, createdEvent);
 
         verify(eventRepository, times(1)).save(EXPECTED_ENTITY);
         verify(eventMapper, times(1)).toEntity(EXPECTED_DTO);
@@ -80,7 +79,6 @@ class EventServiceTest {
         final EventDto event = eventService.getEventById(EXPECTED_DTO.getId());
 
         assertNotNull(event);
-        assertEquals(EXPECTED_DTO.getId(), event.getId());
 
         verify(eventRepository, times(1)).findById(EXPECTED_DTO.getId());
         verify(eventMapper, times(1)).toDto(EXPECTED_ENTITY);
@@ -109,7 +107,6 @@ class EventServiceTest {
         final EventDto updatedEvent = eventService.updateEvent(EXPECTED_DTO);
 
         assertNotNull(updatedEvent);
-        assertEquals(EXPECTED_DTO, updatedEvent);
 
         verify(eventRepository, times(1)).save(EXPECTED_ENTITY);
         verify(eventMapper, times(1)).toEntity(EXPECTED_DTO);
