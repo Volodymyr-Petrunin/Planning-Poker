@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.UserDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
@@ -39,12 +40,16 @@ class UserServiceTest {
     @Mock
     private UserMapper userMapper;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @Test
     @DisplayName("Create User: Should create user and return correct DTO")
     void testCreateUser_ShouldCreateUser_AndReturnCorrectDto() {
         when(userMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
         when(userRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
+        when(passwordEncoder.encode(EXPECTED_DTO.getPassword())).thenReturn(EXPECTED_DTO.getPassword());
 
         final UserDto createdUser = userService.createUser(EXPECTED_DTO);
 
@@ -53,6 +58,7 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(EXPECTED_ENTITY);
         verify(userMapper, times(1)).toEntity(EXPECTED_DTO);
         verify(userMapper, times(1)).toDto(EXPECTED_ENTITY);
+        verify(passwordEncoder, times(1)).encode(EXPECTED_DTO.getPassword());
     }
 
     @Test
