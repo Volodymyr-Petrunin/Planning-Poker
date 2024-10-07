@@ -1,0 +1,39 @@
+<form xmlns:th="http://www.thymeleaf.org" th:fragment="login-form" style="width: 22rem">
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="email">Email</label>
+        <input type="text" id="email" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;">
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="password">Password</label>
+        <input type="password" id="password" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;"/>
+    </div>
+
+
+    <!-- 2 column grid layout for inline styling -->
+    <div class="row mb-4">
+        <div class="col d-flex justify-content-center">
+            <!-- Checkbox -->
+            <div class="form-check">
+                <input class="form-check-input bg-dark border-1" type="checkbox" value="" id="checkbox" checked />
+                <label class="form-check-label text-white" for="checkbox" style="font-size: 0.9rem;"> Remember me </label>
+            </div>
+        </div>
+
+        <div class="col">
+            <!-- Simple link -->
+            <a href="#!" class="text-info" style="font-size: 0.9rem;">Forgot password?</a>
+        </div>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4" style="width: 100%; padding: 10px; font-size: 1rem;">Sign in</button>
+
+    <!-- Register buttons -->
+    <div class="text-center">
+        <p class="text-white" style="font-size: 0.9rem;">Not a member? <a href="#!" class="text-info">Register</a></p>
+    </div>
+</form>
