@@ -1,7 +1,9 @@
 package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import planing.poker.domain.User;
 import planing.poker.domain.dto.UserDto;
 import planing.poker.mapper.UserMapper;
 import planing.poker.repository.UserRepository;
@@ -15,14 +17,21 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserService(final UserRepository userRepository, final UserMapper userMapper) {
+    public UserService(final UserRepository userRepository, final UserMapper userMapper,
+                       final PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDto createUser(final UserDto userDto) {
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
+        final User user = userMapper.toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public List<UserDto> getAllUsers() {
