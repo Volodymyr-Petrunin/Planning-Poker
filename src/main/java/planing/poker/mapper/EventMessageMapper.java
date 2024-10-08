@@ -9,7 +9,4 @@ public interface EventMessageMapper {
     EventMessage toEntity(EventMessageDto eventMessageDto);
 
     EventMessageDto toDto(EventMessage eventMessage);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    EventMessage partialUpdate(EventMessageDto eventMessageDto, @MappingTarget EventMessage eventMessage);
 }

@@ -14,7 +14,4 @@ public interface StoryMapper {
     }
 
     StoryDto toDto(Story story);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Story partialUpdate(StoryDto storyDto, @MappingTarget Story story);
 }

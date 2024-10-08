@@ -57,4 +57,6 @@ public class RoomDto {
 
     @NotNull
     private Boolean isVotingOpen;
+
+    private EventDto event;
 }
