@@ -1,4 +1,4 @@
-package planing.poker.domain.dto;
+package planing.poker.domain.dto.response;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
+import planing.poker.domain.dto.RoomDto;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @NoArgsConstructor
-public class UserDto {
+public class ResponseUserDto {
     @Positive
     private Long id;
 

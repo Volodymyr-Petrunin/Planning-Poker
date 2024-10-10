@@ -2,7 +2,7 @@ package planing.poker.factory.dto;
 
 import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
-import planing.poker.domain.dto.UserDto;
+import planing.poker.domain.dto.response.ResponseUserDto;
 
 public class UserDtoFactory {
     private static final Long EXPECTED_ID = 1L;
@@ -24,8 +24,8 @@ public class UserDtoFactory {
     private static final Role CREATOR_ROLE = Role.USER_PRESENTER;
     private static final SecurityRole CREATOR_SECURITY_ROLE = SecurityRole.ROLE_ADMIN;
 
-    public static UserDto createExpectedElectorDto() {
-        return new UserDto()
+    public static ResponseUserDto createExpectedElectorDto() {
+        return new ResponseUserDto()
                 .setId(EXPECTED_ID)
                 .setFirstName(EXPECTED_NAME)
                 .setLastName(EXPECTED_LASTNAME)
@@ -36,8 +36,8 @@ public class UserDtoFactory {
                 .setSecurityRole(EXPECTED_SECURITY_ROLE);
     }
 
-    public static UserDto createExpectedElectorDto(final Long id) {
-        return new UserDto()
+    public static ResponseUserDto createExpectedElectorDto(final Long id) {
+        return new ResponseUserDto()
                 .setId(id)
                 .setFirstName(EXPECTED_NAME)
                 .setLastName(EXPECTED_LASTNAME)
@@ -48,8 +48,8 @@ public class UserDtoFactory {
                 .setSecurityRole(EXPECTED_SECURITY_ROLE);
     }
 
-    public static UserDto createExpectedCreatorDto() {
-        return new UserDto()
+    public static ResponseUserDto createExpectedCreatorDto() {
+        return new ResponseUserDto()
                 .setId(EXPECTED_CREATOR_ID)
                 .setFirstName(CREATOR_NAME)
                 .setLastName(CREATOR_LASTNAME)
@@ -60,10 +60,10 @@ public class UserDtoFactory {
                 .setSecurityRole(CREATOR_SECURITY_ROLE);
     }
 
-    public static UserDto createCustomUserDto(final Long id, final String name, final String lastName,
-                                        final String nickname, final String email, final String password,
-                                        final Role role) {
-        return new UserDto()
+    public static ResponseUserDto createCustomUserDto(final Long id, final String name, final String lastName,
+                                                      final String nickname, final String email, final String password,
+                                                      final Role role) {
+        return new ResponseUserDto()
                 .setId(id)
                 .setFirstName(name)
                 .setLastName(lastName)

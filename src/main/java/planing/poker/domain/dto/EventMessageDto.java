@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import planing.poker.domain.dto.response.ResponseUserDto;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +23,7 @@ public class EventMessageDto {
     private Long id;
 
     @NotNull
-    private UserDto user;
+    private ResponseUserDto user;
 
     @NotNull
     private String message;

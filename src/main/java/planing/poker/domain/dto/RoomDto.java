@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import planing.poker.domain.dto.response.ResponseUserDto;
 
 import java.time.LocalTime;
 import java.util.Date;
@@ -32,10 +33,10 @@ public class RoomDto {
     private String roomName;
 
     @NotNull
-    private UserDto creator;
+    private ResponseUserDto creator;
 
     @NotNull
-    private List<UserDto> invitedUsers;
+    private List<ResponseUserDto> invitedUsers;
 
     @NotNull
     private Date startDate;

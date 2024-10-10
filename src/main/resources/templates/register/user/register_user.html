@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="bg-dark navbar-dark">
+    <div th:replace="~{layouts/header :: header}"></div>
+    <section class="w-100 p-4 d-flex justify-content-center pb-4">
+        <div th:replace="~{register/user/reg-user-form :: reg-user-form}"></div>
+    </section>
+</body>
