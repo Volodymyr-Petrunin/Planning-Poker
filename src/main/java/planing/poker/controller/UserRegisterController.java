@@ -42,8 +42,6 @@ public class UserRegisterController {
                           final BindingResult bindingResult, final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("userDto", userDto);
-            model.addAttribute("errors", bindingResult.getAllErrors());
-            System.out.println(bindingResult.getAllErrors());
             return USER_REGISTER_PAGE;
         }
 
