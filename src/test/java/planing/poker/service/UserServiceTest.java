@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import planing.poker.domain.User;
-import planing.poker.domain.dto.UserDto;
+import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 import planing.poker.mapper.UserMapper;
@@ -20,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.doNothing;
 @SpringBootTest
 @DisplayName("User Service Tests")
 class UserServiceTest {
-    private static final UserDto EXPECTED_DTO = ExpectedEntityDtoUtils.getUserElector();
+    private static final ResponseUserDto EXPECTED_DTO = ExpectedEntityDtoUtils.getUserElector();
     private static final User EXPECTED_ENTITY = ExpectedEntityUtils.getUserElector();
 
     @InjectMocks
@@ -46,17 +47,17 @@ class UserServiceTest {
     @Test
     @DisplayName("Create User: Should create user and return correct DTO")
     void testCreateUser_ShouldCreateUser_AndReturnCorrectDto() {
-        when(userMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        when(userMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(userRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
         when(passwordEncoder.encode(EXPECTED_DTO.getPassword())).thenReturn(EXPECTED_DTO.getPassword());
 
-        final UserDto createdUser = userService.createUser(EXPECTED_DTO);
+        final ResponseUserDto createdUser = userService.createUser(any());
 
         assertNotNull(createdUser);
 
         verify(userRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(userMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(userMapper, times(1)).toEntity(any());
         verify(userMapper, times(1)).toDto(EXPECTED_ENTITY);
         verify(passwordEncoder, times(1)).encode(EXPECTED_DTO.getPassword());
     }
@@ -67,7 +68,7 @@ class UserServiceTest {
         when(userRepository.findAll()).thenReturn(List.of(EXPECTED_ENTITY));
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final List<UserDto> users = userService.getAllUsers();
+        final List<ResponseUserDto> users = userService.getAllUsers();
 
         assertNotNull(users);
         assertEquals(1, users.size());
@@ -82,7 +83,7 @@ class UserServiceTest {
         when(userRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.of(EXPECTED_ENTITY));
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final UserDto user = userService.getUserById(EXPECTED_DTO.getId());
+        final ResponseUserDto user = userService.getUserById(EXPECTED_DTO.getId());
 
         assertNotNull(user);
 
@@ -106,16 +107,16 @@ class UserServiceTest {
     @Test
     @DisplayName("Update User: Should update user and return the updated DTO")
     void testUpdateUser_ShouldUpdateUser_AndReturnUpdatedDto() {
-        when(userMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        when(userMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(userRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final UserDto updatedUser = userService.updateUser(EXPECTED_DTO);
+        final ResponseUserDto updatedUser = userService.updateUser(any());
 
         assertNotNull(updatedUser);
 
         verify(userRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(userMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(userMapper, times(1)).toEntity(any());
         verify(userMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 
@@ -135,7 +136,7 @@ class UserServiceTest {
         when(userRepository.findByEmail(EXPECTED_DTO.getEmail())).thenReturn(EXPECTED_ENTITY);
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final UserDto user = userService.getUserByEmail(EXPECTED_DTO.getEmail());
+        final ResponseUserDto user = userService.getUserByEmail(EXPECTED_DTO.getEmail());
 
         assertNotNull(user);
 

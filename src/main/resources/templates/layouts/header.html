@@ -10,15 +10,30 @@
     </div>
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/" class="nav-link px-2 text-light">Home</a></li>
-        <li><a href="#" class="nav-link px-2 text-light">Features</a></li>
-        <li><a href="#" class="nav-link px-2 text-light">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2 text-light">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2 text-light">About</a></li>
+        <li><a href="/" class="nav-link px-2 text-light" th:text="#{label.home}">Home</a></li>
+        <li><a href="#" class="nav-link px-2 text-light" th:text="#{label.features}">Features</a></li>
+        <li><a href="#" class="nav-link px-2 text-light" th:text="#{label.pricing}">Pricing</a></li>
+        <li><a href="#" class="nav-link px-2 text-light" th:text="#{label.faqs}">FAQs</a></li>
+        <li><a href="#" class="nav-link px-2 text-light" th:text="#{label.about}">About</a></li>
+
+        <!-- Language link -->
+        <li class="nav-item dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  th:text="#{label.select.language}">
+                Select Language
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="langDropdown">
+                <li><a class="dropdown-item" href="?lang=en" th:text="#{messages.templates.header.lang.eng}">EN</a></li>
+                <li><a class="dropdown-item" href="?lang=swe" th:text="#{messages.templates.header.lang.swe}">SWE</a></li>
+                <li><a class="dropdown-item" href="?lang=uk" th:text="#{messages.templates.header.lang.uk}">UK</a></li>
+            </ul>
+        </li>
     </ul>
 
     <div class="col-md-3 text-end">
-        <a href="/login" class="btn btn-outline-light me-2">Login</a>
-        <a href="#" class="btn btn-light me-2">Sign-up</a>
+        <a href="/login" class="btn btn-outline-light me-2" th:text="#{label.login}">Login</a>
+        <a href="/register/user" class="btn btn-light me-2" th:text="#{label.sing.up}">Sign-up</a>
     </div>
+
+    <!--    Add Bootstrap Script Inside the header-->
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </header>

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import planing.poker.domain.dto.response.ResponseUserDto;
 
 /**
  * DTO for {@link planing.poker.domain.Vote}
@@ -20,7 +21,7 @@ public class VoteDto {
     private Long id;
 
     @NotNull
-    private UserDto voter;
+    private ResponseUserDto voter;
 
     @NotNull
     private Integer points;
