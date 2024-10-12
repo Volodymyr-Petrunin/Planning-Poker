@@ -29,9 +29,15 @@
         </li>
     </ul>
 
-    <div class="col-md-3 text-end">
+    <div class="col-md-3 text-end" sec:authorize="isAnonymous()">
         <a href="/login" class="btn btn-outline-light me-2" th:text="#{label.login}">Login</a>
         <a href="/register/user" class="btn btn-light me-2" th:text="#{label.sing.up}">Sign-up</a>
+    </div>
+
+    <div class="col-md-3 text-end" sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-outline-light me-2" th:text="#{label.logout}">Logout</button>
+        </form>
     </div>
 
     <!--    Add Bootstrap Script Inside the header-->
