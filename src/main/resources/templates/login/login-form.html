@@ -1,15 +1,15 @@
-<form xmlns:th="http://www.thymeleaf.org" th:fragment="login-form" style="width: 22rem">
+<form xmlns:th="http://www.thymeleaf.org" th:fragment="login-form" style="width: 22rem" th:action="@{/login}" method="post">
 
     <!-- Email input -->
     <div class="form-outline mb-4">
         <label class="form-label text-white h5" for="email" th:text="#{label.email}">Email</label>
-        <input type="text" id="email" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;">
+        <input type="text" id="email" name="username" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;">
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
         <label class="form-label text-white h5" for="password" th:text="#{label.password}">Password</label>
-        <input type="password" id="password" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;"/>
+        <input type="password" id="password" name="password" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;"/>
     </div>
 
 

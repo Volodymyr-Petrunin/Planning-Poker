@@ -18,7 +18,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/", "/webjars/**", "/static/**").permitAll()
+                        .requestMatchers("/", "/webjars/**", "/static/**", "/error").permitAll()
                         .requestMatchers("/register/user", "login/**").anonymous()
                 )
                 .formLogin(form -> form
