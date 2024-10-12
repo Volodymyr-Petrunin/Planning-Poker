@@ -2,13 +2,13 @@
 
     <!-- Email input -->
     <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="email">Email</label>
+        <label class="form-label text-white h5" for="email" th:text="#{label.email}">Email</label>
         <input type="text" id="email" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;">
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="password">Password</label>
+        <label class="form-label text-white h5" for="password" th:text="#{label.password}">Password</label>
         <input type="password" id="password" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;"/>
     </div>
 
@@ -19,21 +19,22 @@
             <!-- Checkbox -->
             <div class="form-check">
                 <input class="form-check-input bg-dark border-1" type="checkbox" value="" id="checkbox" checked />
-                <label class="form-check-label text-white" for="checkbox" style="font-size: 0.9rem;"> Remember me </label>
+                <label class="form-check-label text-white" for="checkbox" style="font-size: 0.9rem;" th:text="#{label.remember.me}"> Remember me </label>
             </div>
         </div>
 
         <div class="col">
             <!-- Simple link -->
-            <a href="#!" class="text-info" style="font-size: 0.9rem;">Forgot password?</a>
+            <a href="#!" class="text-info" style="font-size: 0.9rem;" th:text="#{label.forgot.password}">Forgot password?</a>
         </div>
     </div>
 
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-4" style="width: 100%; padding: 10px; font-size: 1rem;">Sign in</button>
+    <button type="submit" class="btn btn-primary btn-block mb-4" style="width: 100%; padding: 10px; font-size: 1rem;" th:text="#{label.login}">Login</button>
 
     <!-- Register buttons -->
     <div class="text-center">
-        <p class="text-white" style="font-size: 0.9rem;">Not a member? <a href="#!" class="text-info">Register</a></p>
+        <span class="text-white" style="font-size: 0.9rem;" th:text="#{label.not.member}">Not a member?</span>
+            <a href="/register/user" class="text-info" th:text="#{label.register}">Register</a>
     </div>
 </form>
