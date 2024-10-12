@@ -19,7 +19,7 @@ public class WebSecurityConfiguration {
         http
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/", "/webjars/**", "/static/**").permitAll()
-                        .requestMatchers("/register/user").anonymous()
+                        .requestMatchers("/register/user", "login/**").anonymous()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
