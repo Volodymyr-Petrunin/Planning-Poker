@@ -24,6 +24,8 @@ public class UserRegisterController {
 
     private static final String USER_REGISTER_PAGE = "register/user/register_user";
 
+    private static final String USER = "user";
+
     private final UserService userService;
 
     @Autowired
@@ -32,20 +34,20 @@ public class UserRegisterController {
     }
 
     @GetMapping(USER_REGISTER_URL)
-    public String regUser(final Model model) {
-        model.addAttribute("userDto", new RequestUserDto());
+    public String regUser(final Model model, @ModelAttribute(USER) final RequestUserDto user) {
+        model.addAttribute(USER, user);
         return USER_REGISTER_PAGE;
     }
 
     @PostMapping(USER_REGISTER_URL)
-    public String regUser(@Valid @ModelAttribute final RequestUserDto userDto,
+    public String regUser(@Valid @ModelAttribute(USER) final RequestUserDto user,
                           final BindingResult bindingResult, final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("userDto", userDto);
+            model.addAttribute(USER, user);
             return USER_REGISTER_PAGE;
         }
 
-        userService.createUser(userDto);
+        userService.createUser(user);
         return LOGIN_PAGE_REDIRECT;
     }
 }
