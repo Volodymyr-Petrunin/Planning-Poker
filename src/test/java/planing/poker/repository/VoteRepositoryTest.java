@@ -92,7 +92,7 @@ class VoteRepositoryTest {
     @DisplayName("Insert Batch of Votes: Should insert a batch of votes and return the expected list")
     void testInsertBatchOfVotes_ShouldInsertBatchOfVotes_AndReturnExpectedList() {
         final User newUser = new User(null, "Other Voter", "Lastname", "Nickname",
-                "other@email.com", "pass", Role.USER_ELECTOR, SecurityRole.ROLE_USER, Collections.emptyList());
+                "other@email.com", "pass", Role.USER_ELECTOR, SecurityRole.ROLE_USER, Collections.emptyList(), Collections.emptyList());
 
         final Story newStory = new Story(null, "Another Story", "Another Description", Collections.emptyList());
 
