@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<footer class="py-3 my-4" xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary" th:text="#{label.privacy.policy}">Privacy Policy</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary" th:text="#{label.terms.of.service}">Terms of Service</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary" th:text="#{label.faqs}">FAQs</a></li>
+        </ul>
+        <p class="text-center text-body-secondary" th:text="#{label.copyright}">© 2024 Planning Poker, Inc</p>
+</footer>
