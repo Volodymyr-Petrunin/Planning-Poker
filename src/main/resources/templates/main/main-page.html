@@ -5,10 +5,33 @@
     <title>Planing Poker</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
-<body>
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-
+<body class="m-0 border-0 bd-example m-0 border-0 bd-example-flex overflow-x-hidden">
     <div th:replace="~{layouts/header :: header}"></div>
+
+    <div class="container mt-4">
+
+        <div class="jumbotron">
+            <h1 class="display-4" th:text="#{label.welcome.title}"></h1>
+            <p class="lead" th:text="#{label.welcome.description}"></p>
+            <hr class="my-4">
+            <span th:text="#{label.welcome.instructions}"></span>
+            <a class="btn btn-primary btn-lg float-end" th:text="#{label.button.createSession}" href="#" role="button"></a>
+        </div>
+
+        <h2 class="mt-lg-5" th:text="#{label.availableSessions.title}"></h2>
+        <ul class="list-group">
+            <li class="list-group-item">Session 1 <span class="badge badge-primary">Active</span></li>
+            <li class="list-group-item">Session 2 <span class="badge badge-secondary">Completed</span></li>
+        </ul>
+
+        <h2 class="mt-4" th:text="#{label.history.title}"></h2>
+        <ul class="list-group">
+            <li class="list-group-item">1</li>
+            <li class="list-group-item">2</li>
+        </ul>
+
+    </div>
+
+    <div th:replace="~{layouts/footer :: footer}"></div>
 </body>
 </html>
