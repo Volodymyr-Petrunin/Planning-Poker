@@ -8,6 +8,7 @@ import java.util.List;
 public class ExpectedEntityUtils {
     private static final User userElector = UserFactory.createExpectedElector();
     private static final User userCreator = UserFactory.createUserCreator();
+    private static final Team team = TeamFactory.createTeam(userCreator, List.of(userElector));
     private static final Story story = StoryFactory.createStory();
     private static final Room room = RoomFactory.createRoom(userCreator, story);
     private static final Vote vote = VoteFactory.createVote(userElector, story);
@@ -20,6 +21,10 @@ public class ExpectedEntityUtils {
 
     public static User getUserCreator() {
         return userCreator;
+    }
+
+    public static Team getTeam() {
+        return team;
     }
 
     public static Story getStory() {

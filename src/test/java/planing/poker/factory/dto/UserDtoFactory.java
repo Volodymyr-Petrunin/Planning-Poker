@@ -2,6 +2,7 @@ package planing.poker.factory.dto;
 
 import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
+import planing.poker.domain.dto.request.RequestUserDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 
 public class UserDtoFactory {
@@ -71,5 +72,23 @@ public class UserDtoFactory {
                 .setEmail(email)
                 .setPassword(password)
                 .setRole(role);
+    }
+
+    public static RequestUserDto createElectorRequestUserDto() {
+        return new RequestUserDto()
+                .setFirstName(EXPECTED_NAME)
+                .setLastName(EXPECTED_LASTNAME)
+                .setNickname(EXPECTED_NICKNAME)
+                .setEmail(EXPECTED_EMAIL)
+                .setPassword(EXPECTED_PASS);
+    }
+
+    public static RequestUserDto createCreatorRequestUserDto() {
+        return new RequestUserDto()
+                .setFirstName(CREATOR_NAME)
+                .setLastName(CREATOR_LASTNAME)
+                .setNickname(CREATOR_NICKNAME)
+                .setEmail(CREATOR_EMAIL)
+                .setPassword(CREATOR_PASS);
     }
 }
