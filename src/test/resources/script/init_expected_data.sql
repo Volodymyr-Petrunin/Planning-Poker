@@ -5,6 +5,7 @@ TRUNCATE TABLE stories CASCADE;
 TRUNCATE TABLE votes CASCADE;
 TRUNCATE TABLE events CASCADE;
 TRUNCATE TABLE event_messages CASCADE;
+TRUNCATE TABLE teams CASCADE;
 
 -- Adjust sequence
 ALTER SEQUENCE user_seq RESTART WITH 1;
@@ -63,3 +64,11 @@ INSERT INTO event_room(room_room_id, event_event_id) VALUES (1, 1);
 -- Insert connection data
 INSERT INTO events_messages_connection(event_id, event_message_id) VALUES (1, 1);
 
+-- Adjust sequences
+ALTER SEQUENCE team_seq RESTART WITH 1;
+
+-- Insert data into the 'teams' table
+INSERT INTO teams(team_id, team_name, team_leader_id) VALUES (nextval('team_seq'), 'Best Team', 2);
+
+-- Insert connection data
+INSERT INTO team_user_connection(team_id, user_id) VALUES (1, 1);
