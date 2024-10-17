@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
@@ -21,6 +22,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @NoArgsConstructor
+@ToString
 public class ResponseUserDto {
     @Positive
     private Long id;

@@ -1,0 +1,67 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:action="@{/register/room}"
+      method="post"
+      th:object="${room}"
+      style="width: 22rem;"
+      th:fragment="reg-room-form">
+
+    <!-- Room Name -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="firstName" th:text="#{label.room.name}">Room Name</label>
+        <input type="text" id="firstName" th:field="*{roomName}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('roomName')}" th:errors="*{roomName}"></small>
+    </div>
+
+    <!-- Start Date -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="startDate" th:text="#{label.start.date}">Start Date</label>
+        <input type="time" id="startDate" th:field="*{startDate}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></small>
+    </div>
+
+    <!-- Start Time -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="startTime" th:text="#{label.start.time}">Start Time</label>
+        <input type="time" id="startTime" th:field="*{startTime}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"></small>
+    </div>
+
+    <!-- Stories -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="stories" th:text="#{label.stories}">Email</label>
+        <input type="email" id="stories" th:field="*{stories}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('stories')}" th:errors="*{stories}"></small>
+    </div>
+
+    <!-- Vote Duration -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="voteDuration" th:text="#{label.vote.duration}">Vote Duration</label>
+        <input type="time" id="voteDuration" th:field="*{voteDuration}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('voteDuration')}" th:errors="*{voteDuration}"></small>
+    </div>
+
+    <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#userSearchModal" th:text="#{label.invite.users}">
+        Add Users
+    </button>
+
+    <!-- Hidden message for no users found -->
+    <div id="noUsersMessage" th:text="#{label.user.no.results}" style="display: none;"></div>
+
+    <!-- Hidden message for remove button -->
+    <div id="removeButtonText" th:text="#{label.remove}" style="display: none;"></div>
+
+    <!-- Include the user search modal -->
+    <th:block th:replace="~{fragments/user-search-modal :: user-search-modal}"></th:block>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include SockJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+
+    <!-- Include Stomp.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <!-- User-Search.js -->
+    <script th:src="@{/js/user-search.js}"></script>
+</form>

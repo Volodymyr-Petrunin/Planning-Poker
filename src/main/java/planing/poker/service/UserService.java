@@ -1,6 +1,9 @@
 package planing.poker.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import planing.poker.domain.SecurityRole;
@@ -11,8 +14,10 @@ import planing.poker.mapper.UserMapper;
 import planing.poker.repository.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -39,6 +44,18 @@ public class UserService {
 
     public List<ResponseUserDto> getAllUsers() {
         return userRepository.findAll().stream().map(userMapper::toDto).toList();
+    }
+
+    public List<ResponseUserDto> getUsersByExample(final RequestUserDto userDto) {
+        final User user = userMapper.toEntity(userDto);
+
+        final Example<User> example = Example.of(user,
+            ExampleMatcher.matching()
+                    .withIgnoreNullValues()
+                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+        );
+
+        return userRepository.findAll(example).stream().map(userMapper::toDto).toList();
     }
 
     public ResponseUserDto getUserById(final Long id) {
