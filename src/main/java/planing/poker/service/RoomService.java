@@ -23,15 +23,12 @@ public class RoomService {
 
     private final RoomCodeGeneration roomCodeGeneration;
 
-    private final int maxAttempts;
-
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
-                       final RoomCodeGeneration roomCodeGeneration, @Value("${generate.max.attempts}") final int maxAttempts) {
+                       final RoomCodeGeneration roomCodeGeneration) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
         this.roomCodeGeneration = roomCodeGeneration;
-        this.maxAttempts = maxAttempts;
     }
 
     public ResponseRoomDto createRoom(final RequestRoomDto roomDto) {
@@ -72,18 +69,10 @@ public class RoomService {
 
     private void setRoomCode(final Room room) {
         String code;
-        boolean exists;
-        int attempt = 0;
 
         do {
             code = roomCodeGeneration.generateCode();
-            exists = roomRepository.existsRoomByRoomCode(code);
-            attempt++;
-        } while (exists && attempt <= maxAttempts);
-
-        if (exists) {
-            throw new IllegalStateException("message.unable.generate.unique.code");
-        }
+        } while (roomRepository.existsRoomByRoomCode(code));
 
         room.setRoomCode(code);
     }
