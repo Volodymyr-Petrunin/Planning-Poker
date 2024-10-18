@@ -10,6 +10,7 @@ import planing.poker.domain.*;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -76,7 +77,7 @@ class RoomRepositoryTest {
                 .setRoomCode("NEW123")
                 .setRoomName("New Room")
                 .setCreator(ExpectedEntityUtils.getUserCreator())
-                .setStartDate(Date.valueOf("2024-09-30"))
+                .setStartDate(LocalDate.of(2024,9,30))
                 .setStartTime(LocalTime.of(12, 0))
                 .setVoteDuration(LocalTime.of(0, 10))
                 .setIsActive(true)

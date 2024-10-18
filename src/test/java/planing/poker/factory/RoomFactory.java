@@ -6,6 +6,7 @@ import planing.poker.domain.Story;
 import planing.poker.domain.User;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +16,7 @@ public class RoomFactory {
     private static final Long EXPECTED_ID = 1L;
     private static final String EXPECTED_CODE = "ABC123";
     private static final String EXPECTED_NAME = "Test Room";
-    private static final Date EXPECTED_START_DATE = Date.valueOf("2000-01-01");
+    private static final LocalDate EXPECTED_START_DATE = LocalDate.of(2000,1,1);
     private static final LocalTime EXPECTED_START_TIME = LocalTime.of(10, 0);
     private static final boolean EXPECTED_IS_ACTIVE = true;
     private static final boolean EXPECTED_IS_VOTING_OPEN = false;

@@ -82,6 +82,12 @@ function removeUserFromSelected(userId) {
     $('input[value="' + userId + '"]').prop('checked', false);
 }
 
+$('#sendToRegisterForm').on('click', function() {
+    var invitedUsers = Array.from(selectedUsersMap.values());
+    $('#invitedUsers').val(JSON.stringify(invitedUsers));
+    $('#buttonClose').click();
+});
+
 $(document).ready(function () {
     connect();
 

@@ -10,7 +10,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
-import planing.poker.domain.dto.RoomDto;
 
 import java.util.List;
 
@@ -52,5 +51,5 @@ public class ResponseUserDto {
     private SecurityRole securityRole;
 
     @NotNull
-    private List<RoomDto> rooms;
+    private List<ResponseRoomDto> rooms;
 }

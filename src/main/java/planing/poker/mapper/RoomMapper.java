@@ -2,11 +2,12 @@ package planing.poker.mapper;
 
 import org.mapstruct.*;
 import planing.poker.domain.Room;
-import planing.poker.domain.dto.RoomDto;
+import planing.poker.domain.dto.response.ResponseRoomDto;
+import planing.poker.domain.dto.request.RequestRoomDto;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class})
 public interface RoomMapper {
-    Room toEntity(RoomDto roomDto);
+    Room toEntity(RequestRoomDto requestRoomDto);
 
-    RoomDto toDto(Room room);
+    ResponseRoomDto toDto(Room room);
 }

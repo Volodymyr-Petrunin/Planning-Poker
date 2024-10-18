@@ -1,6 +1,7 @@
 package planing.poker.factory.utils;
 
 import planing.poker.domain.dto.*;
+import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.factory.dto.*;
 
@@ -10,7 +11,7 @@ public class ExpectedEntityDtoUtils {
     private static final ResponseUserDto USER_ELECTOR = UserDtoFactory.createExpectedElectorDto();
     private static final ResponseUserDto USER_CREATOR = UserDtoFactory.createExpectedCreatorDto();
     private static final StoryDto STORY = StoryDtoFactory.createStory();
-    private static final RoomDto ROOM = RoomDtoFactory.createRoom(USER_CREATOR, STORY);
+    private static final ResponseRoomDto ROOM = RoomDtoFactory.createRoom(USER_CREATOR, STORY);
     private static final VoteDto VOTE = VoteDtoFactory.createVote(USER_ELECTOR, STORY);
     private static final EventMessageDto EVENT_MESSAGE = EventMessageDtoFactory.createEventMessage(USER_ELECTOR);
     private static final EventDto EVENT = EventDtoFactory.createEvent(ROOM, List.of(EVENT_MESSAGE));
@@ -27,7 +28,7 @@ public class ExpectedEntityDtoUtils {
         return STORY;
     }
 
-    public static RoomDto getRoom() {
+    public static ResponseRoomDto getRoom() {
         return ROOM;
     }
 

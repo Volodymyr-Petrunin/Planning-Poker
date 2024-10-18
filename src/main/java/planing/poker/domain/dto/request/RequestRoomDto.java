@@ -6,12 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
+import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.StoryDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
+
+/**
+ * DTO for {@link planing.poker.domain.Room}
+ */
 
 @Getter
 @Setter
@@ -28,15 +34,24 @@ public class RequestRoomDto {
     @NotNull
     private List<ResponseUserDto> invitedUsers;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull
     private LocalTime startTime;
 
-    @NotNull
+    private StoryDto currentStory;
+
+    // TODO create creator for stories
     private List<StoryDto> stories;
 
-    @NotNull
+    // TODO create creator for duration
     private LocalTime voteDuration;
+
+    private Boolean isActive;
+
+    private Boolean isVotingOpen;
+
+    private EventDto event;
 }

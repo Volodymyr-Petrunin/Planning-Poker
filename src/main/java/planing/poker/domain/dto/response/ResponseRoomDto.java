@@ -1,4 +1,4 @@
-package planing.poker.domain.dto;
+package planing.poker.domain.dto.response;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import planing.poker.domain.dto.response.ResponseUserDto;
+import planing.poker.domain.dto.EventDto;
+import planing.poker.domain.dto.StoryDto;
 
 import java.time.LocalTime;
 import java.util.Date;
@@ -21,7 +22,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class RoomDto {
+public class ResponseRoomDto {
     @Positive
     private Long id;
 

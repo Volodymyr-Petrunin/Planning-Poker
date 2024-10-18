@@ -1,6 +1,6 @@
 package planing.poker.factory.dto;
 
-import planing.poker.domain.dto.RoomDto;
+import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.StoryDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 
@@ -18,8 +18,8 @@ public class RoomDtoFactory {
     private static final boolean EXPECTED_IS_VOTING_OPEN = false;
     private static final LocalTime EXPECTED_VOTE_DURATION = LocalTime.of(0, 5);
 
-    public static RoomDto createRoom(final ResponseUserDto creator, final StoryDto currentStory) {
-        return new RoomDto()
+    public static ResponseRoomDto createRoom(final ResponseUserDto creator, final StoryDto currentStory) {
+        return new ResponseRoomDto()
                 .setId(EXPECTED_ID)
                 .setRoomCode(EXPECTED_CODE)
                 .setRoomName(EXPECTED_NAME)

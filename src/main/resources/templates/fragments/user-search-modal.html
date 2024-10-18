@@ -3,7 +3,7 @@
         <div class="modal-content bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title text-white" id="userSearchModalLabel" th:text="#{label.invite.users}">Invite Users</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" id="buttonClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Search form -->
@@ -20,11 +20,8 @@
                         <label for="searchNickname" class="form-label text-white" th:text="#{label.nickname}">Nickname</label>
                         <input type="text" class="form-control bg-dark text-white" id="searchNickname">
                     </div>
-                    <button type="button" class="btn btn-primary" id="searchUserBtn">Search</button>
+                    <button type="button" class="btn btn-primary" id="searchUserBtn" th:text="#{label.search}">Search</button>
                 </form>
-
-                <!-- User search results -->
-<!--                <div class="mt-4 text-white" id="userResults"></div>-->
 
                 <div class="mt-4 row bg-dark">
                     <div class="col-md-12">
@@ -59,6 +56,8 @@
                         </table>
                     </div>
                 </div>
+
+                <button type="button" class="btn btn-primary float-end" id="sendToRegisterForm" th:text="#{label.done}">Select</button>
             </div>
         </div>
     </div>

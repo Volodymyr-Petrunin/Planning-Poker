@@ -15,8 +15,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +51,7 @@ public class Room {
     private List<User> invitedUsers;
 
     @Column(name = "room_start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "room_start_time")
     private LocalTime startTime;
