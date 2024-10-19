@@ -11,6 +11,7 @@ import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.StoryDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -46,8 +47,7 @@ public class RequestRoomDto {
     // TODO create creator for stories
     private List<StoryDto> stories;
 
-    // TODO create creator for duration
-    private LocalTime voteDuration;
+    private Duration voteDuration;
 
     private Boolean isActive;
 

@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.StoryDto;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ResponseRoomDto {
     private List<StoryDto> stories;
 
     @NotNull
-    private LocalTime voteDuration;
+    private Duration voteDuration;
 
     @NotNull
     private Boolean isActive;

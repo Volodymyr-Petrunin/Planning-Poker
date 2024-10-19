@@ -1,0 +1,44 @@
+<!-- Vote Duration Modal -->
+<div class="modal fade" id="voteDurationModal" tabindex="-1" aria-labelledby="voteDurationModalLabel" aria-hidden="true" th:fragment="vote-duration-model">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="voteDurationModalLabel" th:text="#{label.select.vote.duration}">Select Vote Duration</h5>
+                <button type="button" id="buttonCloseVoteDuration" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Radio button for 5 minutes -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" th:field="*{voteDuration}" id="voteDuration5" value="PT5M" required />
+                    <label class="form-check-label text-white" for="voteDuration5" th:text="#{label.vote.duration.five.minutes}">5 minutes</label>
+                </div>
+
+                <!-- Radio button for 10 minutes -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" th:field="*{voteDuration}" id="voteDuration10" value="PT10M" required />
+                    <label class="form-check-label text-white" for="voteDuration10" th:text="#{label.vote.duration.ten.minutes}">10 minutes</label>
+                </div>
+
+                <!-- Radio button for 15 minutes -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" th:field="*{voteDuration}" id="voteDuration15" value="PT15M" required />
+                    <label class="form-check-label text-white" for="voteDuration15" th:text="#{label.vote.duration.fifteen.minutes}">15 minutes</label>
+                </div>
+
+                <!-- Radio button for 20 minutes -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" th:field="*{voteDuration}" id="voteDuration20" value="PT20M" required />
+                    <label class="form-check-label text-white" for="voteDuration20" th:text="#{label.vote.duration.twenty.minutes}">20 minutes</label>
+                </div>
+
+                <!-- Radio button for 30 minutes -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" th:field="*{voteDuration}" id="voteDuration30" value="PT30M" required />
+                    <label class="form-check-label text-white" for="voteDuration30" th:text="#{label.vote.duration.thirty.minutes}">30 minutes</label>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary float-end" id="sendVoteToRegisterForm" th:text="#{label.done}">Select</button>
+        </div>
+    </div>
+</div>

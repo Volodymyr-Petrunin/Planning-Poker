@@ -5,7 +5,8 @@
       style="width: 22rem;"
       th:fragment="reg-room-form">
 
-    <input type="hidden" id="invitedUsers" th:field="*{invitedUsers}">
+    <input type="hidden" id="invitedUsers" th:field="*{invitedUsers}" />
+    <input type="hidden" id="voteDurationHidden" th:field="*{voteDuration}" />
 
     <!-- Room Name -->
     <div class="form-outline mb-4">
@@ -35,13 +36,12 @@
 <!--        <small class="text-danger" th:if="${#fields.hasErrors('stories')}" th:errors="*{stories}"></small>-->
 <!--    </div>-->
 
-    <!-- Vote Duration -->
-<!--    <div class="form-outline mb-4">-->
-<!--        <label class="form-label text-white h5" for="voteDuration" th:text="#{label.vote.duration}">Vote Duration</label>-->
-<!--        <input type="time" id="voteDuration" th:field="*{voteDuration}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />-->
-<!--        <small class="text-danger" th:if="${#fields.hasErrors('voteDuration')}" th:errors="*{voteDuration}"></small>-->
-<!--    </div>-->
+    <!-- Vote Duration Selection Button -->
+    <button type="button" class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#voteDurationModal" th:text="#{label.select.vote.duration}">
+            Select Vote Duration
+    </button>
 
+    <!-- Add Users Selection Button -->
     <button type="button" class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#userSearchModal" th:text="#{label.invite.users}">
         Add Users
     </button>
@@ -58,6 +58,9 @@
     <!-- Include the user search modal -->
     <th:block th:replace="~{fragments/user-search-modal :: user-search-modal}"></th:block>
 
+    <!-- Include the vote duration modal -->
+    <th:block th:replace="~{fragments/vote-duration-modal :: vote-duration-model}"></th:block>
+
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -69,4 +72,7 @@
 
     <!-- User-Search.js -->
     <script th:src="@{/js/user-search.js}"></script>
+
+    <!-- Set-Vote-Duration.js -->
+    <script th:src="@{/js/set-vote-duration.js}"></script>
 </form>

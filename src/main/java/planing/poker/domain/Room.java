@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -69,7 +70,7 @@ public class Room {
     private List<Story> stories;
 
     @Column(name = "room_vote_duration")
-    private LocalTime voteDuration;
+    private Duration voteDuration;
 
     @Column(name = "room_is_active")
     private Boolean isActive;
