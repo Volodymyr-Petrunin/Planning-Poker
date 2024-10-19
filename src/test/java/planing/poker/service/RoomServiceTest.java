@@ -6,7 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import planing.poker.domain.Room;
-import planing.poker.domain.dto.RoomDto;
+import planing.poker.domain.User;
+import planing.poker.domain.dto.response.ResponseRoomDto;
+import planing.poker.domain.dto.request.RequestRoomDto;
+import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 import planing.poker.mapper.RoomMapper;
@@ -27,8 +30,10 @@ import static org.mockito.Mockito.doNothing;
 @SpringBootTest
 @DisplayName("Room Service Tests")
 class RoomServiceTest {
-    private static final RoomDto EXPECTED_DTO = ExpectedEntityDtoUtils.getRoom();
+    private static final ResponseRoomDto EXPECTED_DTO = ExpectedEntityDtoUtils.getRoom();
     private static final Room EXPECTED_ENTITY = ExpectedEntityUtils.getRoom();
+    private static final ResponseUserDto RESPONSE_USER_DTO = ExpectedEntityDtoUtils.getUserCreator();
+    private static final User EXPECTED_USER = ExpectedEntityUtils.getUserCreator();
 
     @InjectMocks
     private RoomService roomService;
@@ -39,20 +44,26 @@ class RoomServiceTest {
     @Mock
     private RoomMapper roomMapper;
 
+    @Mock
+    private UserService userService;
+
     @Test
     @DisplayName("Create Room: Should create room and return correct DTO")
     void testCreateRoom_ShouldCreateRoom_AndReturnCorrectDto() {
-        when(roomMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        final RequestRoomDto requestRoomDto = new RequestRoomDto();
+        when(roomMapper.toEntity(requestRoomDto)).thenReturn(EXPECTED_ENTITY);
         when(roomRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(roomMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
+        when(userService.getUserByEmail(EXPECTED_USER.getEmail())).thenReturn(RESPONSE_USER_DTO);
 
-        final RoomDto createdRoom = roomService.createRoom(EXPECTED_DTO);
+        final ResponseRoomDto createdRoom = roomService.createRoom(requestRoomDto, EXPECTED_USER.getEmail());
 
         assertNotNull(createdRoom);
 
         verify(roomRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(roomMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(roomMapper, times(1)).toEntity(requestRoomDto);
         verify(roomMapper, times(1)).toDto(EXPECTED_ENTITY);
+        verify(userService, times(1)).getUserByEmail(EXPECTED_USER.getEmail());
     }
 
     @Test
@@ -61,7 +72,7 @@ class RoomServiceTest {
         when(roomRepository.findAll()).thenReturn(List.of(EXPECTED_ENTITY));
         when(roomMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final List<RoomDto> rooms = roomService.getAllRooms();
+        final List<ResponseRoomDto> rooms = roomService.getAllRooms();
 
         assertNotNull(rooms);
         assertEquals(1, rooms.size());
@@ -76,7 +87,7 @@ class RoomServiceTest {
         when(roomRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.of(EXPECTED_ENTITY));
         when(roomMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final RoomDto room = roomService.getRoomById(EXPECTED_DTO.getId());
+        final ResponseRoomDto room = roomService.getRoomById(EXPECTED_DTO.getId());
 
         assertNotNull(room);
 
@@ -100,16 +111,17 @@ class RoomServiceTest {
     @Test
     @DisplayName("Update Room: Should update room and return the updated DTO")
     void testUpdateRoom_ShouldUpdateRoom_AndReturnUpdatedDto() {
-        when(roomMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        final RequestRoomDto requestRoomDto = new RequestRoomDto();
+        when(roomMapper.toEntity(requestRoomDto)).thenReturn(EXPECTED_ENTITY);
         when(roomRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(roomMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final RoomDto updatedRoom = roomService.updateRoom(EXPECTED_DTO);
+        final ResponseRoomDto updatedRoom = roomService.updateRoom(EXPECTED_DTO.getId(),requestRoomDto);
 
         assertNotNull(updatedRoom);
 
         verify(roomRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(roomMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(roomMapper, times(1)).toEntity(requestRoomDto);
         verify(roomMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 

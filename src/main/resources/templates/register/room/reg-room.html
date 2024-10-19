@@ -2,13 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Room Registration</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body class="bg-dark navbar-dark">
     <div th:replace="~{layouts/header :: header}"></div>
 
     <section class="w-100 p-4 d-flex justify-content-center pb-4">
-        <div th:replace="~{login/login-form :: login-form}"></div>
+        <div th:replace="~{register/room/reg-room-form :: reg-room-form}"></div>
     </section>
 </body>
+</html>

@@ -2,11 +2,11 @@ package planing.poker.mapper;
 
 import org.mapstruct.*;
 import planing.poker.domain.Vote;
-import planing.poker.domain.dto.VoteDto;
+import planing.poker.domain.dto.response.ResponseVoteDto;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class})
 public interface VoteMapper {
-    Vote toEntity(VoteDto voteDto);
+    Vote toEntity(ResponseVoteDto responseVoteDto);
 
-    VoteDto toDto(Vote vote);
+    ResponseVoteDto toDto(Vote vote);
 }

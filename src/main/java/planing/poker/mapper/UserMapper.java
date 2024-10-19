@@ -8,12 +8,9 @@ import planing.poker.domain.dto.request.RequestUserDto;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
 
-    @Mapping(target = "firstName", source = "firstName")
-    @Mapping(target = "lastName", source = "lastName")
-    @Mapping(target = "nickname", source = "nickname")
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "password", source = "password")
-    User toEntity(RequestUserDto userDto);
+    User toEntity(final RequestUserDto userDto);
 
-    ResponseUserDto toDto(User user);
+    /** TODO could be bag here because after mapping we can't get rooms but data will be in db*/
+    @Mapping(target = "rooms", ignore = true)
+    ResponseUserDto toDto(final User user);
 }

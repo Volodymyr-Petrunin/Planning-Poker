@@ -1,0 +1,64 @@
+<div class="modal fade" id="userSearchModal" tabindex="-1" aria-labelledby="userSearchModalLabel" aria-hidden="true" th:fragment="user-search-modal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="userSearchModalLabel" th:text="#{label.invite.users}">Invite Users</h5>
+                <button type="button" id="buttonClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Search form -->
+                <form id="userSearchForm">
+                    <div class="mb-3">
+                        <label for="searchFirstName" class="form-label text-white" th:text="#{label.firstname}">First Name</label>
+                        <input type="text" class="form-control bg-dark text-white" id="searchFirstName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="searchLastName" class="form-label text-white" th:text="#{label.lastname}">Surname</label>
+                        <input type="text" class="form-control bg-dark text-white" id="searchLastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="searchNickname" class="form-label text-white" th:text="#{label.nickname}">Nickname</label>
+                        <input type="text" class="form-control bg-dark text-white" id="searchNickname">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="searchUserBtn" th:text="#{label.search}">Search</button>
+                </form>
+
+                <div class="mt-4 row bg-dark">
+                    <div class="col-md-12">
+                        <div class="text-white mb-2" th:text="#{label.search.result}"></div>
+                        <table id="searchUsersTabel" class="table table-dark table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th th:text="#{label.select}">Select</th>
+                                <th th:text="#{label.firstname}">First Name</th>
+                                <th th:text="#{label.lastname}">Last Name</th>
+                                <th th:text="#{label.nickname}">Nickname</th>
+                            </tr>
+                            </thead>
+                            <tbody id="userResults"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4 row bg-dark">
+                    <div class="col-md-12">
+                        <div class="text-white mb-2" th:text="#{label.search.selected}"></div>
+                        <table id="selectedUsersTable" class="table table-dark table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th th:text="#{label.firstname}">First Name</th>
+                                <th th:text="#{label.lastname}">Last Name</th>
+                                <th th:text="#{label.nickname}">Nickname</th>
+                                <th th:text="#{label.remove}">Remove</th>
+                            </tr>
+                            </thead>
+                            <tbody id="selectedUsers"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary float-end" id="sendToRegisterForm" th:text="#{label.done}">Select</button>
+            </div>
+        </div>
+    </div>
+</div>

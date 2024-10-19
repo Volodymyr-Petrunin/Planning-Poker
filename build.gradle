@@ -37,10 +37,11 @@ dependencies {
 
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
-    implementation 'org.mapstruct:mapstruct:1.6.2'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.mapstruct:mapstruct:1.6.2'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
 
     implementation group: 'org.webjars', name: 'webjars-locator', version: '0.52'
     implementation group: 'org.webjars', name: 'bootstrap', version: '5.3.3'

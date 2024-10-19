@@ -1,8 +1,7 @@
 package planing.poker.factory.utils;
 
 import planing.poker.domain.dto.*;
-import planing.poker.domain.dto.response.ResponseTeamDto;
-import planing.poker.domain.dto.response.ResponseUserDto;
+import planing.poker.domain.dto.response.*;
 import planing.poker.factory.dto.*;
 
 import java.util.List;
@@ -11,9 +10,9 @@ public class ExpectedEntityDtoUtils {
     private static final ResponseUserDto USER_ELECTOR = UserDtoFactory.createExpectedElectorDto();
     private static final ResponseUserDto USER_CREATOR = UserDtoFactory.createExpectedCreatorDto();
     private static final ResponseTeamDto TEAM_DTO = TeamDtoFactory.createResponseTeamDto(USER_CREATOR, List.of(USER_ELECTOR));
-    private static final StoryDto STORY = StoryDtoFactory.createStory();
-    private static final RoomDto ROOM = RoomDtoFactory.createRoom(USER_CREATOR, STORY);
-    private static final VoteDto VOTE = VoteDtoFactory.createVote(USER_ELECTOR, STORY);
+    private static final ResponseStoryDto STORY = StoryDtoFactory.createStory();
+    private static final ResponseRoomDto ROOM = RoomDtoFactory.createRoom(USER_CREATOR, STORY);
+    private static final ResponseVoteDto VOTE = VoteDtoFactory.createVote(USER_ELECTOR, STORY);
     private static final EventMessageDto EVENT_MESSAGE = EventMessageDtoFactory.createEventMessage(USER_ELECTOR);
     private static final EventDto EVENT = EventDtoFactory.createEvent(ROOM, List.of(EVENT_MESSAGE));
 
@@ -29,15 +28,15 @@ public class ExpectedEntityDtoUtils {
         return TEAM_DTO;
     }
 
-    public static StoryDto getStory() {
+    public static ResponseStoryDto getStory() {
         return STORY;
     }
 
-    public static RoomDto getRoom() {
+    public static ResponseRoomDto getRoom() {
         return ROOM;
     }
 
-    public static VoteDto getVote() {
+    public static ResponseVoteDto getVote() {
         return VOTE;
     }
 

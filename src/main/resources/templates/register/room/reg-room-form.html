@@ -1,0 +1,89 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:action="@{/room/create}"
+      method="post"
+      th:object="${room}"
+      style="width: 22rem;"
+      th:fragment="reg-room-form">
+
+    <input type="hidden" id="invitedUsers" th:field="*{invitedUsers}" />
+    <input type="hidden" id="voteDurationHidden" th:field="*{voteDuration}" />
+    <input type="hidden" id="storiesInput" th:field="*{stories}" />
+
+    <!-- Room Name -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="firstName" th:text="#{label.room.name}">Room Name</label>
+        <input type="text" id="firstName" th:field="*{roomName}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('roomName')}" th:errors="*{roomName}"></small>
+    </div>
+
+    <!-- Start Date -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="startDate" th:text="#{label.start.date}">Start Date</label>
+        <input type="date" id="startDate" th:field="*{startDate}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></small>
+    </div>
+
+    <!-- Start Time -->
+    <div class="form-outline mb-4">
+        <label class="form-label text-white h5" for="startTime" th:text="#{label.start.time}">Start Time</label>
+        <input type="time" id="startTime" th:field="*{startTime}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <small class="text-danger" th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"></small>
+    </div>
+
+    <!-- Button Group -->
+    <div class="btn-group mb-4 w-100">
+        <!-- Add Stories Button -->
+        <button type="button" class="btn btn-light border border-1 border-black" data-bs-toggle="modal" data-bs-target="#createStoryModal" th:text="#{label.add.stories}">
+            Add Stories
+        </button>
+
+        <!-- Vote Duration Selection Button -->
+        <button type="button" class="btn btn-light border border-1 border-black" data-bs-toggle="modal" data-bs-target="#voteDurationModal" th:text="#{label.select.vote.duration}">
+            Select Vote Duration
+        </button>
+
+        <!-- Add Users Selection Button -->
+        <button type="button" class="btn btn-light border border-1 border-black" data-bs-toggle="modal" data-bs-target="#userSearchModal" th:text="#{label.invite.users}">
+            Add Users
+        </button>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4 float-end" style="width: 100%; padding: 10px; font-size: 1rem;" id="doneButton" th:text="#{label.done}" disabled>Done</button>
+
+    <!-- Hidden message for no users found -->
+    <div id="noUsersMessage" th:text="#{label.user.no.results}" style="display: none;"></div>
+
+    <!-- Hidden message for remove button -->
+    <div id="removeButtonText" th:text="#{label.remove}" style="display: none;"></div>
+
+    <!-- Include the user search modal -->
+    <th:block th:replace="~{fragments/user-search-modal :: user-search-modal}"></th:block>
+
+    <!-- Include the vote duration modal -->
+    <th:block th:replace="~{fragments/vote-duration-modal :: vote-duration-model}"></th:block>
+
+    <!-- Include the creation story modal -->
+    <th:block th:replace="~{fragments/create-story-modal :: create-story-modal}"></th:block>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include SockJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+
+    <!-- Include Stomp.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <!-- User-Search.js -->
+    <script th:src="@{/js/user-search.js}"></script>
+
+    <!-- Set-Vote-Duration.js -->
+    <script th:src="@{/js/set-vote-duration.js}"></script>
+
+    <!-- Set-Create-Story-Modal.js -->
+    <script th:src="@{/js/create-story-modal.js}"></script>
+
+    <!-- Set-Room-Create-Validation -->
+    <script th:src="@{/js/room-create-validation.js}"></script>
+</form>

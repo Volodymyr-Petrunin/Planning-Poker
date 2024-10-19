@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import planing.poker.common.validation.Password;
 
@@ -11,6 +12,7 @@ import planing.poker.common.validation.Password;
 @Setter
 @Accessors(chain = true)
 @NoArgsConstructor
+@ToString
 public class RequestUserDto {
 
     @Size(min = 2, max = 50)
