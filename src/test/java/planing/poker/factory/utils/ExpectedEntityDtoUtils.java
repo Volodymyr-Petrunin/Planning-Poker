@@ -1,6 +1,7 @@
 package planing.poker.factory.utils;
 
 import planing.poker.domain.dto.*;
+import planing.poker.domain.dto.response.ResponseTeamDto;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.factory.dto.*;
@@ -10,6 +11,7 @@ import java.util.List;
 public class ExpectedEntityDtoUtils {
     private static final ResponseUserDto USER_ELECTOR = UserDtoFactory.createExpectedElectorDto();
     private static final ResponseUserDto USER_CREATOR = UserDtoFactory.createExpectedCreatorDto();
+    private static final ResponseTeamDto TEAM_DTO = TeamDtoFactory.createResponseTeamDto(USER_CREATOR, List.of(USER_ELECTOR));
     private static final StoryDto STORY = StoryDtoFactory.createStory();
     private static final ResponseRoomDto ROOM = RoomDtoFactory.createRoom(USER_CREATOR, STORY);
     private static final VoteDto VOTE = VoteDtoFactory.createVote(USER_ELECTOR, STORY);
@@ -22,6 +24,10 @@ public class ExpectedEntityDtoUtils {
 
     public static ResponseUserDto getUserCreator() {
         return USER_CREATOR;
+    }
+
+    public static ResponseTeamDto getTeamDto() {
+        return TEAM_DTO;
     }
 
     public static StoryDto getStory() {

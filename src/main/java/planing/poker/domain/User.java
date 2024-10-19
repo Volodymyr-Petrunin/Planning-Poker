@@ -50,6 +50,9 @@ public class User {
     @ManyToMany(mappedBy = "invitedUsers")
     private List<Room> rooms;
 
+    @ManyToMany(mappedBy = "members")
+    private List<Team> teams;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -52,4 +52,6 @@ public class ResponseUserDto {
 
     @NotNull
     private List<ResponseRoomDto> rooms;
+
+    private List<ResponseTeamDto> teams;
 }
