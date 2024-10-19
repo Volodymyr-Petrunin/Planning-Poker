@@ -8,6 +8,7 @@ import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
+import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.mapper.RoomMapper;
 import planing.poker.repository.RoomRepository;
 
@@ -23,17 +24,24 @@ public class RoomService {
 
     private final RoomCodeGeneration roomCodeGeneration;
 
+    private final UserService userService;
+
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
-                       final RoomCodeGeneration roomCodeGeneration) {
+                       final RoomCodeGeneration roomCodeGeneration, final UserService userService) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
         this.roomCodeGeneration = roomCodeGeneration;
+        this.userService = userService;
     }
 
-    public ResponseRoomDto createRoom(final RequestRoomDto roomDto) {
+    public ResponseRoomDto createRoom(final RequestRoomDto roomDto, final String userEmail) {
+        setCreator(roomDto, userEmail);
+
         final Room room = roomMapper.toEntity(roomDto);
         setRoomCode(room);
+        room.setIsActive(true);
+        room.setIsVotingOpen(false);
 
         return roomMapper.toDto(roomRepository.save(room));
     }
@@ -75,5 +83,9 @@ public class RoomService {
         } while (roomRepository.existsRoomByRoomCode(code));
 
         room.setRoomCode(code);
+    }
+
+    private void setCreator(final RequestRoomDto room,final String userEmail) {
+        room.setCreator(userService.getUserByEmail(userEmail));
     }
 }

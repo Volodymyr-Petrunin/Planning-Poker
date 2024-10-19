@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,12 +15,12 @@ import planing.poker.domain.dto.request.RequestRoomDto;
 import planing.poker.domain.dto.request.RequestUserDto;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
+import planing.poker.security.UserDetailsImpl;
 import planing.poker.service.RoomService;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping(RoomController.BASE_URL)
@@ -62,13 +64,13 @@ public class RoomController {
 
     @PostMapping(CREATE_ROOM_URL)
     public String createRoom(@ModelAttribute(ROOM) final RequestRoomDto room, final Model model,
-                             final BindingResult bindingResult) {
+                             final BindingResult bindingResult, @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(ROOM, room);
             return CREATE_ROOM_PAGE;
         }
 
-        final ResponseRoomDto result = roomService.createRoom(room);
+        final ResponseRoomDto result = roomService.createRoom(room, userDetails.getUsername());
         return "redirect:/room/"+ result.getRoomCode();
     }
 

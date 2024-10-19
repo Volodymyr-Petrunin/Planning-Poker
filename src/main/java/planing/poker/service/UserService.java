@@ -79,6 +79,11 @@ public class UserService {
     }
 
     public ResponseUserDto getUserByEmail(final String email) {
-        return userMapper.toDto(userRepository.findByEmail(email));
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new IllegalArgumentException("message.not.find.object");
+        }
+        return userMapper.toDto(user);
     }
 }

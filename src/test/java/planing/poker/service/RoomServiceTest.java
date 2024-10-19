@@ -6,8 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import planing.poker.domain.Room;
+import planing.poker.domain.User;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
+import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 import planing.poker.mapper.RoomMapper;
@@ -30,6 +32,8 @@ import static org.mockito.Mockito.doNothing;
 class RoomServiceTest {
     private static final ResponseRoomDto EXPECTED_DTO = ExpectedEntityDtoUtils.getRoom();
     private static final Room EXPECTED_ENTITY = ExpectedEntityUtils.getRoom();
+    private static final ResponseUserDto RESPONSE_USER_DTO = ExpectedEntityDtoUtils.getUserCreator();
+    private static final User EXPECTED_USER = ExpectedEntityUtils.getUserCreator();
 
     @InjectMocks
     private RoomService roomService;
@@ -40,6 +44,9 @@ class RoomServiceTest {
     @Mock
     private RoomMapper roomMapper;
 
+    @Mock
+    private UserService userService;
+
     @Test
     @DisplayName("Create Room: Should create room and return correct DTO")
     void testCreateRoom_ShouldCreateRoom_AndReturnCorrectDto() {
@@ -47,14 +54,16 @@ class RoomServiceTest {
         when(roomMapper.toEntity(requestRoomDto)).thenReturn(EXPECTED_ENTITY);
         when(roomRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(roomMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
+        when(userService.getUserByEmail(EXPECTED_USER.getEmail())).thenReturn(RESPONSE_USER_DTO);
 
-        final ResponseRoomDto createdRoom = roomService.createRoom(requestRoomDto);
+        final ResponseRoomDto createdRoom = roomService.createRoom(requestRoomDto, EXPECTED_USER.getEmail());
 
         assertNotNull(createdRoom);
 
         verify(roomRepository, times(1)).save(EXPECTED_ENTITY);
         verify(roomMapper, times(1)).toEntity(requestRoomDto);
         verify(roomMapper, times(1)).toDto(EXPECTED_ENTITY);
+        verify(userService, times(1)).getUserByEmail(EXPECTED_USER.getEmail());
     }
 
     @Test

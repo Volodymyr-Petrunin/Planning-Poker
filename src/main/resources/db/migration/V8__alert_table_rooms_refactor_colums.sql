@@ -1,3 +1,5 @@
+ALTER TABLE rooms DROP CONSTRAINT uc_rooms_room_creator;
+
 ALTER TABLE rooms
     DROP COLUMN room_start_date;
 
