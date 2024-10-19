@@ -1,4 +1,4 @@
-package planing.poker.domain.dto;
+package planing.poker.domain.dto.response;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StoryDto {
+public class ResponseStoryDto {
     @Positive
     private Long id;
 
@@ -27,5 +27,5 @@ public class StoryDto {
     private String storyLink;
 
     @NotNull
-    private List<VoteDto> votes;
+    private List<ResponseVoteDto> votes;
 }

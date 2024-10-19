@@ -2,16 +2,12 @@ package planing.poker.mapper;
 
 import org.mapstruct.*;
 import planing.poker.domain.Story;
-import planing.poker.domain.dto.StoryDto;
+import planing.poker.domain.dto.request.RequestStoryDto;
+import planing.poker.domain.dto.response.ResponseStoryDto;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {VoteMapper.class})
 public interface StoryMapper {
-    Story toEntity(StoryDto storyDto);
+    Story toEntity(RequestStoryDto responseStoryDto);
 
-    @AfterMapping
-    default void linkVotes(@MappingTarget Story story) {
-        story.getVotes().forEach(vote -> vote.setStory(story));
-    }
-
-    StoryDto toDto(Story story);
+    ResponseStoryDto toDto(Story story);
 }

@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import planing.poker.domain.Vote;
-import planing.poker.domain.dto.VoteDto;
+import planing.poker.domain.dto.response.ResponseVoteDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 import planing.poker.mapper.VoteMapper;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.doNothing;
 @DisplayName("Vote Service Tests")
 class VoteServiceTest {
 
-    private static final VoteDto EXPECTED_DTO = ExpectedEntityDtoUtils.getVote();
+    private static final ResponseVoteDto EXPECTED_DTO = ExpectedEntityDtoUtils.getVote();
     private static final Vote EXPECTED_ENTITY = ExpectedEntityUtils.getVote();
 
     @InjectMocks
@@ -47,7 +47,7 @@ class VoteServiceTest {
         when(voteRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(voteMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final VoteDto createdVote = voteService.createVote(EXPECTED_DTO);
+        final ResponseVoteDto createdVote = voteService.createVote(EXPECTED_DTO);
 
         assertNotNull(createdVote);
 
@@ -62,7 +62,7 @@ class VoteServiceTest {
         when(voteRepository.findAll()).thenReturn(List.of(EXPECTED_ENTITY));
         when(voteMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final List<VoteDto> votes = voteService.getAllVotes();
+        final List<ResponseVoteDto> votes = voteService.getAllVotes();
 
         assertNotNull(votes);
 
@@ -76,7 +76,7 @@ class VoteServiceTest {
         when(voteRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.of(EXPECTED_ENTITY));
         when(voteMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final VoteDto vote = voteService.getVoteById(EXPECTED_DTO.getId());
+        final ResponseVoteDto vote = voteService.getVoteById(EXPECTED_DTO.getId());
 
         assertNotNull(vote);
 
@@ -104,7 +104,7 @@ class VoteServiceTest {
         when(voteRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(voteMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final VoteDto updatedVote = voteService.updateVote(EXPECTED_DTO);
+        final ResponseVoteDto updatedVote = voteService.updateVote(EXPECTED_DTO);
 
         assertNotNull(updatedVote);
 

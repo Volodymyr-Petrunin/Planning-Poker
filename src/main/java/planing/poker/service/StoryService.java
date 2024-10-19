@@ -2,7 +2,8 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import planing.poker.domain.dto.StoryDto;
+import planing.poker.domain.dto.request.RequestStoryDto;
+import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.StoryRepository;
 
@@ -21,21 +22,21 @@ public class StoryService {
         this.storyMapper = storyMapper;
     }
 
-    public StoryDto createStory(final StoryDto storyDto) {
-        return storyMapper.toDto(storyRepository.save(storyMapper.toEntity(storyDto)));
+    public ResponseStoryDto createStory(final RequestStoryDto responseStoryDto) {
+        return storyMapper.toDto(storyRepository.save(storyMapper.toEntity(responseStoryDto)));
     }
 
-    public List<StoryDto> getAllStories() {
+    public List<ResponseStoryDto> getAllStories() {
         return storyRepository.findAll().stream().map(storyMapper::toDto).toList();
     }
 
-    public StoryDto getStoryById(final Long id) {
+    public ResponseStoryDto getStoryById(final Long id) {
         return storyMapper.toDto(storyRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("message.not.find.object")));
     }
 
-    public StoryDto updateStory(final StoryDto storyDto) {
-        return storyMapper.toDto(storyRepository.save(storyMapper.toEntity(storyDto)));
+    public ResponseStoryDto updateStory(final RequestStoryDto responseStoryDto) {
+        return storyMapper.toDto(storyRepository.save(storyMapper.toEntity(responseStoryDto)));
     }
 
     public void deleteStory(final Long id) {

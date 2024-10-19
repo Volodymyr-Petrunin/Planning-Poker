@@ -1,4 +1,4 @@
-package planing.poker.domain.dto;
+package planing.poker.domain.dto.response;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import planing.poker.domain.dto.response.ResponseUserDto;
 
 /**
  * DTO for {@link planing.poker.domain.Vote}
@@ -16,7 +15,7 @@ import planing.poker.domain.dto.response.ResponseUserDto;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteDto {
+public class ResponseVoteDto {
     @Positive
     private Long id;
 
@@ -27,5 +26,5 @@ public class VoteDto {
     private Integer points;
 
     @NotNull
-    private StoryDto story;
+    private ResponseStoryDto story;
 }

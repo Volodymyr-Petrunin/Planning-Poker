@@ -6,7 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import planing.poker.domain.Story;
-import planing.poker.domain.dto.StoryDto;
+import planing.poker.domain.dto.request.RequestStoryDto;
+import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 import planing.poker.mapper.StoryMapper;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.doNothing;
 @SpringBootTest
 @DisplayName("Story Service Tests")
 class StoryServiceTest {
-    private static final StoryDto EXPECTED_DTO = ExpectedEntityDtoUtils.getStory();
+    private static final ResponseStoryDto EXPECTED_DTO = ExpectedEntityDtoUtils.getStory();
     private static final Story EXPECTED_ENTITY = ExpectedEntityUtils.getStory();
 
     @InjectMocks
@@ -42,16 +43,17 @@ class StoryServiceTest {
     @Test
     @DisplayName("Create Story: Should create story and return correct DTO")
     void testCreateStory_ShouldCreateStory_AndReturnCorrectDto() {
-        when(storyMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        final RequestStoryDto requestStoryDto = new RequestStoryDto();
+        when(storyMapper.toEntity(requestStoryDto)).thenReturn(EXPECTED_ENTITY);
         when(storyRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final StoryDto createdStory = storyService.createStory(EXPECTED_DTO);
+        final ResponseStoryDto createdStory = storyService.createStory(requestStoryDto);
 
         assertNotNull(createdStory);
 
         verify(storyRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(storyMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(storyMapper, times(1)).toEntity(requestStoryDto);
         verify(storyMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 
@@ -61,7 +63,7 @@ class StoryServiceTest {
         when(storyRepository.findAll()).thenReturn(List.of(EXPECTED_ENTITY));
         when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final List<StoryDto> stories = storyService.getAllStories();
+        final List<ResponseStoryDto> stories = storyService.getAllStories();
 
         assertNotNull(stories);
         assertEquals(1, stories.size());
@@ -76,7 +78,7 @@ class StoryServiceTest {
         when(storyRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.of(EXPECTED_ENTITY));
         when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final StoryDto story = storyService.getStoryById(EXPECTED_DTO.getId());
+        final ResponseStoryDto story = storyService.getStoryById(EXPECTED_DTO.getId());
 
         assertNotNull(story);
         assertEquals(EXPECTED_DTO.getId(), story.getId());
@@ -101,16 +103,17 @@ class StoryServiceTest {
     @Test
     @DisplayName("Update Story: Should update story and return the updated DTO")
     void testUpdateStory_ShouldUpdateStory_AndReturnUpdatedDto() {
-        when(storyMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        final RequestStoryDto requestStoryDto = new RequestStoryDto();
+        when(storyMapper.toEntity(requestStoryDto)).thenReturn(EXPECTED_ENTITY);
         when(storyRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final StoryDto updatedStory = storyService.updateStory(EXPECTED_DTO);
+        final ResponseStoryDto updatedStory = storyService.updateStory(requestStoryDto);
 
         assertNotNull(updatedStory);
 
         verify(storyRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(storyMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(storyMapper, times(1)).toEntity(requestStoryDto);
         verify(storyMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 

@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 import planing.poker.domain.dto.EventDto;
-import planing.poker.domain.dto.StoryDto;
+import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 
 import java.time.Duration;
@@ -42,10 +42,10 @@ public class RequestRoomDto {
     @NotNull
     private LocalTime startTime;
 
-    private StoryDto currentStory;
+    private ResponseStoryDto currentStory;
 
     // TODO create creator for stories
-    private List<StoryDto> stories;
+    private List<RequestStoryDto> stories;
 
     private Duration voteDuration;
 

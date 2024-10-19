@@ -2,7 +2,7 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import planing.poker.domain.dto.VoteDto;
+import planing.poker.domain.dto.response.ResponseVoteDto;
 import planing.poker.mapper.VoteMapper;
 import planing.poker.repository.VoteRepository;
 
@@ -21,21 +21,21 @@ public class VoteService {
         this.voteMapper = voteMapper;
     }
 
-    public VoteDto createVote(final VoteDto voteDto) {
-        return voteMapper.toDto(voteRepository.save(voteMapper.toEntity(voteDto)));
+    public ResponseVoteDto createVote(final ResponseVoteDto responseVoteDto) {
+        return voteMapper.toDto(voteRepository.save(voteMapper.toEntity(responseVoteDto)));
     }
 
-    public List<VoteDto> getAllVotes() {
+    public List<ResponseVoteDto> getAllVotes() {
         return voteRepository.findAll().stream().map(voteMapper::toDto).toList();
     }
 
-    public VoteDto getVoteById(final Long id) {
+    public ResponseVoteDto getVoteById(final Long id) {
         return voteRepository.findById(id).map(voteMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("message.not.find.object"));
     }
 
-    public VoteDto updateVote(final VoteDto voteDto) {
-        return voteMapper.toDto(voteRepository.save(voteMapper.toEntity(voteDto)));
+    public ResponseVoteDto updateVote(final ResponseVoteDto responseVoteDto) {
+        return voteMapper.toDto(voteRepository.save(voteMapper.toEntity(responseVoteDto)));
     }
 
     public void deleteVote(final Long id) {
