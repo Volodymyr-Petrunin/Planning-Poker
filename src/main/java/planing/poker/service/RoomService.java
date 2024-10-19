@@ -8,11 +8,13 @@ import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
-import planing.poker.domain.dto.response.ResponseUserDto;
+import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.mapper.RoomMapper;
+import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -22,24 +24,33 @@ public class RoomService {
 
     private final RoomMapper roomMapper;
 
+    private final StoryMapper storyMapper;
+
     private final RoomCodeGeneration roomCodeGeneration;
 
     private final UserService userService;
 
+    private final StoryService storyService;
+
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
-                       final RoomCodeGeneration roomCodeGeneration, final UserService userService) {
+                       final RoomCodeGeneration roomCodeGeneration, final UserService userService,
+                       final StoryService storyService, final StoryMapper storyMapper) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
         this.roomCodeGeneration = roomCodeGeneration;
         this.userService = userService;
+        this.storyService = storyService;
+        this.storyMapper = storyMapper;
     }
 
     public ResponseRoomDto createRoom(final RequestRoomDto roomDto, final String userEmail) {
         setCreator(roomDto, userEmail);
+        final List<ResponseStoryDto> stories = storyService.createSeveralStory(roomDto.getStories());
 
         final Room room = roomMapper.toEntity(roomDto);
         setRoomCode(room);
+        setStories(stories, room);
         room.setIsActive(true);
         room.setIsVotingOpen(false);
 
@@ -87,5 +98,9 @@ public class RoomService {
 
     private void setCreator(final RequestRoomDto room,final String userEmail) {
         room.setCreator(userService.getUserByEmail(userEmail));
+    }
+
+    private void setStories(final List<ResponseStoryDto> stories, final Room room) {
+        room.setStories(stories.stream().map(storyMapper::responseDtoToEntity).toList());
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import planing.poker.domain.dto.request.RequestRoomDto;
+import planing.poker.domain.dto.request.RequestStoryDto;
 import planing.poker.domain.dto.request.RequestUserDto;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
@@ -87,7 +88,18 @@ public class RoomController {
                 }
             }
         });
-    }
 
+        binder.registerCustomEditor(List.class, "stories", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(final String text) throws IllegalArgumentException {
+                try {
+                    List<RequestStoryDto> stories = Arrays.asList(objectMapper.readValue(text, RequestStoryDto[].class));
+                    setValue(stories);
+                } catch (final Exception e) {
+                    throw new IllegalArgumentException("message.cant.convert.string", e);
+                }
+            }
+        });
+    }
 
 }

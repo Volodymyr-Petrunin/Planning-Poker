@@ -10,4 +10,6 @@ public interface StoryMapper {
     Story toEntity(RequestStoryDto responseStoryDto);
 
     ResponseStoryDto toDto(Story story);
+
+    Story responseDtoToEntity(ResponseStoryDto responseStoryDto);
 }

@@ -2,12 +2,14 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import planing.poker.domain.Story;
 import planing.poker.domain.dto.request.RequestStoryDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.StoryRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StoryService {
@@ -24,6 +26,12 @@ public class StoryService {
 
     public ResponseStoryDto createStory(final RequestStoryDto responseStoryDto) {
         return storyMapper.toDto(storyRepository.save(storyMapper.toEntity(responseStoryDto)));
+    }
+
+    public List<ResponseStoryDto> createSeveralStory(final List<RequestStoryDto> storiesDto) {
+        final List<Story> stories = storiesDto.stream().map(storyMapper::toEntity).toList();
+
+        return storyRepository.saveAll(stories).stream().map(storyMapper::toDto).toList();
     }
 
     public List<ResponseStoryDto> getAllStories() {

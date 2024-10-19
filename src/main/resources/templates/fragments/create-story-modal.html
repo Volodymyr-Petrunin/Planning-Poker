@@ -1,0 +1,46 @@
+<div class="modal fade" id="createStoryModal" tabindex="-1" aria-labelledby="createStoryModalLabel" aria-hidden="true" th:fragment="create-story-modal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createStoryModalLabel" th:text="#{label.add.stories}">Add Stories</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createStoryForm">
+
+                    <div class="mb-3">
+                        <label for="storyTitle" class="form-label text-white" th:text="#{label.story.title}">Story Title</label>
+                        <input type="text" class="form-control bg-dark text-white" id="storyTitle" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="storyLink" class="form-label text-white" th:text="#{label.story.link}">Story Link</label>
+                        <input type="url" class="form-control bg-dark text-white" id="storyLink" required>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" id="add-story-btn" th:text="#{label.add.story}">Add Story</button>
+                </form>
+
+                <!-- Table displaying added stories -->
+                <div class="mt-4 row bg-dark">
+                    <div class="col-md-12">
+                        <div class="text-white mb-2" th:text="#{label.search.selected}">Selected Stories</div>
+                        <table id="createdStoriesTable" class="table table-dark table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th th:text="#{label.story.title}">Story Title</th>
+                                <th th:text="#{label.story.link}">Story Link</th>
+                                <th th:text="#{label.remove}">Remove</th>
+                            </tr>
+                            </thead>
+                            <tbody id="createdStories"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveStoriesBtn" th:text="#{label.done}">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
