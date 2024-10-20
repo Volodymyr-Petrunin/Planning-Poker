@@ -111,7 +111,7 @@ class UserServiceTest {
         when(userRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseUserDto updatedUser = userService.updateUser(any());
+        final ResponseUserDto updatedUser = userService.updateUser(1 ,any());
 
         assertNotNull(updatedUser);
 

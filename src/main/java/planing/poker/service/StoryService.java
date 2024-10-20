@@ -43,8 +43,15 @@ public class StoryService {
                 .orElseThrow(() -> new IllegalArgumentException("message.not.find.object")));
     }
 
-    public ResponseStoryDto updateStory(final RequestStoryDto responseStoryDto) {
-        return storyMapper.toDto(storyRepository.save(storyMapper.toEntity(responseStoryDto)));
+    public ResponseStoryDto updateStory(final long id, final RequestStoryDto storyDto) {
+        if (storyRepository.findById(id).isPresent()) {
+            final Story story = storyMapper.toEntity(storyDto);
+            story.setId(id);
+
+            return storyMapper.toDto(storyRepository.save(story));
+        } else {
+            throw new IllegalArgumentException("message.not.find.object");
+        }
     }
 
     public void deleteStory(final Long id) {

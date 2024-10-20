@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import planing.poker.domain.Vote;
+import planing.poker.domain.dto.request.RequestVoteDto;
 import planing.poker.domain.dto.response.ResponseVoteDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
@@ -43,16 +44,17 @@ class VoteServiceTest {
     @Test
     @DisplayName("Create Vote: Should create vote and return correct DTO")
     void testCreateVote_ShouldCreateVote_AndReturnCorrectDto() {
-        when(voteMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        final RequestVoteDto requestVoteDto = new RequestVoteDto();
+        when(voteMapper.toEntity(requestVoteDto)).thenReturn(EXPECTED_ENTITY);
         when(voteRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(voteMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseVoteDto createdVote = voteService.createVote(EXPECTED_DTO);
+        final ResponseVoteDto createdVote = voteService.createVote(requestVoteDto);
 
         assertNotNull(createdVote);
 
         verify(voteRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(voteMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(voteMapper, times(1)).toEntity(requestVoteDto);
         verify(voteMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 
@@ -100,16 +102,17 @@ class VoteServiceTest {
     @Test
     @DisplayName("Update Vote: Should update vote and return the updated DTO")
     void testUpdateVote_ShouldUpdateVote_AndReturnUpdatedDto() {
-        when(voteMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        final RequestVoteDto requestVoteDto = new RequestVoteDto();
+        when(voteMapper.toEntity(requestVoteDto)).thenReturn(EXPECTED_ENTITY);
         when(voteRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(voteMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseVoteDto updatedVote = voteService.updateVote(EXPECTED_DTO);
+        final ResponseVoteDto updatedVote = voteService.updateVote(1 ,requestVoteDto);
 
         assertNotNull(updatedVote);
 
         verify(voteRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(voteMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(voteMapper, times(1)).toEntity(requestVoteDto);
         verify(voteMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 

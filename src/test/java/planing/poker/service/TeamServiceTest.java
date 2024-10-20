@@ -107,7 +107,7 @@ class TeamServiceTest {
         when(teamRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(teamMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseTeamDto updatedTeam = teamService.updateTeam(requestTeamDto);
+        final ResponseTeamDto updatedTeam = teamService.updateTeam(1 ,requestTeamDto);
 
         assertNotNull(updatedTeam);
 
