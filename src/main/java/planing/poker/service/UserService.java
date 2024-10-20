@@ -70,8 +70,15 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("message.not.find.object")));
     }
 
-    public ResponseUserDto updateUser(final RequestUserDto userDto) {
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
+    public ResponseUserDto updateUser(final long id, final RequestUserDto userDto) {
+        if (userRepository.findById(id).isPresent()) {
+            final User user = userMapper.toEntity(userDto);
+            user.setId(id);
+
+            return userMapper.toDto(userRepository.save(user));
+        } else {
+            throw new IllegalArgumentException("message.not.find.object");
+        }
     }
 
     public void deleteUser(final Long id) {
