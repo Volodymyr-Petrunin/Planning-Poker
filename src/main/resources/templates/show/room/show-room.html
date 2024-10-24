@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Room</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
-<body>
+<body class="bg-dark navbar-dark" th:object="${room}">
+    <div th:replace="~{layouts/header :: header}"></div>
 
+    <h1 class="text-light mt-3 ms-4 p4 pb-4" th:text="#{label.welcome.room} + ' ' + *{roomName}">Welcome to the room: <span th:text="*{roomName}"></span></h1>
+
+    <!-- Current Story Section -->
+    <div class="text-light ms-4 mb-4">
+        <h3 th:text="#{label.current.story} + ' ' + *{currentStory.title}">Current Story: <span th:text="*{currentStory.title}"></span> </h3>
+        <a th:href="*{currentStory.storyLink}" class="text-info" th:text="#{label.read.story}" target="_blank">Read the story</a>
+    </div>
+
+    <section class="w-50 p-4 d-flex justify-content-center pb-4">
+        <div th:replace="~{fragments/cards-form :: cards-form}"></div>
+    </section>
 </body>
+
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include SockJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+
+    <!-- Include Stomp.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <!-- Select-Card.js -->
+    <script th:src="@{/js/select-card.js}"></script>
+
+    <!-- Show-Room.js -->
+    <script th:src="@{/js/show-room.js}"></script>
 </html>

@@ -17,7 +17,7 @@ import planing.poker.domain.dto.response.ResponseUserDto;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestVoteDto {
-    @NotNull
+
     private ResponseUserDto voter;
 
     @NotNull
