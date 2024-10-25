@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import planing.poker.common.Messages;
 import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
 import planing.poker.domain.dto.response.ResponseRoomDto;
@@ -32,21 +33,24 @@ public class RoomService {
 
     private final StoryService storyService;
 
+    private final Messages messages;
+
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
                        final RoomCodeGeneration roomCodeGeneration, final UserService userService,
-                       final StoryService storyService, final StoryMapper storyMapper) {
+                       final StoryService storyService, final StoryMapper storyMapper,final Messages messages) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
         this.roomCodeGeneration = roomCodeGeneration;
         this.userService = userService;
         this.storyService = storyService;
         this.storyMapper = storyMapper;
+        this.messages = messages;
     }
 
     public ResponseRoomDto createRoom(final RequestRoomDto roomDto, final String userEmail) {
         setCreator(roomDto, userEmail);
-        final List<ResponseStoryDto> stories = storyService.createSeveralStory(roomDto.getStories());
+        final List<ResponseStoryDto> stories = storyService.createSeveralStory(roomDto.getStories(), null);
 
         final Room room = roomMapper.toEntity(roomDto);
         setRoomCode(room);
@@ -63,12 +67,12 @@ public class RoomService {
 
     public ResponseRoomDto getRoomById(final Long id) {
         return roomRepository.findById(id).map(roomMapper::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("message.not.find.object"));
+                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE()));
     }
 
     public ResponseRoomDto getRoomByCode(final String roomCode) {
         return roomMapper.toDto(roomRepository.findByRoomCode(roomCode)
-                .orElseThrow(() -> new IllegalArgumentException("message.not.find.object")));
+                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
     }
 
     public ResponseRoomDto updateRoom(long id, final RequestRoomDto requestRoomDto) {
@@ -78,7 +82,7 @@ public class RoomService {
 
             return roomMapper.toDto(roomRepository.save(room));
         } else {
-            throw new IllegalArgumentException("message.not.find.object");
+            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
     }
 

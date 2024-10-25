@@ -16,5 +16,31 @@ document.addEventListener("DOMContentLoaded", function() {
             document.querySelector('#roomName').textContent = room.name;
             document.querySelector('#roomDetails').textContent = room.details;
         });
+
+        stompClient.subscribe('/topic/storyCreated', function (message) {
+            var storyCreated = JSON.parse(message.body);
+
+            var storyList = document.getElementById('story-list');
+            var isCreator = document.getElementById('isCreator').value === 'true';
+
+            var newRow = document.createElement('tr');
+            newRow.setAttribute('data-story-id', storyCreated.id);
+
+            var actionButtons = '';
+            if (isCreator) {
+                actionButtons = `
+            <button class="btn btn-warning me-2" data-story-id="${storyCreated.id}">Update</button>
+            <button class="btn btn-danger" data-story-id="${storyCreated.id}">Delete</button>
+        `;
+            }
+
+            newRow.innerHTML = `
+        <td>${storyCreated.title}</td>
+        <td><a href="${storyCreated.storyLink}" target="_blank">${storyCreated.storyLink}</a></td>
+        <td>${actionButtons}</td>
+    `;
+
+            storyList.appendChild(newRow);
+        });
     });
 });

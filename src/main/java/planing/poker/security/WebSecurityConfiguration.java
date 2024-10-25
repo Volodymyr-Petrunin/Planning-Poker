@@ -20,7 +20,7 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/", "/webjars/**", "/static/**", "/error", "/favicon.ico").permitAll()
                         .requestMatchers("/register/user", "login/**").anonymous()
-                        .requestMatchers("/room/**").permitAll()
+                        .requestMatchers("/room/**").authenticated()
                         .requestMatchers("/user/**").authenticated()
                         .anyRequest().permitAll()
                 )
