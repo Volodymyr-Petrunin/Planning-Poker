@@ -2,6 +2,7 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.Messages;
@@ -10,6 +11,10 @@ import planing.poker.domain.Room;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
+import planing.poker.event.room.RoomCreatedEvent;
+import planing.poker.event.room.RoomCurrentStoryEvent;
+import planing.poker.event.room.RoomUpdatedEvent;
+import planing.poker.event.story.StoryDeletedEvent;
 import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
@@ -35,10 +40,13 @@ public class RoomService {
 
     private final Messages messages;
 
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
                        final RoomCodeGeneration roomCodeGeneration, final UserService userService,
-                       final StoryService storyService, final StoryMapper storyMapper,final Messages messages) {
+                       final StoryService storyService, final StoryMapper storyMapper, final Messages messages,
+                       final ApplicationEventPublisher applicationEventPublisher) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
         this.roomCodeGeneration = roomCodeGeneration;
@@ -46,6 +54,7 @@ public class RoomService {
         this.storyService = storyService;
         this.storyMapper = storyMapper;
         this.messages = messages;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public ResponseRoomDto createRoom(final RequestRoomDto roomDto, final String userEmail) {
@@ -58,7 +67,10 @@ public class RoomService {
         room.setIsActive(true);
         room.setIsVotingOpen(false);
 
-        return roomMapper.toDto(roomRepository.save(room));
+        final ResponseRoomDto savedRoom = roomMapper.toDto(roomRepository.save(room));
+        applicationEventPublisher.publishEvent(new RoomCreatedEvent(savedRoom));
+
+        return savedRoom;
     }
 
     public List<ResponseRoomDto> getAllRooms() {
@@ -80,14 +92,32 @@ public class RoomService {
             final Room room = roomMapper.toEntity(requestRoomDto);
             room.setId(id);
 
-            return roomMapper.toDto(roomRepository.save(room));
+            final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(room));
+            applicationEventPublisher.publishEvent(new RoomUpdatedEvent(updatedRoom));
+
+            return updatedRoom;
         } else {
             throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
     }
 
+    public ResponseRoomDto updateCurrentStory(final long roomId, final ResponseStoryDto responseStoryDto) {
+        final ResponseRoomDto room = getRoomById(roomId);
+        room.setCurrentStory(responseStoryDto);
+
+        final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
+        applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(updatedRoom));
+
+        return updatedRoom;
+    }
+
     public void deleteRoom(final Long id) {
-        roomRepository.deleteById(id);
+        if (roomRepository.findById(id).isPresent()) {
+            roomRepository.deleteById(id);
+            applicationEventPublisher.publishEvent(new StoryDeletedEvent(id));
+        } else {
+            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
+        }
     }
 
     private void setRoomCode(final Room room) {

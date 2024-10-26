@@ -10,6 +10,12 @@
 
     <input type="hidden" id="isCreator" th:value="${isCreator}"/>
 
+    <!-- Hidden elements for localization -->
+    <span id="currentStoryText" th:text="#{label.current.story}" style="display:none;"></span>
+    <span id="noStorySelectedText" th:text="#{label.current.story.not.selected}" style="display:none;"></span>
+    <span id="readStoryText" th:text="#{label.read.story}" style="display:none;"></span>
+
+
     <h1 class="text-light mt-3 ms-4 p4 pb-4" th:text="#{label.welcome.room} + ' ' + *{roomName}">Welcome to the room: <span th:text="*{roomName}"></span></h1>
 
     <!-- Current Story Section -->
@@ -45,7 +51,8 @@
                 <td><a th:href="${story.storyLink}" th:text="${story.storyLink}" target="_blank"></a></td>
                 <td>
                     <button class="btn btn-warning me-2" th:if="${isCreator}" th:attr="data-story-id=${story.id}">Update</button>
-                    <button class="btn btn-danger" th:if="${isCreator}" th:attr="data-story-id=${story.id}">Delete</button>
+                    <button class="btn btn-danger me-2" th:if="${isCreator}" th:attr="data-story-id=${story.id}">Delete</button>
+                    <button class="btn btn-success me-2" th:if="${isCreator}" id="buttonSetCurrentStory" th:attr="data-story-id=${story.id}">Set to current</button>
                 </td>
             </tr>
             </tbody>

@@ -44,7 +44,6 @@ public class RequestRoomDto {
 
     private ResponseStoryDto currentStory;
 
-    // TODO create creator for stories
     private List<RequestStoryDto> stories;
 
     private Duration voteDuration;

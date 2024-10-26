@@ -10,4 +10,6 @@ public interface RoomMapper {
     Room toEntity(RequestRoomDto requestRoomDto);
 
     ResponseRoomDto toDto(Room room);
+
+    Room responseToEntity(ResponseRoomDto responseRoomDto);
 }
