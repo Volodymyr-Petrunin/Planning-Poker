@@ -1,0 +1,18 @@
+<div id="cards-form" xmlns:th="http://www.thymeleaf.org" th:fragment="cards-form">
+    <div class="container">
+        <div class="row row-cols-5 justify-content-center" id="cards-container">
+
+        </div>
+
+        <input type="hidden" id="selected-points" name="points" />
+        <input type="hidden" id="story-id" name="story-id" th:field="*{currentStory.id}"/>
+        <input type="hidden" id="story-title" name="story-title" th:field="*{currentStory.title}"/>
+        <input type="hidden" id="story-storyLink" name="story-storyLink" th:field="*{currentStory.storyLink}"/>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="button" id="submit-estimate" class="btn btn-primary mt-3" th:text="#{label.submit.estimate}">Submit Estimate</button>
+            </div>
+        </div>
+    </div>
+</div>

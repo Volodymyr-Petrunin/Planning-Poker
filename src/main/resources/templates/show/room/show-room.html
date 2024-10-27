@@ -1,10 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Room</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
-<body>
+<body class="bg-dark navbar-dark" th:object="${room}">
+    <div th:replace="~{layouts/header :: header}"></div>
 
+    <input type="hidden" id="isCreator" th:value="${isCreator}"/>
+
+    <!-- Hidden elements for localization -->
+    <span id="currentStoryText" th:text="#{label.current.story}" style="display:none;"></span>
+    <span id="noStorySelectedText" th:text="#{label.current.story.not.selected}" style="display:none;"></span>
+    <span id="readStoryText" th:text="#{label.read.story}" style="display:none;"></span>
+    <span id="confirmDeleteStory" th:text="#{label.confirm.delete}" style="display:none;"></span>
+
+
+    <h1 class="text-light mt-3 ms-4 p4 pb-4" th:text="#{label.welcome.room} + ' ' + *{roomName}">Welcome to the room: <span th:text="*{roomName}"></span></h1>
+
+    <!-- Current Story Section -->
+    <div class="text-light ms-4 mb-4">
+        <h3 th:if="*{currentStory != null}" th:text="#{label.current.story} + ' ' + *{currentStory.title}">
+            Current Story: <span th:text="*{currentStory.title}"></span>
+        </h3>
+        <h3 th:if="*{currentStory == null}" th:text="#{label.current.story.not.selected}">
+            No story selected yet
+        </h3>
+
+        <a th:if="*{currentStory != null}" th:href="*{currentStory.storyLink}" class="text-info" th:text="#{label.read.story}" target="_blank">
+            Read the story
+        </a>
+    </div>
+
+    <section class="w-50 p-4 d-flex justify-content-center pb-4">
+        <div th:replace="~{fragments/cards-form :: cards-form}"></div>
+    </section>
+
+    <div>
+        <table class="table table-dark table-striped table-bordered">
+            <thead>
+            <tr>
+                <th th:text="#{label.story.title}">Title</th>
+                <th th:text="#{label.story.link}">Link</th>
+                <th th:text="#{label.actions}">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="story-list" th:each="story : *{stories}">
+            <tr th:attr="data-story-id=${story.id}">
+                <td th:text="${story.title}"></td>
+                <td><a th:href="${story.storyLink}" th:text="${story.storyLink}" target="_blank"></a></td>
+                <td>
+                    <button class="btn btn-warning me-2" th:if="${isCreator}" id="buttonUpdateStory" th:attr="data-story-id=${story.id}">Update</button>
+                    <button class="btn btn-danger me-2" th:if="${isCreator}" id="buttonDeleteStory" th:attr="data-story-id=${story.id}">Delete</button>
+                    <button class="btn btn-success me-2" th:if="${isCreator}" id="buttonSetCurrentStory" th:attr="data-story-id=${story.id}">Set to current</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${isCreator}">
+        <input type="hidden" id="storiesInput" />
+        <input type="hidden" id="roomId" th:field="*{id}"/>
+
+        <button type="button" class="btn btn-primary border border-1 border-black float-end" data-bs-toggle="modal" data-bs-target="#createStoryModal" th:text="#{label.add.stories}">
+            Add Stories
+        </button>
+    </div>
+
+    <!-- Include the creation story modal -->
+    <th:block th:replace="~{fragments/create-story-modal :: create-story-modal}"></th:block>
+
+    <!-- Include the update story modal -->
+    <th:block th:replace="~{fragments/update-story-modal :: update-story-modal}"></th:block>
 </body>
+
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include SockJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+
+    <!-- Include Stomp.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <!-- Select-Card.js -->
+    <script th:src="@{/js/select-card.js}"></script>
+
+    <!-- Show-Room.js -->
+    <script th:src="@{/js/show-room.js}"></script>
+
+    <!-- Story-Action.js -->
+    <script th:src="@{/js/story-actions.js}"></script>
+
 </html>

@@ -26,7 +26,7 @@ public class UserController {
 
     @MessageMapping(MESSAGE_MAPPING)
     @SendTo(SEND_TO)
-    public List<ResponseUserDto> findUsers(RequestUserDto user) {
+    public List<ResponseUserDto> findUsers(final RequestUserDto user) {
         return userService.getUsersByExample(user);
     }
 }
