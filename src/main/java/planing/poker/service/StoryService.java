@@ -103,7 +103,12 @@ public class StoryService {
     }
 
     public void deleteStory(final Long id) {
-        if (storyRepository.findById(id).isPresent()) {
+        Optional<Story> storyOptional = storyRepository.findById(id);
+        if (storyOptional.isPresent()) {
+            final Optional<Room> roomOptional = roomService.optionalRoomByCurrentStory(storyOptional.get());
+
+            roomOptional.ifPresent(room -> roomService.updateCurrentStory(room.getId(), null));
+
             storyRepository.deleteById(id);
             applicationEventPublisher.publishEvent(new StoryDeletedEvent(id));
         } else {

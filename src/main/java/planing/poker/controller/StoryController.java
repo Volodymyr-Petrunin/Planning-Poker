@@ -7,6 +7,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import planing.poker.common.CustomBinderInitializer;
 import planing.poker.controller.request.CreateStoryRequest;
+import planing.poker.controller.request.DeleteStoryRequest;
 import planing.poker.controller.request.UpdateStoryRequest;
 import planing.poker.domain.dto.request.RequestStoryDto;
 import planing.poker.service.StoryService;
@@ -17,6 +18,8 @@ public class StoryController {
     private static final String CREATE_MESSAGE_MAPPING = "/createStory";
 
     private static final String UPDATE_MESSAGE_MAPPING = "/updateStory";
+
+    private static final String DELETE_MESSAGE_MAPPING = "/deleteStory";
 
     private final StoryService storyService;
 
@@ -38,11 +41,9 @@ public class StoryController {
         storyService.updateStory(request.getStoryId(), request.getRequestStoryDto());
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteStory(@PathVariable("id") final long id) {
-        storyService.deleteStory(id);
-
-        return "redirect:/room/{roomCode}";
+    @MessageMapping(DELETE_MESSAGE_MAPPING)
+    public void deleteStory(final DeleteStoryRequest request) {
+        storyService.deleteStory(request.getStoryId());
     }
 
     @InitBinder

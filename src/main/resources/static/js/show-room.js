@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (isCreator) {
                 actionButtons = `
             <button class="btn btn-warning me-2" id="buttonUpdateStory" data-story-id="${storyCreated.id}">Update</button>
-            <button class="btn btn-danger me-2" data-story-id="${storyCreated.id}">Delete</button>
+            <button class="btn btn-danger me-2" id="buttonDeleteStory" data-story-id="${storyCreated.id}">Delete</button>
             <button class="btn btn-success me-2" id="buttonSetCurrentStory" data-story-id="${storyCreated.id}">Set to current</button>
         `;
             }
@@ -76,6 +76,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 storyRow.classList.add('fade-in');
                 setTimeout(() => storyRow.classList.remove('fade-in'), 500);
+            }
+        });
+
+        stompClient.subscribe('/topic/storyDeleted', function(message) {
+            const deletedStoryId = JSON.parse(message.body);
+
+            const storyRow = document.querySelector(`tr[data-story-id="${deletedStoryId}"]`);
+            if (storyRow) {
+                storyRow.remove();
             }
         });
     });

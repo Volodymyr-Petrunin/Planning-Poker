@@ -91,4 +91,17 @@ document.addEventListener("DOMContentLoaded", function () {
         stompClient.send('/app/updateStory', {}, JSON.stringify(request));
         updateStoryModal.hide();
     });
+
+    // Delete Story Action
+    document.addEventListener('click', function(event) {
+        if (event.target && event.target.id === 'buttonDeleteStory') {
+            const storyId = event.target.getAttribute('data-story-id');
+            const confirmText = document.getElementById('confirmDeleteStory').textContent;
+
+            const confirmation = confirm(confirmText);
+            if (confirmation) {
+                stompClient.send('/app/deleteStory', {}, JSON.stringify({ storyId: storyId }));
+            }
+        }
+    });
 });
