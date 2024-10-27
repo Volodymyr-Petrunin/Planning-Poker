@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var actionButtons = '';
             if (isCreator) {
                 actionButtons = `
-            <button class="btn btn-warning me-2" data-story-id="${storyCreated.id}">Update</button>
+            <button class="btn btn-warning me-2" id="buttonUpdateStory" data-story-id="${storyCreated.id}">Update</button>
             <button class="btn btn-danger me-2" data-story-id="${storyCreated.id}">Delete</button>
             <button class="btn btn-success me-2" id="buttonSetCurrentStory" data-story-id="${storyCreated.id}">Set to current</button>
         `;
@@ -63,6 +63,20 @@ document.addEventListener("DOMContentLoaded", function() {
     `;
 
             storyList.appendChild(newRow);
+        });
+
+        stompClient.subscribe('/topic/storyUpdated', function (message) {
+            const updatedStory = JSON.parse(message.body);
+            const storyRow = document.querySelector(`tr[data-story-id="${updatedStory.id}"]`);
+
+            if (storyRow) {
+                storyRow.querySelector('td:nth-child(1)').textContent = updatedStory.title;
+                storyRow.querySelector('td:nth-child(2) a').textContent = updatedStory.storyLink;
+                storyRow.querySelector('td:nth-child(2) a').setAttribute('href', updatedStory.storyLink);
+
+                storyRow.classList.add('fade-in');
+                setTimeout(() => storyRow.classList.remove('fade-in'), 500);
+            }
         });
     });
 });

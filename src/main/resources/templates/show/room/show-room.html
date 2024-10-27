@@ -46,11 +46,11 @@
             </tr>
             </thead>
             <tbody id="story-list" th:each="story : *{stories}">
-            <tr data-story-id="${story.id}">
+            <tr th:attr="data-story-id=${story.id}">
                 <td th:text="${story.title}"></td>
                 <td><a th:href="${story.storyLink}" th:text="${story.storyLink}" target="_blank"></a></td>
                 <td>
-                    <button class="btn btn-warning me-2" th:if="${isCreator}" th:attr="data-story-id=${story.id}">Update</button>
+                    <button class="btn btn-warning me-2" th:if="${isCreator}" id="buttonUpdateStory" th:attr="data-story-id=${story.id}">Update</button>
                     <button class="btn btn-danger me-2" th:if="${isCreator}" th:attr="data-story-id=${story.id}">Delete</button>
                     <button class="btn btn-success me-2" th:if="${isCreator}" id="buttonSetCurrentStory" th:attr="data-story-id=${story.id}">Set to current</button>
                 </td>
@@ -70,6 +70,9 @@
 
     <!-- Include the creation story modal -->
     <th:block th:replace="~{fragments/create-story-modal :: create-story-modal}"></th:block>
+
+    <!-- Include the update story modal -->
+    <th:block th:replace="~{fragments/update-story-modal :: update-story-modal}"></th:block>
 </body>
 
 

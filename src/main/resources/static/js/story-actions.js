@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log('Connected to WebSocket');
     });
 
+    // Create Story action!
     function addStoryToTable(story) {
         var storyRow = `
             <tr>
@@ -46,11 +47,48 @@ document.addEventListener("DOMContentLoaded", function () {
         var roomId = document.getElementById('roomId').value;
         if (stories.length > 0 && roomId) {
             var payload = { stories: stories, roomId: Number(roomId) };
-            console.log(JSON.stringify(payload))
             stompClient.send("/app/createStory", {}, JSON.stringify(payload));
             stories = [];
             document.getElementById('createdStories').innerHTML = '';
         }
     });
 
+    //Update Story Action
+    const updateStoryModal = new bootstrap.Modal(document.getElementById('updateStoryModal'));
+    const updateStoryTitleInput = document.getElementById('updateStoryTitle');
+    const updateStoryLinkInput = document.getElementById('updateStoryLink');
+    const updateStoryButton = document.getElementById('update-story-btn');
+
+    let selectedStoryId = null;
+
+    document.addEventListener('click', function(event) {
+        if (event.target && event.target.id === 'buttonUpdateStory') {
+            selectedStoryId = event.target.getAttribute('data-story-id');
+
+            const row = event.target.closest('tr');
+
+            const title = row.querySelector('td:nth-child(1)').textContent;
+            const storyLink = row.querySelector('td:nth-child(2) a').getAttribute('href');
+
+            updateStoryTitleInput.value = title;
+            updateStoryLinkInput.value = storyLink;
+
+            updateStoryModal.show();
+        }
+    });
+
+    updateStoryButton.addEventListener('click', function () {
+        if (!selectedStoryId) return;
+
+        const request = {
+            storyId: selectedStoryId,
+            requestStoryDto: {
+                title: updateStoryTitleInput.value,
+                storyLink: updateStoryLinkInput.value
+            }
+        };
+
+        stompClient.send('/app/updateStory', {}, JSON.stringify(request));
+        updateStoryModal.hide();
+    });
 });

@@ -10,15 +10,16 @@ import planing.poker.domain.Story;
 import planing.poker.domain.dto.request.RequestStoryDto;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
+import planing.poker.event.room.RoomCurrentStoryEvent;
 import planing.poker.event.story.StoryCreatedEvent;
 import planing.poker.event.story.StoryDeletedEvent;
 import planing.poker.event.story.StoryUpdatedEvent;
+import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
-import planing.poker.repository.RoomRepository;
 import planing.poker.repository.StoryRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,17 +33,20 @@ public class StoryService {
 
     private final Messages messages;
 
-    private final RoomRepository roomRepository;
+    private final RoomService roomService;
+
+    private final RoomMapper roomMapper;
 
     @Autowired
     public StoryService(final StoryRepository storyRepository, final StoryMapper storyMapper,
                         final ApplicationEventPublisher applicationEventPublisher, final Messages messages,
-                        final RoomRepository roomRepository) {
+                        final RoomService roomService, final RoomMapper roomMapper) {
         this.storyRepository = storyRepository;
         this.storyMapper = storyMapper;
         this.applicationEventPublisher = applicationEventPublisher;
         this.messages = messages;
-        this.roomRepository = roomRepository;
+        this.roomService = roomService;
+        this.roomMapper = roomMapper;
     }
 
     public ResponseStoryDto createStory(final RequestStoryDto responseStoryDto) {
@@ -58,7 +62,7 @@ public class StoryService {
         final List<Story> savedStories = storyRepository.saveAll(stories);
 
         if (roomId != null) {
-            associateStoriesWithRoom(stories, roomId);
+            roomService.associateStoriesWithRoom(stories, roomId);
         }
 
         final List<ResponseStoryDto> responseStories = savedStories.stream().map(storyMapper::toDto).toList();
@@ -73,7 +77,7 @@ public class StoryService {
     }
 
     public List<ResponseStoryDto> getStoriesByRoom(final long roomId) {
-        final Room room = findRoomEntityById(roomId);
+        final Room room = roomMapper.responseToEntity(roomService.getRoomById(roomId));
         return room.getStories().stream().map(storyMapper::toDto).toList();
     }
 
@@ -89,6 +93,9 @@ public class StoryService {
 
             final ResponseStoryDto updatedStory = storyMapper.toDto(storyRepository.save(story));
             applicationEventPublisher.publishEvent(new StoryUpdatedEvent(updatedStory));
+
+            notifyIfCurrentStory(story);
+
             return updatedStory;
         } else {
             throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
@@ -104,15 +111,12 @@ public class StoryService {
         }
     }
 
-    private void associateStoriesWithRoom(final List<Story> stories, final Long roomId) {
-        final Room room = findRoomEntityById(roomId);
-        room.getStories().addAll(stories);
+    private void notifyIfCurrentStory(final Story story) {
+        final Optional<Room> roomOptional = roomService.optionalRoomByCurrentStory(story);
 
-        roomRepository.save(room);
-    }
-
-    private Room findRoomEntityById(final long roomId) {
-        return roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE()));
+        if (roomOptional.isPresent()) {
+            ResponseRoomDto room = roomMapper.toDto(roomOptional.get());
+            applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(room));
+        }
     }
 }

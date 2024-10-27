@@ -1,13 +1,14 @@
 package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.Messages;
 import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
+import planing.poker.domain.Story;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
@@ -20,7 +21,7 @@ import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -45,7 +46,7 @@ public class RoomService {
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
                        final RoomCodeGeneration roomCodeGeneration, final UserService userService,
-                       final StoryService storyService, final StoryMapper storyMapper, final Messages messages,
+                       @Lazy final StoryService storyService, final StoryMapper storyMapper, final Messages messages,
                        final ApplicationEventPublisher applicationEventPublisher) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
@@ -118,6 +119,17 @@ public class RoomService {
         } else {
             throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
+    }
+
+    public void associateStoriesWithRoom(final List<Story> stories, final Long roomId) {
+        final Room room = roomMapper.responseToEntity(getRoomById(roomId));
+        room.getStories().addAll(stories);
+
+        roomRepository.save(room);
+    }
+
+    public Optional<Room> optionalRoomByCurrentStory(final Story story) {
+        return roomRepository.findByCurrentStory(story);
     }
 
     private void setRoomCode(final Room room) {
