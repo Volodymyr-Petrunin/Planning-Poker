@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import planing.poker.common.Messages;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.request.RequestUserDto;
@@ -31,12 +32,15 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final Messages messages;
+
     @Autowired
     public UserService(final UserRepository userRepository, final UserMapper userMapper,
-                       final PasswordEncoder passwordEncoder) {
+                       final PasswordEncoder passwordEncoder, final Messages messages) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.messages = messages;
     }
 
     public ResponseUserDto createUser(final RequestUserDto userDto) {
@@ -67,7 +71,7 @@ public class UserService {
 
     public ResponseUserDto getUserById(final Long id) {
         return userMapper.toDto(userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("message.not.find.object")));
+                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
     }
 
     public ResponseUserDto updateUser(final long id, final RequestUserDto userDto) {
@@ -77,7 +81,7 @@ public class UserService {
 
             return userMapper.toDto(userRepository.save(user));
         } else {
-            throw new IllegalArgumentException("message.not.find.object");
+            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
     }
 
@@ -89,7 +93,7 @@ public class UserService {
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
-            throw new IllegalArgumentException("message.not.find.object");
+            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
         return userMapper.toDto(user);
     }

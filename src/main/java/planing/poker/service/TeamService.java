@@ -2,6 +2,7 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import planing.poker.common.Messages;
 import planing.poker.domain.Team;
 import planing.poker.domain.dto.request.RequestTeamDto;
 import planing.poker.domain.dto.response.ResponseTeamDto;
@@ -17,10 +18,13 @@ public class TeamService {
 
     private final TeamMapper teamMapper;
 
+    private final Messages messages;
+
     @Autowired
-    public TeamService(final TeamRepository teamRepository, final TeamMapper teamMapper) {
+    public TeamService(final TeamRepository teamRepository, final TeamMapper teamMapper, final Messages messages) {
         this.teamRepository = teamRepository;
         this.teamMapper = teamMapper;
+        this.messages = messages;
     }
 
     public ResponseTeamDto createTeam(final RequestTeamDto requestTeamDto) {
@@ -33,7 +37,7 @@ public class TeamService {
 
     public ResponseTeamDto getTeamById(final Long id) {
         return teamMapper.toDto(teamRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("message.not.find.object")));
+                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
     }
 
     public ResponseTeamDto updateTeam(final long id, final RequestTeamDto requestTeamDto) {
@@ -43,7 +47,7 @@ public class TeamService {
 
             return teamMapper.toDto(teamRepository.save(team));
         } else {
-            throw new IllegalArgumentException("message.not.find.object");
+            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
     }
 
