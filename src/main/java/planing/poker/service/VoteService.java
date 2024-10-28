@@ -2,6 +2,7 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import planing.poker.common.Messages;
 import planing.poker.domain.Vote;
 import planing.poker.domain.dto.request.RequestVoteDto;
 import planing.poker.domain.dto.response.ResponseVoteDto;
@@ -17,10 +18,13 @@ public class VoteService {
 
     private final VoteMapper voteMapper;
 
+    private final Messages messages;
+
     @Autowired
-    public VoteService(final VoteRepository voteRepository, final VoteMapper voteMapper) {
+    public VoteService(final VoteRepository voteRepository, final VoteMapper voteMapper, final Messages messages) {
         this.voteRepository = voteRepository;
         this.voteMapper = voteMapper;
+        this.messages = messages;
     }
 
     public ResponseVoteDto createVote(final RequestVoteDto requestVoteDto) {
@@ -33,7 +37,7 @@ public class VoteService {
 
     public ResponseVoteDto getVoteById(final Long id) {
         return voteRepository.findById(id).map(voteMapper::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("message.not.find.object"));
+                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE()));
     }
 
     public ResponseVoteDto updateVote(final long id, final RequestVoteDto requestVoteDto) {
@@ -43,7 +47,7 @@ public class VoteService {
 
             return voteMapper.toDto(voteRepository.save(vote));
         } else {
-            throw new IllegalArgumentException("message.not.find.object");
+            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
     }
 

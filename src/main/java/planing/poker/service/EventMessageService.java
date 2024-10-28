@@ -2,6 +2,7 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import planing.poker.common.Messages;
 import planing.poker.domain.dto.EventMessageDto;
 import planing.poker.mapper.EventMessageMapper;
 import planing.poker.repository.EventMessageRepository;
@@ -15,11 +16,14 @@ public class EventMessageService {
 
     private final EventMessageMapper eventMessageMapper;
 
+    private final Messages messages;
+
     @Autowired
     public EventMessageService(final EventMessageRepository eventMessageRepository,
-                               final EventMessageMapper eventMessageMapper) {
+                               final EventMessageMapper eventMessageMapper, final Messages messages) {
         this.eventMessageRepository = eventMessageRepository;
         this.eventMessageMapper = eventMessageMapper;
+        this.messages = messages;
     }
 
     public EventMessageDto createEventMessage(final EventMessageDto eventMessageDto) {
@@ -32,7 +36,7 @@ public class EventMessageService {
 
     public EventMessageDto getEventMessageById(final Long id) {
         return eventMessageMapper.toDto(eventMessageRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("message.not.find.object")));
+                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
     }
 
     public EventMessageDto updateEventMessage(final EventMessageDto eventMessageDto) {
