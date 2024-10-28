@@ -17,6 +17,8 @@ import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.mapper.UserMapper;
 import planing.poker.repository.UserRepository;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -56,6 +58,10 @@ public class UserService {
     }
 
     public List<ResponseUserDto> getUsersByExample(final RequestUserDto userDto) {
+        if (isAllBlank(userDto.getFirstName(), userDto.getLastName(), userDto.getNickname())) {
+            return Collections.emptyList();
+        }
+
         final User user = userMapper.toEntity(userDto);
 
         final Pageable limit = PageRequest.of(0, maxPageSizeForUser);
@@ -96,5 +102,9 @@ public class UserService {
             throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
         return userMapper.toDto(user);
+    }
+
+    private boolean isAllBlank(final String... strings) {
+        return Arrays.stream(strings).allMatch(str -> str == null || str.trim().isEmpty());
     }
 }
