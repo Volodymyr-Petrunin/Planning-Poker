@@ -7,7 +7,6 @@ function setVoteDuration() {
 
 $('#sendVoteToRegisterForm').on('click', function() {
     const selectedOption = document.querySelector('input[name="voteDuration"]:checked');
-    console.log(selectedOption)
     if (selectedOption) {
         document.getElementById('voteDurationHidden').value = selectedOption.value;
     }

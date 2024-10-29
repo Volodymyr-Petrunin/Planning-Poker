@@ -26,5 +26,5 @@ public class ResponseVoteDto {
     private Integer points;
 
     @NotNull
-    private ResponseStoryDto story;
+    private Long storyId;
 }
