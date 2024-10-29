@@ -92,9 +92,6 @@ function sendVote() {
     var storyTitle = document.getElementById('story-title').value;
     var storyLink = document.getElementById('story-storyLink').value;
 
-    console.log('POINTS', points);
-    console.log(storyId, storyTitle, storyLink);
-
     if (points && storyId) {
         var vote = {
             points: points,
@@ -104,8 +101,6 @@ function sendVote() {
                 storyLink: storyLink
             }
         };
-
-        console.log('VOTE', vote)
 
         stompClient.send("/app/sendVote", {}, JSON.stringify(vote));
     }

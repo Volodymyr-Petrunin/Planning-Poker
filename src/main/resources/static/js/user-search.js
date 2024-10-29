@@ -20,8 +20,6 @@ function searchUsers() {
         nickname: $('#searchNickname').val()
     };
 
-    console.log("Sending search request:", formData);
-
     stompClient.send("/app/searchUsers", {}, JSON.stringify(formData));
 }
 

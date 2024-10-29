@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    //Update Story Action
+    // Update Story Action
     const updateStoryModal = new bootstrap.Modal(document.getElementById('updateStoryModal'));
     const updateStoryTitleInput = document.getElementById('updateStoryTitle');
     const updateStoryLinkInput = document.getElementById('updateStoryLink');

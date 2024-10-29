@@ -18,10 +18,16 @@ document.addEventListener("DOMContentLoaded", function() {
             <h3>${currentStoryText} ${room.currentStory.title}</h3>
             <a href="${room.currentStory.storyLink}" class="text-info" target="_blank">${readStoryText}</a>
         `;
+                document.getElementById('story-id').value = room.currentStory.id || '';
+                document.getElementById('story-title').value = room.currentStory.title || '';
+                document.getElementById('story-storyLink').value = room.currentStory.storyLink || '';
             } else {
                 currentStorySection.innerHTML = `
             <h3>${noStorySelectedText}</h3>
         `;
+                document.getElementById('story-id').value = '';
+                document.getElementById('story-title').value = '';
+                document.getElementById('story-storyLink').value = '';
             }
 
             currentStorySection.classList.add('fade-in');

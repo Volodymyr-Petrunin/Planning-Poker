@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById('saveStoriesBtn').addEventListener('click', function () {
         var storiesInput = document.getElementById('storiesInput');
-        console.log(JSON.stringify(stories));
         storiesInput.value = JSON.stringify(stories);
     });
 });

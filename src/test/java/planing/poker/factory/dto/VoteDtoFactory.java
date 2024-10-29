@@ -9,6 +9,6 @@ public class VoteDtoFactory {
     private static final Integer EXPECTED_POINTS = 5;
 
     public static ResponseVoteDto createVote(final ResponseUserDto voter, final ResponseStoryDto responseStoryDto) {
-        return new ResponseVoteDto(EXPECTED_ID, voter, EXPECTED_POINTS, responseStoryDto);
+        return new ResponseVoteDto(EXPECTED_ID, voter, EXPECTED_POINTS, responseStoryDto.getId());
     }
 }
