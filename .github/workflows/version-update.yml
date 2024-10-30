@@ -38,6 +38,7 @@ jobs:
           git commit -m "Bump version to ${{ steps.read_version.outputs.new_version }}"
 
       - name: Create Pull Request
+        id: create_pr
         uses: peter-evans/create-pull-request@v5
         with:
           commit-message: "Bump version to ${{ steps.read_version.outputs.new_version }}"
@@ -45,3 +46,11 @@ jobs:
           title: "Bump version to ${{ steps.read_version.outputs.new_version }}"
           body: "Automatically created pull request to update version."
           base: main
+          auto-merge: true
+
+      - name: Enable Auto-Merge
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
+          merge-method: squash
