@@ -30,10 +30,27 @@ jobs:
       - name: Update version file
         run: echo "${{ steps.read_version.outputs.new_version }}" > VERSION
 
-      - name: Commit and push new version
+      - name: Create a new branch for the version update
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          branch_name="version-bump-${{ steps.read_version.outputs.new_version }}"
+          git checkout -b $branch_name
           git add VERSION
           git commit -m "Bump version to ${{ steps.read_version.outputs.new_version }}"
-          git push origin main
+          git push origin $branch_name
+
+      - name: Create Pull Request
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequest } = await github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Bump version to ${{ steps.read_version.outputs.new_version }}`,
+              head: `${branch_name}`,
+              base: 'main',
+              body: 'Automatically created pull request to update version.',
+              draft: false
+            });
+            console.log(`Pull Request created: ${pullRequest.html_url}`);
