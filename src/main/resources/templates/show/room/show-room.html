@@ -86,13 +86,16 @@
     <!-- Include Stomp.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
+    <!-- WebSocket client -->
+    <script type="module" th:src="@{/js/websocket-client.js}"></script>
+
     <!-- Select-Card.js -->
-    <script th:src="@{/js/select-card.js}"></script>
+    <script type="module" th:src="@{/js/select-card.js}"></script>
 
     <!-- Show-Room.js -->
-    <script th:src="@{/js/show-room.js}"></script>
+    <script type="module" th:src="@{/js/show-room.js}"></script>
 
     <!-- Story-Action.js -->
-    <script th:src="@{/js/story-actions.js}"></script>
+    <script type="module" th:src="@{/js/story-actions.js}"></script>
 
 </html>

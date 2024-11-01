@@ -1,19 +1,12 @@
-var stompClient = null;
+import { connectWebSocket, addSubscription, sendMessage } from './websocket-client.js';
 
-function connect() {
-    var socket = new SockJS('/ws');
-    stompClient = Stomp.over(socket);
+connectWebSocket();
 
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
+addSubscription('/topic/voteResult', function (result) {
+    showUserResults(JSON.parse(result.body));
+});
 
-        stompClient.subscribe('/topic/voteResult', function (result) {
-            showUserResults(JSON.parse(result.body));
-        });
-    });
-}
-
-function selectCard(points) {
+window.selectCard = function (points) {
     document.getElementById('selected-points').value = points;
 
     let cards = document.querySelectorAll('.card');
@@ -93,22 +86,14 @@ function sendVote() {
     var storyLink = document.getElementById('story-storyLink').value;
 
     if (points && storyId) {
-        var vote = {
+        sendMessage("/app/sendVote", {
             points: points,
-            story: {
-                id: storyId,
-                title: storyTitle,
-                storyLink: storyLink
-            }
-        };
-
-        stompClient.send("/app/sendVote", {}, JSON.stringify(vote));
+            story: { id: storyId, title: storyTitle, storyLink: storyLink }
+        });
     }
 }
 
 $(document).ready(function () {
-    connect();
-
     $('#submit-estimate').on('click', function () {
         sendVote();
     });

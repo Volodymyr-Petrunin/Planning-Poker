@@ -1,14 +1,11 @@
+import { connectWebSocket, addSubscription, sendMessage } from './websocket-client.js';
+
 document.addEventListener("DOMContentLoaded", function () {
+    connectWebSocket()
+
+    // Create Story action
     var stories = [];
 
-    var socket = new SockJS('/ws');
-    var stompClient = Stomp.over(socket);
-
-    stompClient.connect({}, function () {
-        console.log('Connected to WebSocket');
-    });
-
-    // Create Story action!
     function addStoryToTable(story) {
         var storyRow = `
             <tr>
@@ -47,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var roomId = document.getElementById('roomId').value;
         if (stories.length > 0 && roomId) {
             var payload = { stories: stories, roomId: Number(roomId) };
-            stompClient.send("/app/createStory", {}, JSON.stringify(payload));
+            sendMessage("/app/createStory", payload);
             stories = [];
             document.getElementById('createdStories').innerHTML = '';
         }
@@ -88,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         };
 
-        stompClient.send('/app/updateStory', {}, JSON.stringify(request));
+        sendMessage('/app/updateStory', request);
         updateStoryModal.hide();
     });
 
@@ -100,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const confirmation = confirm(confirmText);
             if (confirmation) {
-                stompClient.send('/app/deleteStory', {}, JSON.stringify({ storyId: storyId }));
+                sendMessage('/app/deleteStory', { storyId: storyId });
             }
         }
     });
