@@ -13,11 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "${{ secrets.OWNER_EMAIL }}"    
-
       - name: Read current version
         id: read_version
         run: |
@@ -37,10 +32,25 @@ jobs:
 
       - name: Commit changes
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add VERSION
-          git commit -m "Bump version to ${{ steps.read_version.outputs.new_version }}" || echo "No changes to commit"
+          git commit -m "Bump version to ${{ steps.read_version.outputs.new_version }}"
 
-      - name: Push new version to dev
-        run: |
-          git push origin dev
-          git push origin --tags
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "Bump version to ${{ steps.read_version.outputs.new_version }}"
+          branch: "version-bump-${{ steps.read_version.outputs.new_version }}"
+          title: "Bump version to ${{ steps.read_version.outputs.new_version }}"
+          body: "Automatically created pull request to update version."
+          base: main
+          auto-merge: true
+
+      - name: Enable Auto-Merge
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
+          merge-method: squash
