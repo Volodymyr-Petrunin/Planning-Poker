@@ -1,11 +1,9 @@
+import { connectWebSocket, addSubscription, sendMessage } from './websocket-client.js';
+
 document.addEventListener("DOMContentLoaded", function() {
-    var socket = new SockJS('/ws');
-    var stompClient = Stomp.over(socket);
+    connectWebSocket();
 
-    stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);
-
-        stompClient.subscribe('/topic/updateCurrentStory', function (message) {
+    addSubscription('/topic/updateCurrentStory', function (message) {
             const room = JSON.parse(message.body);
             const currentStorySection = document.querySelector('.text-light.ms-4.mb-4');
 
@@ -35,16 +33,16 @@ document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => {
                 currentStorySection.classList.remove('fade-in');
             }, 500)
-        });
+    });
 
 
-        stompClient.subscribe('/topic/roomUpdated', function(message) {
+    addSubscription('/topic/roomUpdated', function(message) {
             var room = JSON.parse(message.body);
             document.querySelector('#roomName').textContent = room.name;
             document.querySelector('#roomDetails').textContent = room.details;
-        });
+    });
 
-        stompClient.subscribe('/topic/storyCreated', function (message) {
+    addSubscription('/topic/storyCreated', function (message) {
             var storyCreated = JSON.parse(message.body);
 
             var storyList = document.getElementById('story-list');
@@ -69,9 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
     `;
 
             storyList.appendChild(newRow);
-        });
+    });
 
-        stompClient.subscribe('/topic/storyUpdated', function (message) {
+    addSubscription('/topic/storyUpdated', function (message) {
             const updatedStory = JSON.parse(message.body);
             const storyRow = document.querySelector(`tr[data-story-id="${updatedStory.id}"]`);
 
@@ -85,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        stompClient.subscribe('/topic/storyDeleted', function(message) {
+    addSubscription('/topic/storyDeleted', function(message) {
             const deletedStoryId = JSON.parse(message.body);
 
             const storyRow = document.querySelector(`tr[data-story-id="${deletedStoryId}"]`);
@@ -94,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
-});
 
 document.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'buttonSetCurrentStory') {
@@ -115,7 +112,7 @@ document.addEventListener('click', function(event) {
             }
         };
 
-        stompClient.send('/app/updateCurrentStory', {}, JSON.stringify(request));
+        sendMessage('/app/updateCurrentStory', request);
     }
 });
 
