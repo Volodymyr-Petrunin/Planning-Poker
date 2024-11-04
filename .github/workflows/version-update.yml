@@ -54,3 +54,9 @@ jobs:
           token: ${{ secrets.PERSONAL_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
           merge-method: squash
+
+      - name: Check current workflows
+        run: |
+          gh workflow list
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
