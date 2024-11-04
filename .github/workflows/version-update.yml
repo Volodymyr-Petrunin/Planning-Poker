@@ -57,17 +57,19 @@ jobs:
           git add VERSION
           git commit -m "Bump version to $new_version"
 
-      - name: Pull latest changes
+      - name: Push Changes to a New Branch
         run: |
-          git fetch origin development
-          git rebase origin/development
+          git checkout -b bump-version-${{ github.run_id }}
+          git push origin bump-version-${{ github.run_id }}
 
-      - name: Push Changes
-        env:
-          TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-        run: |
-          git remote set-url origin https://x-access-token:${TOKEN}@github.com/Volodymyr-Petrunin/Planning-Poker.git
-          git push origin development
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          title: "Bump version to $new_version"
+          body: "This pull request bumps the version to $new_version."
+          base: development
+          head: bump-version-${{ github.run_id }}
 
   enable-auto-merge:
     runs-on: ubuntu-latest
