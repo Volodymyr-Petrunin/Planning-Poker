@@ -3,7 +3,7 @@ name: Bump Version and Auto-Merge
 on:
   push:
     branches:
-      - main
+      - development
 
 jobs:
   bump-version:
@@ -46,7 +46,7 @@ jobs:
           branch: "version-bump-${{ steps.read_version.outputs.new_version }}"
           title: "Bump version to ${{ steps.read_version.outputs.new_version }}"
           body: "Automatically created pull request to update version."
-          base: main
+          base: development
           auto-merge: true
 
       - name: Enable Auto-Merge
