@@ -62,7 +62,7 @@ jobs:
           TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/Volodymyr-Petrunin/Planning-Poker.git
-          git push origin main
+          git push origin development
 
   enable-auto-merge:
     runs-on: ubuntu-latest
