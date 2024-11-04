@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - development
+    paths-ignore:
+      - 'VERSION'
 
 jobs:
   bump-version:
