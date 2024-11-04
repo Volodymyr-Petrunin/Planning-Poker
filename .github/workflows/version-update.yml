@@ -1,56 +1,74 @@
-name: Update Version on Merge to Main
+name: Bump Version and Auto-Merge
 
 on:
   push:
     branches:
-      - main
+      - development
 
 jobs:
-  update-version:
+  build:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Read current version
-        id: read_version
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Convert line endings to LF for gradlew
+        run: sed -i 's/\r$//' ./gradlew
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+
+  bump-version:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump Version
         run: |
           current_version=$(cat VERSION)
-          echo "Current version: $current_version"
-          IFS='.' read -r -a parts <<< "$current_version"
-          major=${parts[0]}
-          minor=${parts[1]}
-          patch=${parts[2]}
-          patch=$((patch+1))
-          new_version="$major.$minor.$patch"
-          echo "New version: $new_version"
-          echo "::set-output name=new_version::$new_version"
-
-      - name: Update version file
-        run: echo "${{ steps.read_version.outputs.new_version }}" > VERSION
-
-      - name: Commit changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          new_version=$(echo "$current_version" | awk -F. -v OFS=. '{$NF++; print}')
+          echo "$new_version" > VERSION
           git add VERSION
-          git commit -m "Bump version to ${{ steps.read_version.outputs.new_version }}"
+          git commit -m "Bump version to $new_version"
 
-      - name: Create Pull Request
-        id: create_pr
-        uses: peter-evans/create-pull-request@v5
-        with:
-          commit-message: "Bump version to ${{ steps.read_version.outputs.new_version }}"
-          branch: "version-bump-${{ steps.read_version.outputs.new_version }}"
-          title: "Bump version to ${{ steps.read_version.outputs.new_version }}"
-          body: "Automatically created pull request to update version."
-          base: main
-          auto-merge: true
+      - name: Push Changes
+        env:
+          TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        run: |
+          git remote set-url origin https://x-access-token:${TOKEN}@github.com/Volodymyr-Petrunin/Planning-Poker.git
+          git push origin main
 
-      - name: Enable Auto-Merge
+  enable-auto-merge:
+    runs-on: ubuntu-latest
+    needs: bump-version
+    steps:
+      - name: Enable auto-merge
         uses: peter-evans/enable-pull-request-automerge@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
-          merge-method: squash
+          token: ${{ secrets.PERSONAL_TOKEN }}
