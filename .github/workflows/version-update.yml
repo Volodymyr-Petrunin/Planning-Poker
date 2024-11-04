@@ -57,6 +57,11 @@ jobs:
           git add VERSION
           git commit -m "Bump version to $new_version"
 
+      - name: Pull latest changes
+        run: |
+          git fetch origin development
+          git rebase origin/development
+
       - name: Push Changes
         env:
           TOKEN: ${{ secrets.PERSONAL_TOKEN }}
