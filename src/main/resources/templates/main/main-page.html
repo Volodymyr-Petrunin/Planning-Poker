@@ -18,17 +18,68 @@
             <a class="btn btn-primary btn-lg float-end" th:text="#{label.button.createSession}" href="/room/create" role="button"></a>
         </div>
 
-        <h2 class="mt-lg-5" th:text="#{label.availableSessions.title}"></h2>
-        <ul class="list-group">
-            <li class="list-group-item">Session 1 <span class="badge badge-primary">Active</span></li>
-            <li class="list-group-item">Session 2 <span class="badge badge-secondary">Completed</span></li>
-        </ul>
+        <h2 class="mt-lg-5" th:text="#{label.your.rooms}"></h2>
+        <table class="table table-striped table-bordered text-center">
+            <thead>
+            <tr>
+                <th th:text="#{label.room.name}">Room Name</th>
+                <th th:text="#{label.current.story.short}">Current Story</th>
+                <th th:text="#{label.start.date}">Start Date</th>
+                <th th:text="#{label.start.time}">Start Time</th>
+                <th th:text="#{label.story.quantity}">Quantity of stories</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(roomsCreated)}">
+                <td colspan="5" th:text="#{label.no.rooms}"></td>
+            </tr>
+            <tr th:each="room : ${roomsInvited}">
+                <td><a th:href="@{'/room/' + ${room.roomCode}}" th:text="${room.roomName}">Room Name</a></td>
+                <td th:if="${room.currentStory != null}" th:text="*{room.currentStory.title}">
+                    Current Story: <span th:text="*{room.currentStory.title}"></span>
+                </td>
+                <td th:if="*{room.currentStory == null}" th:text="#{label.current.story.not.selected}">
+                    No story selected yet
+                </td>
+                <td th:text="${#dates.format(room.startDate, 'EEE MMM dd yyyy')}">Start Date</td>
+                <td th:text="${room.startTime}">Start Time</td>
+                <td th:text="${room.stories.size()}">Quantity of stories</td>
+            </tr>
+            </tbody>
+        </table>
 
-        <h2 class="mt-4" th:text="#{label.history.title}"></h2>
-        <ul class="list-group">
-            <li class="list-group-item">1</li>
-            <li class="list-group-item">2</li>
-        </ul>
+        <h2 class="mt-4" th:text="#{label.rooms.been.invited}"></h2>
+        <table class="table table-striped table-bordered text-center">
+            <thead>
+            <tr>
+                <th th:text="#{label.room.name}">Room Name</th>
+                <th th:text="#{label.room.creator}">Room Creator</th>
+                <th th:text="#{label.current.story.short}">Current Story</th>
+                <th th:text="#{label.start.date}">Start Date</th>
+                <th th:text="#{label.start.time}">Start Time</th>
+                <th th:text="#{label.story.quantity}">Quantity of stories</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(roomsInvited)}">
+                <td colspan="6" th:text="#{label.no.rooms.invited}"></td>
+            </tr>
+            <tr th:each="room : ${roomsInvited}">
+                <td><a th:href="@{'/room/' + ${room.roomCode}}" th:text="${room.roomName}">Room Name</a></td>
+                <td th:text="${room.creator.getFirstName() + ' ' + room.creator.getLastName()}">Room Creator</td>
+                <td th:if="${room.currentStory != null}" th:text="*{room.currentStory.title}">
+                    Current Story: <span th:text="*{room.currentStory.title}"></span>
+                </td>
+                <td th:if="*{room.currentStory == null}" th:text="#{label.current.story.not.selected}">
+                    No story selected yet
+                </td>
+                <td th:text="${#dates.format(room.startDate, 'EEE MMM dd yyyy')}">Start Date</td>
+                <td th:text="${room.startTime}">Start Time</td>
+                <td th:text="${room.stories.size()}">Quantity of stories</td>
+            </tr>
+            </tbody>
+        </table>
+
 
     </div>
 

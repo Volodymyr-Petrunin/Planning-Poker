@@ -3,12 +3,15 @@ package planing.poker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.Messages;
 import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
 import planing.poker.domain.Story;
+import planing.poker.domain.User;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
@@ -20,6 +23,7 @@ import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +80,14 @@ public class RoomService {
 
     public List<ResponseRoomDto> getAllRooms() {
         return roomRepository.findAll().stream().map(roomMapper::toDto).toList();
+    }
+
+    public List<ResponseRoomDto> getRoomsRelatedToUser(final User user) {
+        if (user == null) {
+            return Collections.emptyList();
+        }
+
+       return roomRepository.findRoomsRelatedToUser(user).stream().map(roomMapper::toDto).toList();
     }
 
     public ResponseRoomDto getRoomById(final Long id) {
