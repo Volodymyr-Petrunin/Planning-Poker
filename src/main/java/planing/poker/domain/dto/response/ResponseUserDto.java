@@ -51,7 +51,7 @@ public class ResponseUserDto {
     private SecurityRole securityRole;
 
     @NotNull
-    private List<ResponseRoomDto> rooms;
+    private List<Long> roomsId;
 
     private List<ResponseTeamDto> teams;
 }
