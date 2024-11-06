@@ -33,7 +33,7 @@
             <tr th:if="${#lists.isEmpty(roomsCreated)}">
                 <td colspan="5" th:text="#{label.no.rooms}"></td>
             </tr>
-            <tr th:each="room : ${roomsInvited}">
+            <tr th:each="room : ${roomsCreated}">
                 <td><a th:href="@{'/room/' + ${room.roomCode}}" th:text="${room.roomName}">Room Name</a></td>
                 <td th:if="${room.currentStory != null}" th:text="*{room.currentStory.title}">
                     Current Story: <span th:text="*{room.currentStory.title}"></span>
