@@ -1,0 +1,30 @@
+<div id="invited-users-table-form" xmlns:th="http://www.thymeleaf.org" th:fragment="invited-users-table-form">
+    <h4 class="text-light" th:text="#{label.invited.users}">Invited Users</h4>
+    <table class="table table-dark table-striped table-bordered">
+        <thead>
+        <tr>
+            <th th:text="#{label.firstname}">First Name</th>
+            <th th:text="#{label.email}">Email</th>
+            <th th:text="#{label.status}">Status</th>
+        </tr>
+        </thead>
+        <tbody th:each="user : *{invitedUsers}">
+        <tr th:attr="data-user-id=${user.id}">
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.email}"></td>
+            <td>
+                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}">
+                    <option value="USER_PRESENTER" th:text="#{label.user.presenter}">Presenter</option>
+                    <option value="USER_ELECTOR" th:text="#{label.user.elector}">Elector</option>
+                    <option value="USER_SPECTATOR" th:text="#{label.user.spectator}">Spectator</option>
+                </select>
+
+                <span th:unless="${currentUserId == user.id}"
+                      th:attr="data-presenter='#{label.user.presenter}', data-elector='#{label.user.elector}', data-spectator='#{label.user.spectator}'"
+                      th:text="#{'role.' + ${user.role}}">
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

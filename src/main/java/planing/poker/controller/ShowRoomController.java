@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import planing.poker.controller.request.UpdateCurrentStoryRequest;
+import planing.poker.domain.User;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.security.UserDetailsImpl;
 import planing.poker.service.RoomService;
@@ -29,6 +30,8 @@ public class ShowRoomController {
 
     private static final String IS_CREATOR = "isCreator";
 
+    private static final String CURRENT_USER_ID = "currentUserId";
+
     private final RoomService roomService;
 
     @Autowired
@@ -41,9 +44,11 @@ public class ShowRoomController {
                                 @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         final ResponseRoomDto room = roomService.getRoomByCode(roomCode);
         boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());
+        final User currentUser = userDetails.getUser(User.class);
 
         model.addAttribute(ROOM, room);
         model.addAttribute(IS_CREATOR, isCreator);
+        model.addAttribute(CURRENT_USER_ID, currentUser.getId());
 
         return SHOW_ROOM_PAGE;
     }
