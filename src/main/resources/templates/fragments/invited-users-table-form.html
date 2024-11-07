@@ -8,21 +8,63 @@
             <th th:text="#{label.status}">Status</th>
         </tr>
         </thead>
-        <tbody th:each="user : *{invitedUsers}">
-        <tr th:attr="data-user-id=${user.id}">
+
+        <!-- Presenters Section -->
+        <thead>
+        <tr>
+            <th colspan="3" class="bg-primary text-white" th:text="#{label.user.presenters}">Presenters</th>
+        </tr>
+        </thead>
+        <tbody id="presentersSection">
+        <tr th:each="user : ${presenters}" th:attr="data-user-id=${user.id}">
             <td th:text="${user.firstName}"></td>
             <td th:text="${user.email}"></td>
             <td>
-                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}">
-                    <option value="USER_PRESENTER" th:text="#{label.user.presenter}">Presenter</option>
-                    <option value="USER_ELECTOR" th:text="#{label.user.elector}">Elector</option>
-                    <option value="USER_SPECTATOR" th:text="#{label.user.spectator}">Spectator</option>
+                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}" th:selected="${user.role}">
+                    <option value="" selected disabled hidden th:text="#{label.change.role}">Choose here</option>
+                    <option th:each="role : ${T(planing.poker.common.Role).values()}" th:value="${role}" th:text="#{'role.' + ${role}}"></option>
                 </select>
+                <span th:unless="${currentUserId == user.id}" th:text="#{'role.' + ${user.role}}"></span>
+            </td>
+        </tr>
+        </tbody>
 
-                <span th:unless="${currentUserId == user.id}"
-                      th:attr="data-presenter='#{label.user.presenter}', data-elector='#{label.user.elector}', data-spectator='#{label.user.spectator}'"
-                      th:text="#{'role.' + ${user.role}}">
-                </span>
+        <!-- Electors Section -->
+        <thead>
+        <tr>
+            <th colspan="3" class="bg-success text-white" th:text="#{label.user.electors}">Electors</th>
+        </tr>
+        </thead>
+        <tbody id="electorsSection">
+        <tr th:each="user : ${electors}" th:attr="data-user-id=${user.id}">
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.email}"></td>
+            <td>
+                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}" th:selected="${user.role}">
+                    <option value="" selected disabled hidden th:text="#{label.change.role}">Choose here</option>
+                    <option th:each="role : ${T(planing.poker.common.Role).values()}" th:value="${role}" th:text="#{'role.' + ${role}}"></option>
+                </select>
+                <span th:unless="${currentUserId == user.id}" th:text="#{'role.' + ${user.role}}"></span>
+            </td>
+        </tr>
+        </tbody>
+
+        <!-- Spectators Section -->
+        <thead>
+        <tr>
+            <th colspan="3" class="bg-secondary text-white" th:text="#{label.user.spectators}">Spectators</th>
+        </tr>
+        </thead>
+        <tbody id="spectatorsSection">
+        <tr th:each="user : ${spectators}" th:attr="data-user-id=${user.id}">
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.email}"></td>
+            <td>
+                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}" th:selected="${user.role}">
+                    <option value="" selected disabled hidden th:text="#{label.change.role}">Choose here</option>
+                    <option th:each="role : ${T(planing.poker.common.Role).values()}" th:value="${role}" th:text="#{'role.' + ${role}}"></option>
+                </select>
+                <span th:unless="${currentUserId == user.id}" th:text="#{'role.' + ${user.role}}"></span>
             </td>
         </tr>
         </tbody>

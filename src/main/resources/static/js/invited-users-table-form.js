@@ -24,19 +24,28 @@ function updateRoleInTable(userId, newRole) {
         let selectElement = roleCell.querySelector('select');
         let spanElement = roleCell.querySelector('span');
 
-        let localizedRole;
-        if (newRole === "USER_PRESENTER") {
-            localizedRole = document.getElementById("userStatusPresenter").textContent;
-        } else if (newRole === "USER_ELECTOR") {
-            localizedRole = document.getElementById("userStatusElector").textContent;
-        } else if (newRole === "USER_SPECTATOR") {
-            localizedRole = document.getElementById("userStatusSpectator").textContent;
-        }
-
         if (selectElement) {
             selectElement.value = newRole;
         } else if (spanElement) {
+            let localizedRole;
+            if (newRole === "USER_PRESENTER") {
+                localizedRole = document.getElementById("userStatusPresenter").textContent;
+            } else if (newRole === "USER_ELECTOR") {
+                localizedRole = document.getElementById("userStatusElector").textContent;
+            } else if (newRole === "USER_SPECTATOR") {
+                localizedRole = document.getElementById("userStatusSpectator").textContent;
+            }
             spanElement.textContent = localizedRole;
+        }
+
+        userRow.parentNode.removeChild(userRow);
+
+        if (newRole === "USER_PRESENTER") {
+            document.getElementById("presentersSection").appendChild(userRow);
+        } else if (newRole === "USER_ELECTOR") {
+            document.getElementById("electorsSection").appendChild(userRow);
+        } else if (newRole === "USER_SPECTATOR") {
+            document.getElementById("spectatorsSection").appendChild(userRow);
         }
     }
 }
