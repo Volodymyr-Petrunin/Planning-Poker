@@ -19,6 +19,8 @@ public interface UserMapper {
     @Mapping(target = "roomsId", source = "rooms")
     ResponseUserDto toDto(User user);
 
+    User responseToEntity(final ResponseUserDto responseUserDto);
+
     default List<Long> mapRoomsToIds(List<Room> rooms) {
         if (rooms == null) {
             return Collections.emptyList();

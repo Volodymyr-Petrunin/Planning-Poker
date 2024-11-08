@@ -3,6 +3,7 @@ package planing.poker.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
@@ -10,10 +11,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import planing.poker.common.Messages;
+import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.request.RequestUserDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
+import planing.poker.event.user.UserChangeRoleEvent;
+import planing.poker.event.user.UserCreatedEvent;
+import planing.poker.event.user.UserDeletedEvent;
+import planing.poker.event.user.UserUpdatedEvent;
 import planing.poker.mapper.UserMapper;
 import planing.poker.repository.UserRepository;
 
@@ -36,13 +42,17 @@ public class UserService {
 
     private final Messages messages;
 
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     @Autowired
     public UserService(final UserRepository userRepository, final UserMapper userMapper,
-                       final PasswordEncoder passwordEncoder, final Messages messages) {
+                       final PasswordEncoder passwordEncoder, final Messages messages,
+                       final ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.messages = messages;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public ResponseUserDto createUser(final RequestUserDto userDto) {
@@ -50,7 +60,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setSecurityRole(SecurityRole.ROLE_USER);
 
-        return userMapper.toDto(userRepository.save(user));
+        final ResponseUserDto savedUser = userMapper.toDto(userRepository.save(user));
+        applicationEventPublisher.publishEvent(new UserCreatedEvent(savedUser));
+
+        return savedUser;
     }
 
     public List<ResponseUserDto> getAllUsers() {
@@ -85,14 +98,28 @@ public class UserService {
             final User user = userMapper.toEntity(userDto);
             user.setId(id);
 
-            return userMapper.toDto(userRepository.save(user));
+            final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(user));
+            applicationEventPublisher.publishEvent(new UserUpdatedEvent(updatedUser));
+
+            return updatedUser;
         } else {
             throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
         }
     }
 
+    public ResponseUserDto updateUserRole(final long id, final Role role) {
+        final ResponseUserDto user = getUserById(id);
+        user.setRole(role);
+
+        final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(userMapper.responseToEntity(user)));
+
+        applicationEventPublisher.publishEvent(new UserChangeRoleEvent(updatedUser));
+        return updatedUser;
+    }
+
     public void deleteUser(final Long id) {
         userRepository.deleteById(id);
+        applicationEventPublisher.publishEvent(new UserDeletedEvent(id));
     }
 
     public ResponseUserDto getUserByEmail(final String email) {

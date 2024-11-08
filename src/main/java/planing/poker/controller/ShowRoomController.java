@@ -8,10 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import planing.poker.common.Role;
 import planing.poker.controller.request.UpdateCurrentStoryRequest;
+import planing.poker.domain.User;
 import planing.poker.domain.dto.response.ResponseRoomDto;
+import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.security.UserDetailsImpl;
 import planing.poker.service.RoomService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(ShowRoomController.BASE_URL)
@@ -29,6 +34,14 @@ public class ShowRoomController {
 
     private static final String IS_CREATOR = "isCreator";
 
+    private static final String CURRENT_USER_ID = "currentUserId";
+
+    private static final String PRESENTERS = "presenters";
+
+    private static final String ELECTORS = "electors";
+
+    private static final String SPECTATORS = "spectators";
+
     private final RoomService roomService;
 
     @Autowired
@@ -41,9 +54,14 @@ public class ShowRoomController {
                                 @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         final ResponseRoomDto room = roomService.getRoomByCode(roomCode);
         boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());
+        final User currentUser = userDetails.getUser(User.class);
 
         model.addAttribute(ROOM, room);
         model.addAttribute(IS_CREATOR, isCreator);
+        model.addAttribute(CURRENT_USER_ID, currentUser.getId());
+        model.addAttribute(PRESENTERS, getUsersByRole(room.getInvitedUsers(), Role.USER_PRESENTER));
+        model.addAttribute(ELECTORS, getUsersByRole(room.getInvitedUsers(), Role.USER_ELECTOR));
+        model.addAttribute(SPECTATORS, getUsersByRole(room.getInvitedUsers(), Role.USER_SPECTATOR));
 
         return SHOW_ROOM_PAGE;
     }
@@ -51,5 +69,9 @@ public class ShowRoomController {
     @MessageMapping(UPDATE_CURRENT_STORY_MESSAGE_MAPPING)
     public void updateCurrentStory(final UpdateCurrentStoryRequest request) {
         roomService.updateCurrentStory(request.getStoryId(), request.getResponseStoryDto());
+    }
+
+    private List<ResponseUserDto> getUsersByRole(final List<ResponseUserDto> users, final Role role) {
+        return users.stream().filter(user -> role.equals(user.getRole())).toList();
     }
 }

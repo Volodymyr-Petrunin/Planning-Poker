@@ -1,0 +1,72 @@
+<div id="invited-users-table-form" xmlns:th="http://www.thymeleaf.org" th:fragment="invited-users-table-form">
+    <h4 class="text-light" th:text="#{label.invited.users}">Invited Users</h4>
+    <table class="table table-dark table-striped table-bordered">
+        <thead class="text-center">
+        <tr>
+            <th th:text="#{label.firstname}">First Name</th>
+            <th th:text="#{label.lastname}">Surname</th>
+            <th th:text="#{label.status}">Status</th>
+        </tr>
+        </thead>
+
+        <!-- Presenters Section -->
+        <thead>
+        <tr>
+            <th colspan="3" class="bg-primary text-white" th:text="#{label.user.presenters}">Presenters</th>
+        </tr>
+        </thead>
+        <tbody id="presentersSection" class="text-center">
+        <tr th:each="user : ${presenters}" th:attr="data-user-id=${user.id}">
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td>
+                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}" th:selected="${user.role}">
+                    <option value="" selected disabled hidden th:text="#{label.change.role}">Choose here</option>
+                    <option th:each="role : ${T(planing.poker.common.Role).values()}" th:value="${role}" th:text="#{'role.' + ${role}}"></option>
+                </select>
+                <span th:unless="${currentUserId == user.id}" th:text="#{'role.' + ${user.role}}"></span>
+            </td>
+        </tr>
+        </tbody>
+
+        <!-- Electors Section -->
+        <thead>
+        <tr>
+            <th colspan="3" class="bg-success text-white" th:text="#{label.user.electors}">Electors</th>
+        </tr>
+        </thead>
+        <tbody id="electorsSection" class="text-center">
+        <tr th:each="user : ${electors}" th:attr="data-user-id=${user.id}">
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td>
+                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}" th:selected="${user.role}">
+                    <option value="" selected disabled hidden th:text="#{label.change.role}">Choose here</option>
+                    <option th:each="role : ${T(planing.poker.common.Role).values()}" th:value="${role}" th:text="#{'role.' + ${role}}"></option>
+                </select>
+                <span th:unless="${currentUserId == user.id}" th:text="#{'role.' + ${user.role}}"></span>
+            </td>
+        </tr>
+        </tbody>
+
+        <!-- Spectators Section -->
+        <thead>
+        <tr>
+            <th colspan="3" class="bg-secondary text-white" th:text="#{label.user.spectators}">Spectators</th>
+        </tr>
+        </thead>
+        <tbody id="spectatorsSection" class="text-center">
+        <tr th:each="user : ${spectators}" th:attr="data-user-id=${user.id}">
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td>
+                <select th:if="${currentUserId == user.id}" class="form-select" onchange="changeRole(this)" th:attr="data-user-id=${user.id}" th:selected="${user.role}">
+                    <option value="" selected disabled hidden th:text="#{label.change.role}">Choose here</option>
+                    <option th:each="role : ${T(planing.poker.common.Role).values()}" th:value="${role}" th:text="#{'role.' + ${role}}"></option>
+                </select>
+                <span th:unless="${currentUserId == user.id}" th:text="#{'role.' + ${user.role}}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
