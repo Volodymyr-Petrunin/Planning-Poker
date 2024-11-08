@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{error.not.found.message}"></title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body class="bg-dark navbar-dark">
+<div th:replace="~{layouts/header :: header}"></div>
+
+<div class="container text-center mt-5 text-light">
+    <img th:src="@{/images/error-image.webp}" alt="Error Image" width="200px" class="img-fluid my-4">
+    <h1 th:text="#{error.not.found.message}"></h1>
+    <p th:text="#{error.not.found.description}"></p>
+    <a href="/" class="btn btn-primary" th:text="#{label.home}">Go Home</a>
+</div>
+</body>
+</html>
