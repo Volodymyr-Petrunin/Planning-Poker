@@ -15,9 +15,9 @@
     <span id="noStorySelectedText" th:text="#{label.current.story.not.selected}" style="display:none;"></span>
     <span id="readStoryText" th:text="#{label.read.story}" style="display:none;"></span>
     <span id="confirmDeleteStory" th:text="#{label.confirm.delete}" style="display:none;"></span>
-    <span id="userStatusPresenter" th:text="#{label.user.presenter}" style="display:none;"></span>
-    <span id="userStatusElector" th:text="#{label.user.elector}" style="display:none;"></span>
-    <span id="userStatusSpectator" th:text="#{label.user.spectator}" style="display:none;"></span>
+    <span id="userStatusPresenter" th:text="#{label.user.presenters}" style="display:none;"></span>
+    <span id="userStatusElector" th:text="#{label.user.electors}" style="display:none;"></span>
+    <span id="userStatusSpectator" th:text="#{label.user.spectators}" style="display:none;"></span>
 
 
     <h1 class="text-light mt-3 ms-4 p4 pb-4" th:text="#{label.welcome.room} + ' ' + *{roomName}">Welcome to the room: <span th:text="*{roomName}"></span></h1>
@@ -44,7 +44,7 @@
         </section>
 
         <!-- Invited Users Table Section -->
-        <section class="w-50 p-4">
+        <section class="w-50 p-4 float-end">
             <div th:replace="~{fragments/invited-users-table-form :: invited-users-table-form}"></div>
         </section>
     </div>
