@@ -11,7 +11,7 @@ public class LoginController {
 
     public static final String BASE_URL = "/login";
 
-    public static final String LOGIN_PAGE = "/login/login";
+    public static final String LOGIN_PAGE = "/login/login-page";
 
     @GetMapping
     public String login(final Authentication authentication) {

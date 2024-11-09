@@ -9,7 +9,7 @@
 <div th:replace="~{layouts/header :: header}"></div>
 
 <div class="container text-center mt-5 text-light">
-    <img th:src="@{/images/error-image.webp}" alt="Error Image" class="img-fluid my-4">
+    <img th:src="@{/images/error-image.webp}" alt="Error Image" width="200px" class="img-fluid my-4">
     <h1 th:text="#{error.internal.server.message}"></h1>
     <p th:text="#{error.internal.server.description}"></p>
     <a href="/" class="btn btn-primary" th:text="#{label.home}">Go Home</a>

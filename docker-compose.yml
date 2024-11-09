@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: Planing-Poker
+    networks:
+      - poker-network
+
+  planing-poker:
+    container_name: planing-poker
+    build: .
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/Planing-Poker
+      - DEFAULT_LOCALE_LANGUAGE=en
+      - MAX_PAGE_SIZE_USER=30
+      - ROOM_CODE_NUMBERS=5
+      - ROOM_CODE_LOWERCASE=8
+      - ROOM_CODE_UPPERCASE=7
+      - ERROR_STATUS_CODE_ATTRIBUTE=errorStatusCode
+    ports:
+      - 8080:8080
+    networks:
+      - poker-network
+
+networks:
+  poker-network:
+    driver: bridge
