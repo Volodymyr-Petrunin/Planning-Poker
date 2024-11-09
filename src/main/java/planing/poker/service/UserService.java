@@ -31,7 +31,7 @@ import java.util.List;
 @Transactional
 public class UserService {
 
-    @Value("${max-page-size.user}")
+    @Value("${max.page.size.user}")
     private int maxPageSizeForUser;
 
     private final UserRepository userRepository;
