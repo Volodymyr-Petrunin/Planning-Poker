@@ -24,7 +24,7 @@ public class RoomRegisterController {
 
     private static final String CREATE_ROOM_URL = "/create";
 
-    private static final String CREATE_ROOM_PAGE = "/register/room/reg-room";
+    private static final String CREATE_ROOM_PAGE = "register/room/reg-room";
 
     private static final String ROOM = "room";
 
