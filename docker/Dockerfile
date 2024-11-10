@@ -5,7 +5,7 @@ FROM gradle:7.6.0-jdk17 AS builder
 WORKDIR /poker
 
 # Copy project files into the container
-COPY . .
+COPY ../ .
 
 # Build the project using Gradle wrapper
 RUN gradle clean build --build-cache -x test

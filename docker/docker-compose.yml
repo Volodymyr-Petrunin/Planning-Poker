@@ -12,7 +12,9 @@ services:
 
   planing-poker:
     container_name: planing-poker
-    build: .
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/Planing-Poker
       - DEFAULT_LOCALE_LANGUAGE=en
