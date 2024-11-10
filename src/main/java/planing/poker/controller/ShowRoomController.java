@@ -26,7 +26,7 @@ public class ShowRoomController {
 
     private static final String SHOW_ROOM_URL = "/{roomCode}";
 
-    private static final String SHOW_ROOM_PAGE = "/show/room/show-room";
+    private static final String SHOW_ROOM_PAGE = "show/room/show-room";
 
     private static final String UPDATE_CURRENT_STORY_MESSAGE_MAPPING = "/updateCurrentStory";
 
