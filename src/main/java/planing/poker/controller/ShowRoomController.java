@@ -16,6 +16,8 @@ import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.security.UserDetailsImpl;
 import planing.poker.service.RoomService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Controller
@@ -56,12 +58,20 @@ public class ShowRoomController {
         boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());
         final User currentUser = userDetails.getUser(User.class);
 
+        final LocalDateTime startDateTime = LocalDateTime.of(
+                room.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                room.getStartTime()
+        );
+
+        final String startTimeIso = startDateTime.atZone(ZoneId.systemDefault()).toInstant().toString();
+
         model.addAttribute(ROOM, room);
         model.addAttribute(IS_CREATOR, isCreator);
         model.addAttribute(CURRENT_USER_ID, currentUser.getId());
         model.addAttribute(PRESENTERS, getUsersByRole(room.getInvitedUsers(), Role.USER_PRESENTER));
         model.addAttribute(ELECTORS, getUsersByRole(room.getInvitedUsers(), Role.USER_ELECTOR));
         model.addAttribute(SPECTATORS, getUsersByRole(room.getInvitedUsers(), Role.USER_SPECTATOR));
+        model.addAttribute("startTimeIso", startTimeIso);
 
         return SHOW_ROOM_PAGE;
     }

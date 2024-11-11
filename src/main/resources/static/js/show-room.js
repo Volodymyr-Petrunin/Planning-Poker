@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     addSubscription('/topic/updateCurrentStory', function (message) {
             const room = JSON.parse(message.body);
-            const currentStorySection = document.querySelector('.text-light.ms-4.mb-4');
+            const currentStorySection = document.getElementById('currentStorySection');
 
             const currentStoryText = document.getElementById('currentStoryText').textContent;
             const noStorySelectedText = document.getElementById('noStorySelectedText').textContent;
