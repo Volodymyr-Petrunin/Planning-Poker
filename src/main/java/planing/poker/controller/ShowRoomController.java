@@ -16,6 +16,8 @@ import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.security.UserDetailsImpl;
 import planing.poker.service.RoomService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Controller
@@ -42,6 +44,8 @@ public class ShowRoomController {
 
     private static final String SPECTATORS = "spectators";
 
+    private static final String START_TIME_ISO = "startTimeIso";
+
     private final RoomService roomService;
 
     @Autowired
@@ -55,6 +59,7 @@ public class ShowRoomController {
         final ResponseRoomDto room = roomService.getRoomByCode(roomCode);
         boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());
         final User currentUser = userDetails.getUser(User.class);
+        final String startTimeIso = getStartTimeIso(room);
 
         model.addAttribute(ROOM, room);
         model.addAttribute(IS_CREATOR, isCreator);
@@ -62,6 +67,7 @@ public class ShowRoomController {
         model.addAttribute(PRESENTERS, getUsersByRole(room.getInvitedUsers(), Role.USER_PRESENTER));
         model.addAttribute(ELECTORS, getUsersByRole(room.getInvitedUsers(), Role.USER_ELECTOR));
         model.addAttribute(SPECTATORS, getUsersByRole(room.getInvitedUsers(), Role.USER_SPECTATOR));
+        model.addAttribute(START_TIME_ISO, startTimeIso);
 
         return SHOW_ROOM_PAGE;
     }
@@ -73,5 +79,14 @@ public class ShowRoomController {
 
     private List<ResponseUserDto> getUsersByRole(final List<ResponseUserDto> users, final Role role) {
         return users.stream().filter(user -> role.equals(user.getRole())).toList();
+    }
+
+    private static String getStartTimeIso(final ResponseRoomDto room) {
+        final LocalDateTime startDateTime = LocalDateTime.of(
+                room.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                room.getStartTime()
+        );
+
+        return startDateTime.atZone(ZoneId.systemDefault()).toInstant().toString();
     }
 }
