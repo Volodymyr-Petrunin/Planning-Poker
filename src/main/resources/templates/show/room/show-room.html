@@ -18,6 +18,8 @@
     <span id="userStatusPresenter" th:text="#{label.user.presenters}" style="display:none;"></span>
     <span id="userStatusElector" th:text="#{label.user.electors}" style="display:none;"></span>
     <span id="userStatusSpectator" th:text="#{label.user.spectators}" style="display:none;"></span>
+    <span id="eventStarted" th:text="#{timer.event.started}" style="display:none;"></span>
+    <span id="timeUntilStart" th:text="#{timer.time.until.start}" style="display:none;"></span>
 
     <div class="d-flex justify-content-center gap-4">
 
@@ -27,7 +29,7 @@
             <h4 class="mt-3" th:text="#{label.start.date} + ': ' + ${#dates.format(room.startDate, 'EEEE dd MMMM yyyy')} + ' ' + #{label.at.clock} + ' ' + *{startTime}">
                 Start Date
             </h4>
-            <h4 class="mt-3" id="timer">Time until start: </h4>
+            <h4 class="mt-3" id="timer" th:text="#{timer.time.until.start}">Time until start: </h4>
         </div>
     </div>
 
