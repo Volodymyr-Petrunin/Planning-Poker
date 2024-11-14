@@ -1,9 +1,12 @@
 package planing.poker.factory.dto;
 
 import planing.poker.common.Role;
+import planing.poker.domain.RoomUserRole;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.dto.request.RequestUserDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
+
+import java.util.Collections;
 
 public class UserDtoFactory {
     private static final Long EXPECTED_ID = 1L;
@@ -14,7 +17,7 @@ public class UserDtoFactory {
     private static final String EXPECTED_NICKNAME = "Expected Nickname";
     private static final String EXPECTED_EMAIL = "expected@email.gg";
     private static final String EXPECTED_PASS = "Expected pass";
-    private static final Role EXPECTED_ROLE = Role.USER_ELECTOR;
+    private static final RoomUserRole EXPECTED_ROLE = new RoomUserRole();
     private static final SecurityRole EXPECTED_SECURITY_ROLE = SecurityRole.ROLE_USER;
 
     private static final String CREATOR_NAME = "User";
@@ -33,7 +36,7 @@ public class UserDtoFactory {
                 .setNickname(EXPECTED_NICKNAME)
                 .setEmail(EXPECTED_EMAIL)
                 .setPassword(EXPECTED_PASS)
-                .setRole(EXPECTED_ROLE)
+                .setRoles(Collections.emptyList())
                 .setSecurityRole(EXPECTED_SECURITY_ROLE);
     }
 
@@ -45,7 +48,7 @@ public class UserDtoFactory {
                 .setNickname(EXPECTED_NICKNAME)
                 .setEmail(EXPECTED_EMAIL)
                 .setPassword(EXPECTED_PASS)
-                .setRole(EXPECTED_ROLE)
+                .setRoles(Collections.emptyList())
                 .setSecurityRole(EXPECTED_SECURITY_ROLE);
     }
 
@@ -57,7 +60,7 @@ public class UserDtoFactory {
                 .setNickname(CREATOR_NICKNAME)
                 .setEmail(CREATOR_EMAIL)
                 .setPassword(CREATOR_PASS)
-                .setRole(CREATOR_ROLE)
+                .setRoles(Collections.emptyList())
                 .setSecurityRole(CREATOR_SECURITY_ROLE);
     }
 
@@ -71,7 +74,7 @@ public class UserDtoFactory {
                 .setNickname(nickname)
                 .setEmail(email)
                 .setPassword(password)
-                .setRole(role);
+                .setRoles(Collections.emptyList());
     }
 
     public static RequestUserDto createElectorRequestUserDto() {

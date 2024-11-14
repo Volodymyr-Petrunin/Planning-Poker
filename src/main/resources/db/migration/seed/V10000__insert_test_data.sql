@@ -1,13 +1,13 @@
-INSERT INTO users(user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, user_role, security_role)
+INSERT INTO users(user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, security_role)
 VALUES
     (1, 'admin', 'adminovich', 'The Best Admin', 'admin@example.com',
-        '$2a$12$4Wyvz9PIGJIPeQAORXaL0.Y/2BHgI3MgEE9jMbNpIMZSOEnnFjf4K', 'USER_PRESENTER', 'ROLE_ADMIN'),
+        '$2a$12$4Wyvz9PIGJIPeQAORXaL0.Y/2BHgI3MgEE9jMbNpIMZSOEnnFjf4K', 'ROLE_ADMIN'),
     (2, 'user', 'userovich', 'Perfect User', 'user@example.com',
-        '$2a$12$Og7zQmypiTHLcuemmFIrLud2exugyLeM6zCmKe1JwVJiArBWwnXP6', 'USER_ELECTOR', 'ROLE_USER'),
+        '$2a$12$Og7zQmypiTHLcuemmFIrLud2exugyLeM6zCmKe1JwVJiArBWwnXP6', 'ROLE_USER'),
     (3, 'user2', 'lastname', 'Awesome User', 'user2@example.com',
-         '$2a$12$eUFqydRnabSYIefe4gAWEeAaxH.W.ipU8dVRh/XS68hH8ZrP0BR0C', 'USER_SPECTATOR', 'ROLE_USER'),
+         '$2a$12$eUFqydRnabSYIefe4gAWEeAaxH.W.ipU8dVRh/XS68hH8ZrP0BR0C', 'ROLE_USER'),
     (4, 'user3', 'data', 'Default User', 'user3@example.com',
-         '$2a$12$lpjlx4eiX5MIb746P4d2DeNbB3wWE2nOcMrd8PePidViLfZ2o2X02', 'USER_ELECTOR', 'ROLE_USER');
+         '$2a$12$lpjlx4eiX5MIb746P4d2DeNbB3wWE2nOcMrd8PePidViLfZ2o2X02', 'ROLE_USER');
 
 -- Set the starting value of the sequence for the users table.
 -- The value 54 is chosen to avoid conflicts with existing IDs,
@@ -44,3 +44,16 @@ INSERT INTO room_story (room_id, story_id)
 VALUES
     (1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
     (2, 1), (2, 2), (2, 3), (2, 4), (2, 5);
+
+INSERT INTO room_user_roles (id, user_id, room_id, role)
+VALUES
+    (1, 1, 1, 'USER_PRESENTER'), (2, 1, 2, 'USER_ELECTOR'),
+    (3, 2, 1, 'USER_ELECTOR'), (4, 2, 2, 'USER_PRESENTER'),
+    (5, 3, 1, 'USER_SPECTATOR'), (6, 3, 2, 'USER_ELECTOR'),
+    (7, 4, 1, 'USER_SPECTATOR'), (8, 4, 2, 'USER_SPECTATOR');
+
+-- Set the starting value of the sequence for the rooms table.
+-- The value 18 is chosen to avoid conflicts with existing IDs,
+-- as Hibernate uses allocationSize = 10. This means Hibernate
+-- reserves ranges of IDs in batches of 10.
+ALTER SEQUENCE room_user_role_seq RESTART WITH 18;

@@ -4,6 +4,8 @@ import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 
+import java.util.Collections;
+
 public class UserFactory {
     private static final Long EXPECTED_ID = 1L;
     private static final Long EXPECTED_CREATOR_ID = 2L;
@@ -32,7 +34,7 @@ public class UserFactory {
                 .setNickname(EXPECTED_NICKNAME)
                 .setEmail(EXPECTED_EMAIL)
                 .setPassword(EXPECTED_PASS)
-                .setRole(EXPECTED_ROLE)
+                .setRoles(Collections.emptyList())
                 .setSecurityRole(EXPECTED_SECURITY_ROLE);
     }
 
@@ -44,7 +46,7 @@ public class UserFactory {
                 .setNickname(CREATOR_NICKNAME)
                 .setEmail(CREATOR_EMAIL)
                 .setPassword(CREATOR_PASS)
-                .setRole(CREATOR_ROLE)
+                .setRoles(Collections.emptyList())
                 .setSecurityRole(CREATOR_SECURITY_ROLE);
     }
 
@@ -58,6 +60,6 @@ public class UserFactory {
                 .setNickname(nickname)
                 .setEmail(email)
                 .setPassword(password)
-                .setRole(role);
+                .setRoles(Collections.emptyList());
     }
 }

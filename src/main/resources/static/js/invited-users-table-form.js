@@ -9,10 +9,12 @@ addSubscription('/topic/userRoleChanged', function(message) {
 
 window.changeRole = function (selectElement) {
     let userId = selectElement.getAttribute('data-user-id');
+    let roomId = document.getElementById('roomId').value;
     let newRole = selectElement.value;
 
     sendMessage('/app/changeUserRole', {
         userId: userId,
+        roomId: roomId,
         newRole: newRole
     });
 }

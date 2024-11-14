@@ -3,13 +3,13 @@ package planing.poker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.Messages;
+import planing.poker.common.Role;
 import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
+import planing.poker.domain.RoomUserRole;
 import planing.poker.domain.Story;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.response.ResponseRoomDto;
@@ -69,6 +69,7 @@ public class RoomService {
         final Room room = roomMapper.toEntity(roomDto);
         setRoomCode(room);
         setStories(stories, room);
+        setRoomSpectatorRoleForInvitedUsers(room);
         room.setIsActive(true);
         room.setIsVotingOpen(false);
 
@@ -161,4 +162,17 @@ public class RoomService {
     private void setStories(final List<ResponseStoryDto> stories, final Room room) {
         room.setStories(stories.stream().map(storyMapper::responseDtoToEntity).toList());
     }
+
+    private void setRoomSpectatorRoleForInvitedUsers(final Room room) {
+        room.getInvitedUsers().forEach(user -> {
+            RoomUserRole roomUserRole = new RoomUserRole();
+            roomUserRole.setRoom(room);
+            roomUserRole.setUser(user);
+            roomUserRole.setRole(Role.USER_SPECTATOR);
+
+            user.getRoles().add(roomUserRole);
+        });
+    }
+
+
 }

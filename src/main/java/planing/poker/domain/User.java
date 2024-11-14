@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import planing.poker.common.Role;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,9 +38,8 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
-    @Column(name = "user_role", length = 20)
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoomUserRole> roles;
 
     @Column(name = "security_role", length = 20)
     @Enumerated(EnumType.STRING)
@@ -60,12 +58,12 @@ public class User {
         return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName)
                 && Objects.equals(lastName, user.lastName) && Objects.equals(nickname, user.nickname)
                 && Objects.equals(email, user.email) && Objects.equals(password, user.password)
-                && role == user.role && securityRole == user.securityRole;
+                && securityRole == user.securityRole;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, nickname, email, password, role);
+        return Objects.hash(id, firstName, lastName, nickname, email, password, securityRole);
     }
 
     @Override
@@ -74,10 +72,10 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", nickname='" + nickname + '\'' +
                 ", email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", securityRole=" + securityRole +
                 '}';
     }
 }
