@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
+import planing.poker.common.validation.NotPast;
 import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
@@ -37,9 +38,11 @@ public class RequestRoomDto {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
+    @NotPast
     private LocalDate startDate;
 
     @NotNull
+    @NotPast
     private LocalTime startTime;
 
     private ResponseStoryDto currentStory;

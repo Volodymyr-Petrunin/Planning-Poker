@@ -1,5 +1,6 @@
 package planing.poker.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class RoomRegisterController {
     }
 
     @PostMapping(CREATE_ROOM_URL)
-    public String createRoom(@ModelAttribute(ROOM) final RequestRoomDto room, final Model model,
+    public String createRoom(@Valid @ModelAttribute(ROOM) final RequestRoomDto room, final Model model,
                              final BindingResult bindingResult, @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(ROOM, room);
