@@ -9,6 +9,7 @@
     <div th:replace="~{layouts/header :: header}"></div>
 
     <input type="hidden" id="isCreator" th:value="${isCreator}"/>
+    <input type="hidden" id="roomId" th:field="*{id}"/>
 
     <!-- Hidden elements for localization -->
     <span id="currentStoryText" th:text="#{label.current.story}" style="display:none;"></span>
@@ -85,7 +86,6 @@
 
     <div th:if="${isCreator}">
         <input type="hidden" id="storiesInput" />
-        <input type="hidden" id="roomId" th:field="*{id}"/>
 
         <button type="button" class="btn btn-primary border border-1 border-black float-end" data-bs-toggle="modal" data-bs-target="#createStoryModal" th:text="#{label.add.stories}">
             Add Stories

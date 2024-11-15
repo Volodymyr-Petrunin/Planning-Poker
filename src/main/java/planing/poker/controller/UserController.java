@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import planing.poker.common.Role;
-import planing.poker.controller.request.RoleChangeRequest;
+import planing.poker.domain.dto.request.RequestRoomUserRoleDto;
 import planing.poker.domain.dto.request.RequestUserDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.service.UserService;
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @MessageMapping(CHANGE_USER_ROLE_MESSAGE_MAPPING)
-    public void changeUserRole(final RoleChangeRequest request) {
-        userService.updateUserRole(request.getUserId(), Role.valueOf(request.getNewRole()));
+    public void changeUserRole(final RequestRoomUserRoleDto request) {
+        userService.updateUserRole(request.getRoomId(), request.getUserId(), Role.valueOf(request.getNewRole()));
     }
 }

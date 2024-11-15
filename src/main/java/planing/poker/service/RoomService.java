@@ -3,13 +3,13 @@ package planing.poker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.Messages;
+import planing.poker.common.Role;
 import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
+import planing.poker.domain.RoomUserRole;
 import planing.poker.domain.Story;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.response.ResponseRoomDto;
@@ -23,6 +23,7 @@ import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,8 @@ public class RoomService {
 
     private final StoryService storyService;
 
+    private final RoomUserRoleService userRoleService;
+
     private final Messages messages;
 
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -50,7 +53,8 @@ public class RoomService {
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
                        final RoomCodeGeneration roomCodeGeneration, final UserService userService,
-                       @Lazy final StoryService storyService, final StoryMapper storyMapper, final Messages messages,
+                       @Lazy final StoryService storyService, final StoryMapper storyMapper,
+                       final RoomUserRoleService userRoleService, final Messages messages,
                        final ApplicationEventPublisher applicationEventPublisher) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
@@ -58,6 +62,7 @@ public class RoomService {
         this.userService = userService;
         this.storyService = storyService;
         this.storyMapper = storyMapper;
+        this.userRoleService = userRoleService;
         this.messages = messages;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -72,10 +77,13 @@ public class RoomService {
         room.setIsActive(true);
         room.setIsVotingOpen(false);
 
-        final ResponseRoomDto savedRoom = roomMapper.toDto(roomRepository.save(room));
-        applicationEventPublisher.publishEvent(new RoomCreatedEvent(savedRoom));
+        final Room savedRoom = roomRepository.save(room);
+        setRoomSpectatorRoleForInvitedUsers(savedRoom);
 
-        return savedRoom;
+        final ResponseRoomDto savedRoomDto = roomMapper.toDto(savedRoom);
+        applicationEventPublisher.publishEvent(new RoomCreatedEvent(savedRoomDto));
+
+        return savedRoomDto;
     }
 
     public List<ResponseRoomDto> getAllRooms() {
@@ -161,4 +169,28 @@ public class RoomService {
     private void setStories(final List<ResponseStoryDto> stories, final Room room) {
         room.setStories(stories.stream().map(storyMapper::responseDtoToEntity).toList());
     }
+
+    private void setRoomSpectatorRoleForInvitedUsers(final Room room) {
+        final List<RoomUserRole> newRoles = new ArrayList<>();
+
+        room.getInvitedUsers().forEach(user -> {
+            final RoomUserRole roomUserRole = new RoomUserRole();
+            roomUserRole.setRoom(room);
+            roomUserRole.setUser(user);
+            roomUserRole.setRole(Role.USER_SPECTATOR);
+
+            newRoles.add(roomUserRole);
+        });
+
+        final List<RoomUserRole> savedRoles = userRoleService.createSeveralRoles(newRoles);
+
+        room.getInvitedUsers().forEach(user -> savedRoles.stream()
+                .filter(savedRole -> savedRole.getUser().getId().equals(user.getId()))
+                .findFirst()
+                .ifPresent(user.getRoles()::add)
+        );
+    }
+
+
+
 }

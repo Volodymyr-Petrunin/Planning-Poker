@@ -11,6 +11,7 @@ import planing.poker.domain.User;
 import planing.poker.factory.UserFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static planing.poker.factory.utils.ExpectedEntityUtils.getUserCreator;
@@ -84,7 +85,7 @@ class UserRepositoryTest {
     @DisplayName("Insert Batch of Users: Should insert a batch of users and return expected list")
     void testInsertBatchOfUsers_ShouldInsertBatchOfUsers_AndShouldReturnExpectedList() {
         final List<User> userBatch = new ArrayList<>(List.of(getUserElector(), getUserCreator()));
-        userBatch.add(new User().setFirstName("First").setLastName("Last").setRole(Role.USER_ELECTOR));
+        userBatch.add(new User().setFirstName("First").setLastName("Last").setRoles(Collections.emptyList()));
 
         userBatch.forEach(user -> user.setId(null));
 

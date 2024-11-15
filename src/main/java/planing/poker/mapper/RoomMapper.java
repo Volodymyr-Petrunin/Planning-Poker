@@ -5,7 +5,7 @@ import planing.poker.domain.Room;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {RoomUserRoleMapper.class})
 public interface RoomMapper {
     Room toEntity(RequestRoomDto requestRoomDto);
 

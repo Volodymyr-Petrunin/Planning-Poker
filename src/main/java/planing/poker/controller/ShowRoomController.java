@@ -64,9 +64,9 @@ public class ShowRoomController {
         model.addAttribute(ROOM, room);
         model.addAttribute(IS_CREATOR, isCreator);
         model.addAttribute(CURRENT_USER_ID, currentUser.getId());
-        model.addAttribute(PRESENTERS, getUsersByRole(room.getInvitedUsers(), Role.USER_PRESENTER));
-        model.addAttribute(ELECTORS, getUsersByRole(room.getInvitedUsers(), Role.USER_ELECTOR));
-        model.addAttribute(SPECTATORS, getUsersByRole(room.getInvitedUsers(), Role.USER_SPECTATOR));
+        model.addAttribute(PRESENTERS, getUsersByRoleInRoom(room, Role.USER_PRESENTER));
+        model.addAttribute(ELECTORS, getUsersByRoleInRoom(room, Role.USER_ELECTOR));
+        model.addAttribute(SPECTATORS, getUsersByRoleInRoom(room, Role.USER_SPECTATOR));
         model.addAttribute(START_TIME_ISO, startTimeIso);
 
         return SHOW_ROOM_PAGE;
@@ -77,8 +77,17 @@ public class ShowRoomController {
         roomService.updateCurrentStory(request.getStoryId(), request.getResponseStoryDto());
     }
 
-    private List<ResponseUserDto> getUsersByRole(final List<ResponseUserDto> users, final Role role) {
-        return users.stream().filter(user -> role.equals(user.getRole())).toList();
+    private List<ResponseUserDto> getUsersByRoleInRoom(final ResponseRoomDto room, final Role role) {
+        final List<ResponseUserDto> users = room.getInvitedUsers().stream()
+                .filter(user -> user.getRoles().stream()
+                        .anyMatch(roomUserRole ->
+                                roomUserRole.getRoomId().equals(room.getId()) &&
+                                        roomUserRole.getRole().equals(role)))
+                .toList();
+
+        users.forEach(user -> user.setRoomRole(role));
+
+        return users;
     }
 
     private static String getStartTimeIso(final ResponseRoomDto room) {

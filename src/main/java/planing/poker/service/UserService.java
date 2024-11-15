@@ -15,6 +15,7 @@ import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.request.RequestUserDto;
+import planing.poker.domain.dto.response.ResponseRoomUserRoleDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.event.user.UserChangeRoleEvent;
 import planing.poker.event.user.UserCreatedEvent;
@@ -107,9 +108,9 @@ public class UserService {
         }
     }
 
-    public ResponseUserDto updateUserRole(final long id, final Role role) {
-        final ResponseUserDto user = getUserById(id);
-        user.setRole(role);
+    public ResponseUserDto updateUserRole(final long roomId,final long userId, final Role role) {
+        final ResponseUserDto user = getUserById(userId);
+        updateRole(user, roomId, role);
 
         final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(userMapper.responseToEntity(user)));
 
@@ -133,5 +134,15 @@ public class UserService {
 
     private boolean isAllBlank(final String... strings) {
         return Arrays.stream(strings).allMatch(str -> str == null || str.trim().isEmpty());
+    }
+
+    private void updateRole(final ResponseUserDto user, final Long roomId, final Role role) {
+        final List<ResponseRoomUserRoleDto> roles = user.getRoles();
+        roles.stream()
+                .filter(currentRole -> currentRole.getRoomId().equals(roomId))
+                .findFirst()
+                .ifPresent(currentRole -> currentRole.setRole(role));
+
+        user.setRoles(roles);
     }
 }
