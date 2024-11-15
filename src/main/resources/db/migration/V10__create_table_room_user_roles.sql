@@ -9,9 +9,6 @@ CREATE TABLE room_user_roles
     CONSTRAINT pk_room_user_roles PRIMARY KEY (id)
 );
 
-ALTER TABLE rooms
-    ADD CONSTRAINT uc_rooms_room_creator UNIQUE (room_creator);
-
 ALTER TABLE room_user_roles
     ADD CONSTRAINT FK_ROOM_USER_ROLES_ON_ROOM FOREIGN KEY (room_id)
         REFERENCES rooms (room_id) ON DELETE CASCADE;

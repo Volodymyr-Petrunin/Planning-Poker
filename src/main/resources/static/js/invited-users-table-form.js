@@ -2,14 +2,20 @@ import { connectWebSocket, addSubscription, sendMessage } from './websocket-clie
 
 connectWebSocket();
 
+const roomId = document.getElementById('roomId').value;
+
 addSubscription('/topic/userRoleChanged', function(message) {
     let roleUpdate = JSON.parse(message.body);
-    updateRoleInTable(roleUpdate.id, roleUpdate.role);
+
+    roleUpdate.roles.forEach(role => {
+        if (role.roomId == roomId) {
+            updateRoleInTable(role.userId, role.role);
+        }
+    });
 });
 
 window.changeRole = function (selectElement) {
     let userId = selectElement.getAttribute('data-user-id');
-    let roomId = document.getElementById('roomId').value;
     let newRole = selectElement.value;
 
     sendMessage('/app/changeUserRole', {

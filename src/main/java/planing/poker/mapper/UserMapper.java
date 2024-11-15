@@ -11,7 +11,7 @@ import planing.poker.domain.dto.request.RequestUserDto;
 import java.util.Collections;
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {RoomUserRoleMapper.class})
 public interface UserMapper {
 
     User toEntity(final RequestUserDto userDto);

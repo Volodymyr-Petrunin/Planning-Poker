@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import planing.poker.common.Messages;
 import planing.poker.common.Role;
-import planing.poker.domain.RoomUserRole;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.request.RequestUserDto;

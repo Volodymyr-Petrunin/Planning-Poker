@@ -18,6 +18,8 @@ public abstract class RoomUserRoleMapper {
 
     public abstract RoomUserRole toEntity(RequestRoomUserRoleDto responseRoomUserRoleDto);
 
+    @Mapping(target = "roomId", source = "room.id")
+    @Mapping(target = "userId", source = "user.id")
     public abstract ResponseRoomUserRoleDto toDto(RoomUserRole roomUserRole);
 
     @AfterMapping
@@ -29,5 +31,14 @@ public abstract class RoomUserRoleMapper {
     @AfterMapping
     public void setRole(@MappingTarget final RoomUserRole entity, final RequestRoomUserRoleDto requestDto) {
         entity.setRole(Role.valueOf(requestDto.getNewRole()));
+    }
+
+    public RoomUserRole responseToEntity(ResponseRoomUserRoleDto responseDto) {
+        RoomUserRole entity = new RoomUserRole();
+        entity.setId(responseDto.getId());
+        entity.setUser(entityManager.find(User.class, responseDto.getUserId()));
+        entity.setRoom(entityManager.find(Room.class, responseDto.getRoomId()));
+        entity.setRole(responseDto.getRole());
+        return entity;
     }
 }
