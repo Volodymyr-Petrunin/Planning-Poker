@@ -23,6 +23,7 @@ import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,8 @@ public class RoomService {
 
     private final StoryService storyService;
 
+    private final RoomUserRoleService userRoleService;
+
     private final Messages messages;
 
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -50,7 +53,8 @@ public class RoomService {
     @Autowired
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
                        final RoomCodeGeneration roomCodeGeneration, final UserService userService,
-                       @Lazy final StoryService storyService, final StoryMapper storyMapper, final Messages messages,
+                       @Lazy final StoryService storyService, final StoryMapper storyMapper,
+                       final RoomUserRoleService userRoleService, final Messages messages,
                        final ApplicationEventPublisher applicationEventPublisher) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
@@ -58,6 +62,7 @@ public class RoomService {
         this.userService = userService;
         this.storyService = storyService;
         this.storyMapper = storyMapper;
+        this.userRoleService = userRoleService;
         this.messages = messages;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -69,14 +74,16 @@ public class RoomService {
         final Room room = roomMapper.toEntity(roomDto);
         setRoomCode(room);
         setStories(stories, room);
-        setRoomSpectatorRoleForInvitedUsers(room);
         room.setIsActive(true);
         room.setIsVotingOpen(false);
 
-        final ResponseRoomDto savedRoom = roomMapper.toDto(roomRepository.save(room));
-        applicationEventPublisher.publishEvent(new RoomCreatedEvent(savedRoom));
+        final Room savedRoom = roomRepository.save(room);
+        setRoomSpectatorRoleForInvitedUsers(savedRoom);
 
-        return savedRoom;
+        final ResponseRoomDto savedRoomDto = roomMapper.toDto(savedRoom);
+        applicationEventPublisher.publishEvent(new RoomCreatedEvent(savedRoomDto));
+
+        return savedRoomDto;
     }
 
     public List<ResponseRoomDto> getAllRooms() {
@@ -164,15 +171,26 @@ public class RoomService {
     }
 
     private void setRoomSpectatorRoleForInvitedUsers(final Room room) {
+        final List<RoomUserRole> newRoles = new ArrayList<>();
+
         room.getInvitedUsers().forEach(user -> {
-            RoomUserRole roomUserRole = new RoomUserRole();
+            final RoomUserRole roomUserRole = new RoomUserRole();
             roomUserRole.setRoom(room);
             roomUserRole.setUser(user);
             roomUserRole.setRole(Role.USER_SPECTATOR);
 
-            user.getRoles().add(roomUserRole);
+            newRoles.add(roomUserRole);
         });
+
+        final List<RoomUserRole> savedRoles = userRoleService.createSeveralRoles(newRoles);
+
+        room.getInvitedUsers().forEach(user -> savedRoles.stream()
+                .filter(savedRole -> savedRole.getUser().getId().equals(user.getId()))
+                .findFirst()
+                .ifPresent(user.getRoles()::add)
+        );
     }
+
 
 
 }
