@@ -1,5 +1,8 @@
 <form xmlns:th="http://www.thymeleaf.org" th:fragment="login-form" style="width: 22rem" th:action="@{/login}" method="post">
 
+    <div id="error" th:data-error="${error}" style="display: none;"></div>
+    <div id="alert-message" th:text="#{label.unsuccessful.login.message}" style="display: none;"></div>
+
     <!-- Email input -->
     <div class="form-outline mb-4">
         <label class="form-label text-white h5" for="email" th:text="#{label.email}">Email</label>
