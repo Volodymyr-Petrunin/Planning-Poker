@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
+import planing.poker.common.validation.NotPast;
+import planing.poker.common.validation.ValidDateTime;
 import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
@@ -24,6 +26,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @NoArgsConstructor
+@ValidDateTime
 public class RequestRoomDto {
 
     @NotNull
@@ -37,6 +40,7 @@ public class RequestRoomDto {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
+    @NotPast
     private LocalDate startDate;
 
     @NotNull

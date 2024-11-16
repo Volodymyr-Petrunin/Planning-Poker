@@ -51,6 +51,10 @@
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4 float-end" style="width: 100%; padding: 10px; font-size: 1rem;" id="doneButton" th:text="#{label.done}" disabled>Done</button>
 
+    <ul class="text-danger" th:if="${#fields.errors('*').size() > 0}">
+        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+    </ul>
+
     <!-- Hidden message for no users found -->
     <div id="noUsersMessage" th:text="#{label.user.no.results}" style="display: none;"></div>
 
