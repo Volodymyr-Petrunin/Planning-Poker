@@ -47,8 +47,8 @@ public class RoomRegisterController {
     }
 
     @PostMapping(CREATE_ROOM_URL)
-    public String createRoom(@Valid @ModelAttribute(ROOM) final RequestRoomDto room, final Model model,
-                             final BindingResult bindingResult, @AuthenticationPrincipal final UserDetailsImpl userDetails) {
+    public String createRoom(@Valid @ModelAttribute(ROOM) final RequestRoomDto room, final BindingResult bindingResult,
+                             final Model model, @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(ROOM, room);
             return CREATE_ROOM_PAGE;
