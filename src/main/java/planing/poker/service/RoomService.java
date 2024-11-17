@@ -132,6 +132,16 @@ public class RoomService {
         return updatedRoom;
     }
 
+    public ResponseRoomDto updateRoomName(final long roomId, final String roomName) {
+        final ResponseRoomDto room = getRoomById(roomId);
+        room.setRoomName(roomName);
+
+        final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
+        applicationEventPublisher.publishEvent(new RoomUpdatedEvent(updatedRoom));
+
+        return updatedRoom;
+    }
+
     public void deleteRoom(final Long id) {
         if (roomRepository.findById(id).isPresent()) {
             roomRepository.deleteById(id);
@@ -162,7 +172,7 @@ public class RoomService {
         room.setRoomCode(code);
     }
 
-    private void setCreator(final RequestRoomDto room,final String userEmail) {
+    private void setCreator(final RequestRoomDto room, final String userEmail) {
         room.setCreator(userService.getUserByEmail(userEmail));
     }
 
@@ -190,7 +200,4 @@ public class RoomService {
                 .ifPresent(user.getRoles()::add)
         );
     }
-
-
-
 }
