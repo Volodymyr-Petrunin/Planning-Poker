@@ -21,10 +21,16 @@
     <span id="userStatusSpectator" th:text="#{label.user.spectators}" style="display:none;"></span>
     <span id="eventStarted" th:text="#{timer.event.started}" style="display:none;"></span>
     <span id="timeUntilStart" th:text="#{timer.time.until.start}" style="display:none;"></span>
+    <span id="roomNameCannotBeEmpty" th:text="#{label.room.name.cannot.be.empty}" style="display:none;"></span>
 
     <div class="d-flex justify-content-center gap-4">
-
-        <h1 class="text-light mt-3 ms-4 p4 pb-4 w-50" th:text="#{label.welcome.room} + ' ' + *{roomName}">Welcome to the room: <span th:text="*{roomName}"></span></h1>
+        <div class="text-light mt-3 ms-4 p4 pb-4 w-50">
+            <h1>
+                <span th:text="#{label.welcome.room}">Welcome to the room:</span>
+                <span id="roomNameElement" th:text="*{roomName}">Room Name</span>
+            </h1>
+            <button class="btn btn-primary" id="btnChangeRoomName" th:if="${isCreator}" th:text="#{label.change.room.name}">Change Room Name</button>
+        </div>
 
         <div class="text-light ms-4 mb-4 w-50" th:attr="data-start-time=${startTimeIso}">
             <h4 class="mt-3" th:text="#{label.start.date} + ': ' + ${#dates.format(room.startDate, 'EEEE dd MMMM yyyy')} + ' ' + #{label.at.clock} + ' ' + *{startTime}">
@@ -92,6 +98,9 @@
         </button>
     </div>
 
+    <!-- Include the change room name modal -->
+    <th:block th:replace="~{fragments/change-room-name-modal :: change-room-name-modal}"></th:block>
+
     <!-- Include the creation story modal -->
     <th:block th:replace="~{fragments/create-story-modal :: create-story-modal}"></th:block>
 
@@ -114,6 +123,9 @@
 
     <!-- WebSocket client -->
     <script type="module" th:src="@{/js/websocket-client.js}"></script>
+
+    <!-- Change-Room-Name.js -->
+    <script type="module" th:src="@{/js/change-room-name-modal.js}"></script>
 
     <!-- Select-Card.js -->
     <script type="module" th:src="@{/js/select-card.js}"></script>

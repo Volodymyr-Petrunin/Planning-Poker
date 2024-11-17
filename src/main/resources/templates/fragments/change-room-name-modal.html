@@ -1,0 +1,21 @@
+<div class="modal fade" id="changeRoomNameModal" tabindex="-1" aria-labelledby="updateRoomNameModalLabel" aria-hidden="true" th:fragment="change-room-name-modal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeRoomModalLabel" th:text="#{label.change.room.name}">Change Room Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="changeRoomNameForm">
+
+                    <div class="mb-3">
+                        <label for="changeRoomName" class="form-label text-white" th:text="#{label.room.name}">Room Name</label>
+                        <input type="text" class="form-control bg-dark text-white" id="changeRoomName" required>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" id="change-room-name-btn" th:text="#{label.done}">Done</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

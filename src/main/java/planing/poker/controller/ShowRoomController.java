@@ -1,15 +1,18 @@
 package planing.poker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import planing.poker.common.Role;
 import planing.poker.controller.request.UpdateCurrentStoryRequest;
+import planing.poker.controller.request.UpdateRoomNameRequest;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
@@ -31,6 +34,8 @@ public class ShowRoomController {
     private static final String SHOW_ROOM_PAGE = "show/room/show-room";
 
     private static final String UPDATE_CURRENT_STORY_MESSAGE_MAPPING = "/updateCurrentStory";
+
+    private static final String UPDATE_ROOM_NAME_MESSAGE_MAPPING = "/updateRoomName";
 
     private static final String ROOM = "room";
 
@@ -76,6 +81,12 @@ public class ShowRoomController {
     public void updateCurrentStory(final UpdateCurrentStoryRequest request) {
         roomService.updateCurrentStory(request.getStoryId(), request.getResponseStoryDto());
     }
+
+    @MessageMapping(UPDATE_ROOM_NAME_MESSAGE_MAPPING)
+    public void updateRoomName(final UpdateRoomNameRequest request) {
+        roomService.updateRoomName(request.getRoomId(), request.getRoomName());
+    }
+
 
     private List<ResponseUserDto> getUsersByRoleInRoom(final ResponseRoomDto room, final Role role) {
         final List<ResponseUserDto> users = room.getInvitedUsers().stream()

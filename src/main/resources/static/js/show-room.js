@@ -35,13 +35,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 500)
     });
 
-
-    addSubscription('/topic/roomUpdated', function(message) {
-            var room = JSON.parse(message.body);
-            document.querySelector('#roomName').textContent = room.name;
-            document.querySelector('#roomDetails').textContent = room.details;
-    });
-
     addSubscription('/topic/storyCreated', function (message) {
             var storyCreated = JSON.parse(message.body);
 
