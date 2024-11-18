@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import planing.poker.common.Messages;
+import planing.poker.common.ExceptionMessages;
 import planing.poker.domain.Room;
 import planing.poker.domain.Story;
 import planing.poker.domain.dto.request.RequestStoryDto;
@@ -31,7 +31,7 @@ public class StoryService {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    private final Messages messages;
+    private final ExceptionMessages exceptionMessages;
 
     private final RoomService roomService;
 
@@ -39,12 +39,12 @@ public class StoryService {
 
     @Autowired
     public StoryService(final StoryRepository storyRepository, final StoryMapper storyMapper,
-                        final ApplicationEventPublisher applicationEventPublisher, final Messages messages,
+                        final ApplicationEventPublisher applicationEventPublisher, final ExceptionMessages exceptionMessages,
                         final RoomService roomService, final RoomMapper roomMapper) {
         this.storyRepository = storyRepository;
         this.storyMapper = storyMapper;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.messages = messages;
+        this.exceptionMessages = exceptionMessages;
         this.roomService = roomService;
         this.roomMapper = roomMapper;
     }
@@ -83,7 +83,7 @@ public class StoryService {
 
     public ResponseStoryDto getStoryById(final Long id) {
         return storyMapper.toDto(storyRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
+                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
     public ResponseStoryDto updateStory(final long id, final RequestStoryDto storyDto) {
@@ -98,7 +98,7 @@ public class StoryService {
 
             return updatedStory;
         } else {
-            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
+            throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
     }
 
@@ -112,7 +112,7 @@ public class StoryService {
             storyRepository.deleteById(id);
             applicationEventPublisher.publishEvent(new StoryDeletedEvent(id));
         } else {
-            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
+            throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
     }
 

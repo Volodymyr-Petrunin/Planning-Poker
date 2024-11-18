@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import planing.poker.common.Messages;
+import planing.poker.common.ExceptionMessages;
 import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
@@ -41,18 +41,18 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final Messages messages;
+    private final ExceptionMessages exceptionMessages;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
     public UserService(final UserRepository userRepository, final UserMapper userMapper,
-                       final PasswordEncoder passwordEncoder, final Messages messages,
+                       final PasswordEncoder passwordEncoder, final ExceptionMessages exceptionMessages,
                        final ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-        this.messages = messages;
+        this.exceptionMessages = exceptionMessages;
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
@@ -91,7 +91,7 @@ public class UserService {
 
     public ResponseUserDto getUserById(final Long id) {
         return userMapper.toDto(userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
+                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
     public ResponseUserDto updateUser(final long id, final RequestUserDto userDto) {
@@ -104,7 +104,7 @@ public class UserService {
 
             return updatedUser;
         } else {
-            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
+            throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
     }
 
@@ -127,7 +127,7 @@ public class UserService {
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
-            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
+            throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
         return userMapper.toDto(user);
     }

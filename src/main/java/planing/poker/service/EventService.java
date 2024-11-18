@@ -2,7 +2,7 @@ package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import planing.poker.common.Messages;
+import planing.poker.common.ExceptionMessages;
 import planing.poker.domain.dto.EventDto;
 import planing.poker.mapper.EventMapper;
 import planing.poker.repository.EventRepository;
@@ -16,13 +16,13 @@ public class EventService {
 
     private final EventMapper eventMapper;
 
-    private final Messages messages;
+    private final ExceptionMessages exceptionMessages;
 
     @Autowired
-    public EventService(final EventRepository eventRepository, final EventMapper eventMapper, final Messages messages) {
+    public EventService(final EventRepository eventRepository, final EventMapper eventMapper, final ExceptionMessages exceptionMessages) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
-        this.messages = messages;
+        this.exceptionMessages = exceptionMessages;
     }
 
     public EventDto createEvent(final EventDto eventDto) {
@@ -35,7 +35,7 @@ public class EventService {
 
     public EventDto getEventById(final Long id) {
         return eventMapper.toDto(eventRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
+                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
     public EventDto updateEvent(final EventDto eventDto) {

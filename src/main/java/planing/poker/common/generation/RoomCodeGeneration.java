@@ -3,7 +3,7 @@ package planing.poker.common.generation;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import planing.poker.common.Messages;
+import planing.poker.common.ExceptionMessages;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,22 +23,22 @@ public class RoomCodeGeneration {
 
     private final Random random;
 
-    private final Messages messages;
+    private final ExceptionMessages exceptionMessages;
 
     public RoomCodeGeneration(@Value("${room.code.numbers}") short numbers, @Value("${room.code.lowerCase}") short lowerCase,
                               @Value("${room.code.upperCase}") short upperCase, final GenerationRandomizer generationRandomizer,
-                              @Qualifier("random") final Random random,final Messages messages) {
+                              @Qualifier("random") final Random random,final ExceptionMessages exceptionMessages) {
         this.upperCase = upperCase;
         this.numbers = numbers;
         this.lowerCase = lowerCase;
         this.generationRandomizer = generationRandomizer;
         this.random = random;
-        this.messages = messages;
+        this.exceptionMessages = exceptionMessages;
     }
 
     public String generateCode() {
         if (numbers < 0 || lowerCase < 0 || upperCase < 0) {
-            throw new IllegalArgumentException(messages.INVALID_CODE_CONFIGURATION());
+            throw new IllegalArgumentException(exceptionMessages.INVALID_CODE_CONFIGURATION());
         }
 
         List<Character> code = new ArrayList<>();

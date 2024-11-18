@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:/messages.properties")
-public class Messages {
+public class ExceptionMessages {
 
     private final String NO_FIND_MESSAGE;
 
@@ -16,7 +16,7 @@ public class Messages {
     private final String INVALID_CODE_CONFIGURATION;
 
     @Autowired
-    public Messages(@Value("${message.not.find.object}") final String NO_FIND_MESSAGE,
+    public ExceptionMessages(@Value("${message.not.find.object}") final String NO_FIND_MESSAGE,
                     @Value("${message.cant.convert.string}") final String CANNOT_CONVERT_MESSAGE,
                     @Value("${message.invalid.code.configuration}") final String INVALID_CODE_CONFIGURATION) {
         this.NO_FIND_MESSAGE = NO_FIND_MESSAGE;

@@ -12,14 +12,14 @@ import java.util.List;
 @Component
 public class CustomBinderInitializer {
 
-    private final Messages messages;
+    private final ExceptionMessages exceptionMessages;
 
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public CustomBinderInitializer(final Messages messages,
+    public CustomBinderInitializer(final ExceptionMessages exceptionMessages,
                                    final ObjectMapper objectMapper) {
-        this.messages = messages;
+        this.exceptionMessages = exceptionMessages;
         this.objectMapper = objectMapper;
     }
 
@@ -31,7 +31,7 @@ public class CustomBinderInitializer {
                     final List<T> values = Arrays.asList(objectMapper.readValue(text, clazz));
                     setValue(values);
                 } catch (final Exception e) {
-                    throw new IllegalArgumentException(messages.CANNOT_CONVERT_MESSAGE(), e);
+                    throw new IllegalArgumentException(exceptionMessages.CANNOT_CONVERT_MESSAGE(), e);
                 }
             }
         });

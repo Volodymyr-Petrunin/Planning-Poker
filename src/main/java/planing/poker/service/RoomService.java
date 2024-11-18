@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import planing.poker.common.Messages;
+import planing.poker.common.ExceptionMessages;
 import planing.poker.common.Role;
 import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.Room;
@@ -46,7 +46,7 @@ public class RoomService {
 
     private final RoomUserRoleService userRoleService;
 
-    private final Messages messages;
+    private final ExceptionMessages exceptionMessages;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -54,7 +54,7 @@ public class RoomService {
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
                        final RoomCodeGeneration roomCodeGeneration, final UserService userService,
                        @Lazy final StoryService storyService, final StoryMapper storyMapper,
-                       final RoomUserRoleService userRoleService, final Messages messages,
+                       final RoomUserRoleService userRoleService, final ExceptionMessages exceptionMessages,
                        final ApplicationEventPublisher applicationEventPublisher) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
@@ -63,7 +63,7 @@ public class RoomService {
         this.storyService = storyService;
         this.storyMapper = storyMapper;
         this.userRoleService = userRoleService;
-        this.messages = messages;
+        this.exceptionMessages = exceptionMessages;
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
@@ -100,12 +100,12 @@ public class RoomService {
 
     public ResponseRoomDto getRoomById(final Long id) {
         return roomRepository.findById(id).map(roomMapper::toDto)
-                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE()));
+                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE()));
     }
 
     public ResponseRoomDto getRoomByCode(final String roomCode) {
         return roomMapper.toDto(roomRepository.findByRoomCode(roomCode)
-                .orElseThrow(() -> new IllegalArgumentException(messages.NO_FIND_MESSAGE())));
+                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
     public ResponseRoomDto updateRoom(long id, final RequestRoomDto requestRoomDto) {
@@ -118,7 +118,7 @@ public class RoomService {
 
             return updatedRoom;
         } else {
-            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
+            throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
     }
 
@@ -147,7 +147,7 @@ public class RoomService {
             roomRepository.deleteById(id);
             applicationEventPublisher.publishEvent(new StoryDeletedEvent(id));
         } else {
-            throw new IllegalArgumentException(messages.NO_FIND_MESSAGE());
+            throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
     }
 
