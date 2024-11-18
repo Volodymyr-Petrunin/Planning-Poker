@@ -1,12 +1,17 @@
 package planing.poker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.ExceptionMessages;
 import planing.poker.common.MessageUtils;
 import planing.poker.domain.EventMessage;
+import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.request.RequestEventMessageDto;
 import planing.poker.domain.dto.response.ResponseEventMessageDto;
+import planing.poker.event.eventmessage.EventMessageCreatedEvent;
+import planing.poker.listener.EventMessageListener;
 import planing.poker.mapper.EventMessageMapper;
 import planing.poker.repository.EventMessageRepository;
 
@@ -14,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Service
+@Transactional
 public class EventMessageService {
 
     private final EventMessageRepository eventMessageRepository;
@@ -24,18 +30,33 @@ public class EventMessageService {
 
     private final ExceptionMessages exceptionMessages;
 
+    private final EventService eventService;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     @Autowired
     public EventMessageService(final EventMessageRepository eventMessageRepository, final EventMessageMapper eventMessageMapper,
-                               final MessageUtils messageUtils, final ExceptionMessages exceptionMessages) {
+                               final MessageUtils messageUtils, final ExceptionMessages exceptionMessages,
+                               final EventService eventService, final ApplicationEventPublisher applicationEventPublisher) {
         this.eventMessageRepository = eventMessageRepository;
         this.eventMessageMapper = eventMessageMapper;
         this.messageUtils = messageUtils;
         this.exceptionMessages = exceptionMessages;
+        this.eventService = eventService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public ResponseEventMessageDto createEventMessage(final RequestEventMessageDto requestEventMessageDto) {
-        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(requestEventMessageDto)));
+        final EventMessage savedMessage = eventMessageRepository.save(eventMessageMapper.toEntity(requestEventMessageDto));
+
+        final EventDto eventDto = eventService.addMessageToEvent(requestEventMessageDto.getEventId(), savedMessage);
+        final ResponseEventMessageDto responseEventMessageDto = eventMessageMapper.toDto(savedMessage);
+
+        applicationEventPublisher.publishEvent(new EventMessageCreatedEvent(eventDto, responseEventMessageDto));
+
+        return responseEventMessageDto;
     }
+
 
     public List<ResponseEventMessageDto> getAllEventMessages() {
         return eventMessageRepository.findAll().stream().map(eventMessageMapper::toDto).toList();

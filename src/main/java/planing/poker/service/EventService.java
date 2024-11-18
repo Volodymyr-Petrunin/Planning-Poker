@@ -3,10 +3,13 @@ package planing.poker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import planing.poker.common.ExceptionMessages;
+import planing.poker.domain.Event;
+import planing.poker.domain.EventMessage;
 import planing.poker.domain.dto.EventDto;
 import planing.poker.mapper.EventMapper;
 import planing.poker.repository.EventRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,8 +28,8 @@ public class EventService {
         this.exceptionMessages = exceptionMessages;
     }
 
-    public EventDto createEvent(final EventDto eventDto) {
-        return eventMapper.toDto(eventRepository.save(eventMapper.toEntity(eventDto)));
+    public Event createNewEvent() {
+        return eventRepository.save(new Event(null, null, Collections.emptyList()));
     }
 
     public List<EventDto> getAllEvents() {
@@ -40,6 +43,15 @@ public class EventService {
 
     public EventDto updateEvent(final EventDto eventDto) {
         return eventMapper.toDto(eventRepository.save(eventMapper.toEntity(eventDto)));
+    }
+
+    public EventDto addMessageToEvent(final long eventId, final EventMessage eventMessage) {
+        final Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE()));
+
+        event.getEventMessages().add(eventMessage);
+
+        return eventMapper.toDto(eventRepository.save(event));
     }
 
     public void deleteEvent(final Long id) {

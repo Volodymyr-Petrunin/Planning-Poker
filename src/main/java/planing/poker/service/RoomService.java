@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.ExceptionMessages;
 import planing.poker.common.Role;
+import planing.poker.common.factory.EventMessageFactory;
 import planing.poker.common.generation.RoomCodeGeneration;
-import planing.poker.domain.Room;
-import planing.poker.domain.RoomUserRole;
-import planing.poker.domain.Story;
-import planing.poker.domain.User;
+import planing.poker.domain.*;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
@@ -23,6 +21,7 @@ import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +45,12 @@ public class RoomService {
 
     private final RoomUserRoleService userRoleService;
 
+    private final EventService eventService;
+
+    private final EventMessageService eventMessageService;
+
+    private final EventMessageFactory eventMessageFactory;
+
     private final ExceptionMessages exceptionMessages;
 
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -54,7 +59,9 @@ public class RoomService {
     public RoomService(final RoomRepository roomRepository, final RoomMapper roomMapper,
                        final RoomCodeGeneration roomCodeGeneration, final UserService userService,
                        @Lazy final StoryService storyService, final StoryMapper storyMapper,
-                       final RoomUserRoleService userRoleService, final ExceptionMessages exceptionMessages,
+                       final RoomUserRoleService userRoleService, final EventService eventService,
+                       final EventMessageService eventMessageService, final EventMessageFactory eventMessageFactory,
+                       final ExceptionMessages exceptionMessages,
                        final ApplicationEventPublisher applicationEventPublisher) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
@@ -63,6 +70,9 @@ public class RoomService {
         this.storyService = storyService;
         this.storyMapper = storyMapper;
         this.userRoleService = userRoleService;
+        this.eventService = eventService;
+        this.eventMessageService = eventMessageService;
+        this.eventMessageFactory = eventMessageFactory;
         this.exceptionMessages = exceptionMessages;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -76,6 +86,8 @@ public class RoomService {
         setStories(stories, room);
         room.setIsActive(true);
         room.setIsVotingOpen(false);
+        room.setEvent(eventService.createNewEvent());
+        updateEvent(room);
 
         final Room savedRoom = roomRepository.save(room);
         setRoomSpectatorRoleForInvitedUsers(savedRoom);
@@ -199,5 +211,11 @@ public class RoomService {
                 .findFirst()
                 .ifPresent(user.getRoles()::add)
         );
+    }
+
+    private void updateEvent(final Room room) {
+        eventMessageService.createEventMessage(eventMessageFactory.createMessageRoomCreated(
+                room.getEvent().getId(), room.getCreator().getId(),
+                LocalDateTime.now().toString(), room.getCreator().getFirstName()));
     }
 }
