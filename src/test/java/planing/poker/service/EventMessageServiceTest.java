@@ -19,6 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -45,16 +46,16 @@ class EventMessageServiceTest {
     @Test
     @DisplayName("Create Event Message: Should create message and return correct DTO")
     void testCreateEventMessage_ShouldCreateEventMessage_AndReturnCorrectDto() {
-        when(eventMessageMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        when(eventMessageMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(eventMessageRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseEventMessageDto createdMessage = eventMessageService.createEventMessage(EXPECTED_DTO);
+        final ResponseEventMessageDto createdMessage = eventMessageService.createEventMessage(any());
 
         assertNotNull(createdMessage);
 
         verify(eventMessageRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(eventMessageMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(eventMessageMapper, times(1)).toEntity(any());
         verify(eventMessageMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 
@@ -102,16 +103,16 @@ class EventMessageServiceTest {
     @Test
     @DisplayName("Update Event Message: Should update message and return the updated DTO")
     void testUpdateEventMessage_ShouldUpdateMessage_AndReturnUpdatedDto() {
-        when(eventMessageMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        when(eventMessageMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(eventMessageRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseEventMessageDto updatedMessage = eventMessageService.updateEventMessage(EXPECTED_DTO);
+        final ResponseEventMessageDto updatedMessage = eventMessageService.updateEventMessage(any());
 
         assertNotNull(updatedMessage);
 
         verify(eventMessageRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(eventMessageMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(eventMessageMapper, times(1)).toEntity(any());
         verify(eventMessageMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 

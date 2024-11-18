@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import planing.poker.common.ExceptionMessages;
 import planing.poker.common.MessageUtils;
 import planing.poker.domain.EventMessage;
+import planing.poker.domain.dto.request.RequestEventMessageDto;
 import planing.poker.domain.dto.response.ResponseEventMessageDto;
 import planing.poker.mapper.EventMessageMapper;
 import planing.poker.repository.EventMessageRepository;
@@ -32,8 +33,8 @@ public class EventMessageService {
         this.exceptionMessages = exceptionMessages;
     }
 
-    public ResponseEventMessageDto createEventMessage(final ResponseEventMessageDto responseEventMessageDto) {
-        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(responseEventMessageDto)));
+    public ResponseEventMessageDto createEventMessage(final RequestEventMessageDto requestEventMessageDto) {
+        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(requestEventMessageDto)));
     }
 
     public List<ResponseEventMessageDto> getAllEventMessages() {
@@ -45,8 +46,8 @@ public class EventMessageService {
                 .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
-    public ResponseEventMessageDto updateEventMessage(final ResponseEventMessageDto responseEventMessageDto) {
-        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(responseEventMessageDto)));
+    public ResponseEventMessageDto updateEventMessage(final RequestEventMessageDto requestEventMessageDto) {
+        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(requestEventMessageDto)));
     }
 
     public void deleteEventMessage(final Long id) {
