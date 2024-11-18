@@ -32,6 +32,10 @@ public class EventService {
         return eventRepository.save(new Event(null, null, Collections.emptyList()));
     }
 
+    public EventDto createEvent(final EventDto eventDto) {
+        return eventMapper.toDto(eventRepository.save(eventMapper.toEntity(eventDto)));
+    }
+
     public List<EventDto> getAllEvents() {
         return eventRepository.findAll().stream().map(eventMapper::toDto).toList();
     }

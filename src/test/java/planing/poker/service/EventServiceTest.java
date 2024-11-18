@@ -46,7 +46,7 @@ class EventServiceTest {
         when(eventRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(eventMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final Event createdEvent = eventService.createEvent(EXPECTED_DTO);
+        final EventDto createdEvent = eventService.createEvent(EXPECTED_DTO);
 
         assertNotNull(createdEvent);
 
