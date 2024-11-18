@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import planing.poker.domain.EventMessage;
-import planing.poker.domain.dto.EventMessageDto;
+import planing.poker.domain.dto.response.ResponseEventMessageDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 import planing.poker.mapper.EventMessageMapper;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.doNothing;
 @DisplayName("Event Message Service Tests")
 class EventMessageServiceTest {
 
-    private static final EventMessageDto EXPECTED_DTO = ExpectedEntityDtoUtils.getEventMessage();
+    private static final ResponseEventMessageDto EXPECTED_DTO = ExpectedEntityDtoUtils.getEventMessage();
 
     private static final EventMessage EXPECTED_ENTITY = ExpectedEntityUtils.getEventMessage();
 
@@ -49,7 +49,7 @@ class EventMessageServiceTest {
         when(eventMessageRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final EventMessageDto createdMessage = eventMessageService.createEventMessage(EXPECTED_DTO);
+        final ResponseEventMessageDto createdMessage = eventMessageService.createEventMessage(EXPECTED_DTO);
 
         assertNotNull(createdMessage);
 
@@ -64,7 +64,7 @@ class EventMessageServiceTest {
         when(eventMessageRepository.findAll()).thenReturn(List.of(EXPECTED_ENTITY));
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final List<EventMessageDto> messages = eventMessageService.getAllEventMessages();
+        final List<ResponseEventMessageDto> messages = eventMessageService.getAllEventMessages();
 
         assertNotNull(messages);
 
@@ -78,7 +78,7 @@ class EventMessageServiceTest {
         when(eventMessageRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.of(EXPECTED_ENTITY));
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final EventMessageDto message = eventMessageService.getEventMessageById(EXPECTED_DTO.getId());
+        final ResponseEventMessageDto message = eventMessageService.getEventMessageById(EXPECTED_DTO.getId());
 
         assertNotNull(message);
 
@@ -106,7 +106,7 @@ class EventMessageServiceTest {
         when(eventMessageRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final EventMessageDto updatedMessage = eventMessageService.updateEventMessage(EXPECTED_DTO);
+        final ResponseEventMessageDto updatedMessage = eventMessageService.updateEventMessage(EXPECTED_DTO);
 
         assertNotNull(updatedMessage);
 

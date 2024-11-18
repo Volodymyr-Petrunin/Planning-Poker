@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import planing.poker.common.ExceptionMessages;
 import planing.poker.common.MessageUtils;
 import planing.poker.domain.EventMessage;
-import planing.poker.domain.dto.EventMessageDto;
+import planing.poker.domain.dto.response.ResponseEventMessageDto;
 import planing.poker.mapper.EventMessageMapper;
 import planing.poker.repository.EventMessageRepository;
 
@@ -32,21 +32,21 @@ public class EventMessageService {
         this.exceptionMessages = exceptionMessages;
     }
 
-    public EventMessageDto createEventMessage(final EventMessageDto eventMessageDto) {
-        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(eventMessageDto)));
+    public ResponseEventMessageDto createEventMessage(final ResponseEventMessageDto responseEventMessageDto) {
+        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(responseEventMessageDto)));
     }
 
-    public List<EventMessageDto> getAllEventMessages() {
+    public List<ResponseEventMessageDto> getAllEventMessages() {
         return eventMessageRepository.findAll().stream().map(eventMessageMapper::toDto).toList();
     }
 
-    public EventMessageDto getEventMessageById(final Long id) {
+    public ResponseEventMessageDto getEventMessageById(final Long id) {
         return eventMessageMapper.toDto(eventMessageRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
-    public EventMessageDto updateEventMessage(final EventMessageDto eventMessageDto) {
-        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(eventMessageDto)));
+    public ResponseEventMessageDto updateEventMessage(final ResponseEventMessageDto responseEventMessageDto) {
+        return eventMessageMapper.toDto(eventMessageRepository.save(eventMessageMapper.toEntity(responseEventMessageDto)));
     }
 
     public void deleteEventMessage(final Long id) {

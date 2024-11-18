@@ -54,7 +54,7 @@ public class EventMessage {
         try {
             return new ObjectMapper().readValue(messageArgs, Object[].class);
         } catch (final JsonProcessingException e) {
-            throw new MessageParsingException(e.getMessage(), e);
+            throw new MessageParsingException("Error parsing message arguments", e);
         }
     }
 
