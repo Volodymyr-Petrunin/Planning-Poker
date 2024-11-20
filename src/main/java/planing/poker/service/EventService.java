@@ -9,7 +9,7 @@ import planing.poker.domain.dto.EventDto;
 import planing.poker.mapper.EventMapper;
 import planing.poker.repository.EventRepository;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,8 +28,8 @@ public class EventService {
         this.exceptionMessages = exceptionMessages;
     }
 
-    public Event createNewEvent() {
-        return eventRepository.save(new Event(null, null, Collections.emptyList()));
+    public Event createEvent() {
+        return eventRepository.save(new Event(null, null, new ArrayList<>()));
     }
 
     public EventDto createEvent(final EventDto eventDto) {

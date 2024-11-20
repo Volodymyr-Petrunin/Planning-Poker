@@ -69,7 +69,7 @@ public class ShowRoomController {
     }
 
     @GetMapping(SHOW_ROOM_URL)
-    public String showRoomsPage(@PathVariable final String roomCode, final Model model,
+    public String showRoomPage(@PathVariable final String roomCode, final Model model,
                                 @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         final ResponseRoomDto room = roomService.getRoomByCode(roomCode);
         boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());

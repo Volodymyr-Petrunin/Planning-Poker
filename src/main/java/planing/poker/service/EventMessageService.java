@@ -52,7 +52,7 @@ public class EventMessageService {
         final EventDto eventDto = eventService.addMessageToEvent(requestEventMessageDto.getEventId(), savedMessage);
         final ResponseEventMessageDto responseEventMessageDto = eventMessageMapper.toDto(savedMessage);
 
-        applicationEventPublisher.publishEvent(new EventMessageCreatedEvent(eventDto, responseEventMessageDto));
+        applicationEventPublisher.publishEvent(new EventMessageCreatedEvent(eventDto.getId(), responseEventMessageDto));
 
         return responseEventMessageDto;
     }

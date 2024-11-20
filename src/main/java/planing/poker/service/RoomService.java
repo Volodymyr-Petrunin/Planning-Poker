@@ -86,7 +86,7 @@ public class RoomService {
         setStories(stories, room);
         room.setIsActive(true);
         room.setIsVotingOpen(false);
-        room.setEvent(eventService.createNewEvent());
+        room.setEvent(eventService.createEvent());
         updateEvent(room);
 
         final Room savedRoom = roomRepository.save(room);
@@ -214,6 +214,7 @@ public class RoomService {
     }
 
     private void updateEvent(final Room room) {
+        room.getEvent().setRoom(room);
         eventMessageService.createEventMessage(eventMessageFactory.createMessageRoomCreated(
                 room.getEvent().getId(), room.getCreator().getId(),
                 LocalDateTime.now().toString(), room.getCreator().getFirstName()));

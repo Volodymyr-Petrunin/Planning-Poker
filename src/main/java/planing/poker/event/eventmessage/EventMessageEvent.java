@@ -1,16 +1,15 @@
 package planing.poker.event.eventmessage;
 
-import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.response.ResponseEventMessageDto;
 
 public class EventMessageEvent {
 
-    private final EventDto eventDto;
+    private final Long eventId;
 
     private final ResponseEventMessageDto responseEventMessageDto;
 
-    public EventMessageEvent(final EventDto eventDto, final ResponseEventMessageDto responseEventMessageDto) {
-        this.eventDto = eventDto;
+    public EventMessageEvent(final Long eventId, final ResponseEventMessageDto responseEventMessageDto) {
+        this.eventId = eventId;
         this.responseEventMessageDto = responseEventMessageDto;
     }
 
@@ -18,7 +17,7 @@ public class EventMessageEvent {
         return responseEventMessageDto;
     }
 
-    public EventDto getEventDto() {
-        return eventDto;
+    public Long getEventId() {
+        return eventId;
     }
 }

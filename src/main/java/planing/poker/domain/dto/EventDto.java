@@ -25,7 +25,7 @@ public class EventDto {
     private Long id;
 
     @NotNull
-    private ResponseRoomDto room;
+    private Long roomId;
 
     @NotNull
     private List<ResponseEventMessageDto> eventMessages;
