@@ -18,6 +18,8 @@ public abstract class EventMessageMapper {
 
     public abstract ResponseEventMessageDto toDto(EventMessage eventMessage);
 
+    public abstract EventMessage responseToDto(ResponseEventMessageDto responseEventMessageDto);
+
     @AfterMapping
     public void afterMapping(@MappingTarget final EventMessage entity, final RequestEventMessageDto requestDto) {
         entity.setUser(entityManager.find(User.class, requestDto.getUserId()));

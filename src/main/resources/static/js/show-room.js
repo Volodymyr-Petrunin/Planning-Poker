@@ -1,4 +1,4 @@
-import { connectWebSocket, addSubscription, sendMessage } from './websocket-client.js';
+import {addSubscription, connectWebSocket, sendMessage} from './websocket-client.js';
 
 document.addEventListener("DOMContentLoaded", function() {
     connectWebSocket();
@@ -85,6 +85,58 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+
+    addSubscription('/topic/newEventMessage', (message) => {
+    const eventId = document.getElementById('eventId').value;
+
+    if (message.body) {
+        const eventMessage = JSON.parse(message.body);
+
+        if (eventMessage.eventId == eventId) {
+            const locale = document.documentElement.lang || 'en';
+            const formattedTimestamp = moment(eventMessage.responseEventMessageDto.timestamp).format('MMM D, YYYY HH:mm');
+
+            getLocalizedMessage(eventMessage.responseEventMessageDto, locale)
+                .then(localizedMessage => {
+                    displayMessage(formattedTimestamp, localizedMessage);
+                })
+                .catch(error => {
+                    console.error("Error getting localized message:", error);
+                });
+        }
+    }
+    });
+
+    async function getLocalizedMessage(eventMessage, locale) {
+        const url = '/messages/localize';
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept-Language': locale
+            },
+            body: JSON.stringify(eventMessage)
+        });
+
+        if (response.ok) {
+            return await response.text();
+        } else {
+            throw new Error("Failed to fetch localized message");
+        }
+    }
+
+    function displayMessage(timestamp, localizedMessage) {
+        const messagesList = document.getElementById('messagesList');
+
+        const messageItem = document.createElement('li');
+        messageItem.classList.add('list-group-item', 'bg-dark', 'text-light');
+        messageItem.textContent = `${timestamp} - ${localizedMessage}`;
+        messageItem.classList.add('fade-in');
+        messagesList.appendChild(messageItem);
+
+        messagesList.scrollTop = messagesList.scrollHeight;
+    }
 
 document.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'buttonSetCurrentStory') {

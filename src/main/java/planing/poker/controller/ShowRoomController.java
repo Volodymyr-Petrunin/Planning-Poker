@@ -1,21 +1,18 @@
 package planing.poker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import planing.poker.common.Role;
 import planing.poker.common.factory.EventMessageFactory;
 import planing.poker.controller.request.UpdateCurrentStoryRequest;
 import planing.poker.controller.request.UpdateRoomNameRequest;
 import planing.poker.domain.User;
-import planing.poker.domain.dto.request.RequestEventMessageDto;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.security.UserDetailsImpl;

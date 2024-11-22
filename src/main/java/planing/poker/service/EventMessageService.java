@@ -11,7 +11,6 @@ import planing.poker.domain.dto.EventDto;
 import planing.poker.domain.dto.request.RequestEventMessageDto;
 import planing.poker.domain.dto.response.ResponseEventMessageDto;
 import planing.poker.event.eventmessage.EventMessageCreatedEvent;
-import planing.poker.listener.EventMessageListener;
 import planing.poker.mapper.EventMessageMapper;
 import planing.poker.repository.EventMessageRepository;
 
@@ -75,8 +74,10 @@ public class EventMessageService {
         eventMessageRepository.deleteById(id);
     }
 
-    public String getLocalizedMessage(final EventMessage eventMessage, final Locale locale) {
+    public String getLocalizedMessage(final ResponseEventMessageDto responseEventMessageDto, final Locale locale) {
+        final EventMessage eventMessage = eventMessageMapper.responseToDto(responseEventMessageDto);
         final Object[] args = eventMessage.parseArgs();
+
         return messageUtils.getMessage(eventMessage.getMessageKey(), locale, args);
     }
 
