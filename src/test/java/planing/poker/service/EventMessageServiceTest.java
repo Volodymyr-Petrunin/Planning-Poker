@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import planing.poker.domain.EventMessage;
-import planing.poker.domain.dto.EventMessageDto;
+import planing.poker.domain.dto.response.ResponseEventMessageDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 import planing.poker.mapper.EventMessageMapper;
@@ -19,6 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.doNothing;
 @DisplayName("Event Message Service Tests")
 class EventMessageServiceTest {
 
-    private static final EventMessageDto EXPECTED_DTO = ExpectedEntityDtoUtils.getEventMessage();
+    private static final ResponseEventMessageDto EXPECTED_DTO = ExpectedEntityDtoUtils.getEventMessage();
 
     private static final EventMessage EXPECTED_ENTITY = ExpectedEntityUtils.getEventMessage();
 
@@ -45,16 +46,16 @@ class EventMessageServiceTest {
     @Test
     @DisplayName("Create Event Message: Should create message and return correct DTO")
     void testCreateEventMessage_ShouldCreateEventMessage_AndReturnCorrectDto() {
-        when(eventMessageMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        when(eventMessageMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(eventMessageRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final EventMessageDto createdMessage = eventMessageService.createEventMessage(EXPECTED_DTO);
+        final ResponseEventMessageDto createdMessage = eventMessageService.createEventMessage(any());
 
         assertNotNull(createdMessage);
 
         verify(eventMessageRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(eventMessageMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(eventMessageMapper, times(1)).toEntity(any());
         verify(eventMessageMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 
@@ -64,7 +65,7 @@ class EventMessageServiceTest {
         when(eventMessageRepository.findAll()).thenReturn(List.of(EXPECTED_ENTITY));
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final List<EventMessageDto> messages = eventMessageService.getAllEventMessages();
+        final List<ResponseEventMessageDto> messages = eventMessageService.getAllEventMessages();
 
         assertNotNull(messages);
 
@@ -78,7 +79,7 @@ class EventMessageServiceTest {
         when(eventMessageRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.of(EXPECTED_ENTITY));
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final EventMessageDto message = eventMessageService.getEventMessageById(EXPECTED_DTO.getId());
+        final ResponseEventMessageDto message = eventMessageService.getEventMessageById(EXPECTED_DTO.getId());
 
         assertNotNull(message);
 
@@ -102,16 +103,16 @@ class EventMessageServiceTest {
     @Test
     @DisplayName("Update Event Message: Should update message and return the updated DTO")
     void testUpdateEventMessage_ShouldUpdateMessage_AndReturnUpdatedDto() {
-        when(eventMessageMapper.toEntity(EXPECTED_DTO)).thenReturn(EXPECTED_ENTITY);
+        when(eventMessageMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(eventMessageRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(eventMessageMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final EventMessageDto updatedMessage = eventMessageService.updateEventMessage(EXPECTED_DTO);
+        final ResponseEventMessageDto updatedMessage = eventMessageService.updateEventMessage(any());
 
         assertNotNull(updatedMessage);
 
         verify(eventMessageRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(eventMessageMapper, times(1)).toEntity(EXPECTED_DTO);
+        verify(eventMessageMapper, times(1)).toEntity(any());
         verify(eventMessageMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 

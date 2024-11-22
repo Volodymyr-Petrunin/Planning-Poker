@@ -13,7 +13,7 @@ public class ExpectedEntityDtoUtils {
     private static final ResponseStoryDto STORY = StoryDtoFactory.createStory();
     private static final ResponseRoomDto ROOM = RoomDtoFactory.createRoom(USER_CREATOR, STORY);
     private static final ResponseVoteDto VOTE = VoteDtoFactory.createVote(USER_ELECTOR, STORY);
-    private static final EventMessageDto EVENT_MESSAGE = EventMessageDtoFactory.createEventMessage(USER_ELECTOR);
+    private static final ResponseEventMessageDto EVENT_MESSAGE = EventMessageDtoFactory.createEventMessage(USER_ELECTOR);
     private static final EventDto EVENT = EventDtoFactory.createEvent(ROOM, List.of(EVENT_MESSAGE));
 
     public static ResponseUserDto getUserElector() {
@@ -40,7 +40,7 @@ public class ExpectedEntityDtoUtils {
         return VOTE;
     }
 
-    public static EventMessageDto getEventMessage() {
+    public static ResponseEventMessageDto getEventMessage() {
         return EVENT_MESSAGE;
     }
 

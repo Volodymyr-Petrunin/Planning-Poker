@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import planing.poker.domain.Event;
+import planing.poker.domain.dto.response.ResponseEventMessageDto;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 
 import java.util.List;
@@ -24,8 +25,8 @@ public class EventDto {
     private Long id;
 
     @NotNull
-    private ResponseRoomDto room;
+    private Long roomId;
 
     @NotNull
-    private List<EventMessageDto> eventMessages;
+    private List<ResponseEventMessageDto> eventMessages;
 }

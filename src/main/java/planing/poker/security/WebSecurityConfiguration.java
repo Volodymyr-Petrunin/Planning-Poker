@@ -31,6 +31,8 @@ public class WebSecurityConfiguration {
                 )
                 .logout(LogoutConfigurer::permitAll);
 
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/messages/**"));
+
         return http.build();
     }
 
