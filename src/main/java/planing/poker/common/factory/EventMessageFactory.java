@@ -2,14 +2,24 @@ package planing.poker.common.factory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import planing.poker.common.exception.MessageParsingException;
 import planing.poker.domain.dto.request.RequestEventMessageDto;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 @Component
 public class EventMessageFactory {
+
+    private final MessageSource messageSource;
+
+    @Autowired
+    public EventMessageFactory(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     public RequestEventMessageDto createMessageUserJoined(final Long eventId, final Long userId, final String username) {
         return createRequestEventMessageDto(eventId, userId, "messages.event.USER_JOINED", username);
@@ -20,7 +30,7 @@ public class EventMessageFactory {
     }
 
     public RequestEventMessageDto createMessageUserRoleChanged(final Long eventId, final Long userId, final String username, final String oldRole, final String newRole) {
-        return createRequestEventMessageDto(eventId, userId, "messages.event.USER_ROLE_CHANGED", username, oldRole, newRole);
+        return createRequestEventMessageDto(eventId, userId, "messages.event.USER_ROLE_CHANGED", username, getLocalizedRole(oldRole), getLocalizedRole(newRole));
     }
 
     public RequestEventMessageDto createMessageCurrentStorySelected(final Long eventId, final Long userId, final String storyTitle) {
@@ -53,6 +63,10 @@ public class EventMessageFactory {
         final LocalDateTime timestamp = LocalDateTime.now();
 
         return new RequestEventMessageDto(eventId, userId, messageKey, messageArgs, timestamp);
+    }
+
+    private String getLocalizedRole(final String roleName) {
+        return messageSource.getMessage("role." + roleName, null, Locale.getDefault());
     }
 
     private String serializeArgs(final Object... args) {

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import planing.poker.common.ExceptionMessages;
 import planing.poker.common.Role;
+import planing.poker.common.factory.EventMessageFactory;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 import planing.poker.domain.dto.request.RequestUserDto;
@@ -43,17 +44,24 @@ public class UserService {
 
     private final ExceptionMessages exceptionMessages;
 
+    private final EventMessageService eventMessageService;
+
+    private final EventMessageFactory eventMessageFactory;
+
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
     public UserService(final UserRepository userRepository, final UserMapper userMapper,
                        final PasswordEncoder passwordEncoder, final ExceptionMessages exceptionMessages,
-                       final ApplicationEventPublisher applicationEventPublisher) {
+                       final ApplicationEventPublisher applicationEventPublisher, final EventMessageService eventMessageService,
+                       final EventMessageFactory eventMessageFactory) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.exceptionMessages = exceptionMessages;
         this.applicationEventPublisher = applicationEventPublisher;
+        this.eventMessageService = eventMessageService;
+        this.eventMessageFactory = eventMessageFactory;
     }
 
     public ResponseUserDto createUser(final RequestUserDto userDto) {
@@ -110,11 +118,23 @@ public class UserService {
 
     public ResponseUserDto updateUserRole(final long roomId,final long userId, final Role role) {
         final ResponseUserDto user = getUserById(userId);
+        final String oldRole = getOldRole(user, roomId);
         updateRole(user, roomId, role);
 
         final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(userMapper.responseToEntity(user)));
 
         applicationEventPublisher.publishEvent(new UserChangeRoleEvent(updatedUser));
+
+        eventMessageService.createEventMessage(
+                eventMessageFactory.createMessageUserRoleChanged(
+                        roomId,
+                        updatedUser.getId(),
+                        updatedUser.getFirstName(),
+                        oldRole,
+                        role.name()
+                )
+        );
+
         return updatedUser;
     }
 
@@ -134,6 +154,14 @@ public class UserService {
 
     private boolean isAllBlank(final String... strings) {
         return Arrays.stream(strings).allMatch(str -> str == null || str.trim().isEmpty());
+    }
+
+    private String getOldRole(final ResponseUserDto user, final Long roomId) {
+        return user.getRoles().stream()
+                .filter(currentRole -> currentRole.getRoomId().equals(roomId))
+                .findFirst()
+                .map(role -> role.getRole().name())
+                .orElse("UNKNOWN");
     }
 
     private void updateRole(final ResponseUserDto user, final Long roomId, final Role role) {

@@ -141,6 +141,14 @@ public class RoomService {
         final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
         applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(updatedRoom));
 
+        eventMessageService.createEventMessage(
+                eventMessageFactory.createMessageCurrentStorySelected(
+                        updatedRoom.getEvent().getId(),
+                        updatedRoom.getCreator().getId(),
+                        updatedRoom.getCurrentStory().getTitle()
+                )
+        );
+
         return updatedRoom;
     }
 
