@@ -13,10 +13,7 @@ import planing.poker.domain.*;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
-import planing.poker.event.room.RoomCreatedEvent;
-import planing.poker.event.room.RoomCurrentStoryEvent;
-import planing.poker.event.room.RoomUpdatedEvent;
-import planing.poker.event.story.StoryDeletedEvent;
+import planing.poker.event.room.*;
 import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
@@ -165,10 +162,19 @@ public class RoomService {
     public void deleteRoom(final Long id) {
         if (roomRepository.findById(id).isPresent()) {
             roomRepository.deleteById(id);
-            applicationEventPublisher.publishEvent(new StoryDeletedEvent(id));
+            applicationEventPublisher.publishEvent(new RoomDeletedEvent(id));
         } else {
             throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
+    }
+
+    public void closeRoom(final Long id) {
+        final ResponseRoomDto room = getRoomById(id);
+        room.setIsActive(false);
+
+        roomRepository.save(roomMapper.responseToEntity(room));
+
+        applicationEventPublisher.publishEvent(new RoomClosedEvent(id));
     }
 
     public void associateStoriesWithRoom(final List<Story> stories, final Long roomId) {

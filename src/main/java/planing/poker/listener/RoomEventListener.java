@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import planing.poker.event.room.RoomCreatedEvent;
-import planing.poker.event.room.RoomCurrentStoryEvent;
-import planing.poker.event.room.RoomDeletedEvent;
-import planing.poker.event.room.RoomUpdatedEvent;
+import planing.poker.event.room.*;
 
 @Component
 public class RoomEventListener {
@@ -17,6 +14,8 @@ public class RoomEventListener {
     public static final String TOPIC_ROOM_UPDATED = "/topic/roomUpdated";
 
     public static final String TOPIC_ROOM_DELETED = "/topic/roomDeleted";
+
+    public static final String TOPIC_ROOM_CLOSED = "/topic/roomClosed";
 
     public static final String TOPIC_UPDATE_CURRENT_STORY = "/topic/updateCurrentStory";
 
@@ -40,6 +39,11 @@ public class RoomEventListener {
     @EventListener
     public void handleRoomDeleted(final RoomDeletedEvent event) {
         messagingTemplate.convertAndSend(TOPIC_ROOM_DELETED, event.getRoomId());
+    }
+
+    @EventListener
+    public void handleRoomClosed(final RoomClosedEvent event) {
+        messagingTemplate.convertAndSend(TOPIC_ROOM_CLOSED, event.getRoomId());
     }
 
     @EventListener

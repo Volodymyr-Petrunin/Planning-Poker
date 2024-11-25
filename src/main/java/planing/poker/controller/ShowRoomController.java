@@ -37,6 +37,8 @@ public class ShowRoomController {
 
     private static final String UPDATE_ROOM_NAME_MESSAGE_MAPPING = "/updateRoomName";
 
+    private static final String CLOSE_ROOM_MESSAGE_MAPPING = "/closeRoom";
+
     private static final String ROOM = "room";
 
     private static final String IS_CREATOR = "isCreator";
@@ -95,6 +97,11 @@ public class ShowRoomController {
     @MessageMapping(UPDATE_ROOM_NAME_MESSAGE_MAPPING)
     public void updateRoomName(final UpdateRoomNameRequest request) {
         roomService.updateRoomName(request.getRoomId(), request.getRoomName());
+    }
+
+    @MessageMapping(CLOSE_ROOM_MESSAGE_MAPPING)
+    public void closeRoom(final Long roomId){
+        roomService.closeRoom(roomId);
     }
 
 
