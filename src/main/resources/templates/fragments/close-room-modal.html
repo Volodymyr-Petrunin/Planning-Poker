@@ -1,0 +1,25 @@
+<div class="modal fade" id="closeRoomModal" tabindex="-1" aria-labelledby="closeRoomModalLabel" aria-hidden="true" th:fragment="close-room-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="closeRoomModalLabel" th:text="#{label.close.room.confirmation}">
+                    Confirm Room Closure
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p th:text="#{label.close.room.message}">
+                    Are you sure you want to close this room? This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" th:text="#{label.step.back}">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-danger" id="confirmCloseRoomButton" th:text="#{label.close.room}">
+                    Close Room
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
