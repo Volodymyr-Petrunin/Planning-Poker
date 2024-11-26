@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Random;
+
 @Controller
 public class CustomErrorController implements ErrorController {
 
@@ -19,15 +21,21 @@ public class CustomErrorController implements ErrorController {
 
     private final String attributeStatusCode;
 
+    private final Random random;
+
     @Autowired
-    public CustomErrorController(@Value("${error.status.code.attribute}") final String attributeStatusCode) {
+    public CustomErrorController(@Value("${error.status.code.attribute}") final String attributeStatusCode, final Random random) {
         this.attributeStatusCode = attributeStatusCode;
+        this.random = random;
     }
 
     @RequestMapping("/error")
     public String handleError(final HttpServletRequest request, final Model model) {
         final Object statusCode = request.getAttribute(attributeStatusCode);
         model.addAttribute("statusCode", statusCode);
+
+        int randomImageIndex = random.nextInt(4);
+        model.addAttribute("randomImageIndex", randomImageIndex);
 
         if (statusCode != null) {
             int status = Integer.parseInt(statusCode.toString());
