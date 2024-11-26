@@ -151,10 +151,25 @@ public class RoomService {
 
     public ResponseRoomDto updateRoomName(final long roomId, final String roomName) {
         final ResponseRoomDto room = getRoomById(roomId);
+        final String oldRoomName = room.getRoomName();
+
+        if (oldRoomName.equals(roomName) || roomName.trim().isEmpty()) {
+            return room;
+        }
+
         room.setRoomName(roomName);
 
         final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
         applicationEventPublisher.publishEvent(new RoomUpdatedEvent(updatedRoom));
+
+        eventMessageService.createEventMessage(
+                eventMessageFactory.createMessageRoomNameChanged(
+                        room.getEvent().getId(),
+                        room.getCreator().getId(),
+                        oldRoomName,
+                        roomName
+                )
+        );
 
         return updatedRoom;
     }

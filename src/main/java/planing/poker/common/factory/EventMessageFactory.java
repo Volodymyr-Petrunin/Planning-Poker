@@ -57,6 +57,10 @@ public class EventMessageFactory {
         return createRequestEventMessageDto(eventId, userId, "messages.event.ROOM_CLOSED", closingTime);
     }
 
+    public RequestEventMessageDto createMessageRoomNameChanged(final Long eventId, final Long userId, final String oldName, final String newName) {
+        return createRequestEventMessageDto(eventId, userId, "messages.event.ROOM_NAME_CHANGED", oldName, newName);
+    }
+
     private RequestEventMessageDto createRequestEventMessageDto(final Long eventId, final Long userId,
                                                                 final String messageKey, final Object... args) {
         final String messageArgs = serializeArgs(args);
