@@ -1,5 +1,6 @@
 package planing.poker.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -95,7 +96,7 @@ public class ShowRoomController {
     }
 
     @MessageMapping(UPDATE_ROOM_NAME_MESSAGE_MAPPING)
-    public void updateRoomName(final UpdateRoomNameRequest request) {
+    public void updateRoomName(@Valid final UpdateRoomNameRequest request) {
         roomService.updateRoomName(request.getRoomId(), request.getRoomName());
     }
 

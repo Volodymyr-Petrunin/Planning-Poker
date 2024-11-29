@@ -138,6 +138,32 @@ document.addEventListener("DOMContentLoaded", function() {
         messagesList.scrollTop = messagesList.scrollHeight;
     }
 
+    // Alert block
+
+    addSubscription('/user/alert/argument/not/valid', (errorMessage) => {
+        const failureAlert = document.getElementById('failureAlert');
+        const alertMessageText = document.getElementById('alertMessageText');
+
+        if (failureAlert) {
+            alertMessageText.textContent = errorMessage.body;
+            failureAlert.style.display = 'block';
+            failureAlert.classList.add('show');
+            failureAlert.style.opacity = '1';
+            failureAlert.classList.add('fade-in');
+        }
+    });
+
+     window.hideAlert = function() {
+        const failureAlert = document.getElementById('failureAlert');
+        if (failureAlert) {
+            failureAlert.style.display = 'none';
+            failureAlert.classList.remove('show');
+        }
+    }
+
+
+
+
 document.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'buttonSetCurrentStory') {
         const storyId = event.target.getAttribute('data-story-id');
