@@ -23,6 +23,7 @@ services:
       - ROOM_CODE_LOWERCASE=8
       - ROOM_CODE_UPPERCASE=7
       - ERROR_STATUS_CODE_ATTRIBUTE=errorStatusCode
+      - ERROR_NUMBER_OF_PICTURES=4
     ports:
       - 8080:8080
     networks:

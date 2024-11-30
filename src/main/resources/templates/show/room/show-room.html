@@ -26,6 +26,10 @@
     <span id="roomNameCannotBeEmpty" th:text="#{label.room.name.cannot.be.empty}" style="display:none;"></span>
     <span id="roomWasClosed" th:text="#{label.room.was.closed.message}" style="display:none;"></span>
 
+    <div class="text-light w-50 text-center">
+        <div th:replace="~{/fragments/success-and-fail-message :: success-failure-message}"></div>
+    </div>
+
     <div class="d-flex justify-content-center gap-4">
         <div class="text-light mt-3 ms-4 p4 pb-4 w-50">
             <h1>

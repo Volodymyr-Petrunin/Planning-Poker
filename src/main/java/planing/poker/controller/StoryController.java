@@ -1,5 +1,6 @@
 package planing.poker.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -32,17 +33,17 @@ public class StoryController {
     }
 
     @MessageMapping(CREATE_MESSAGE_MAPPING)
-    public void createStory(final CreateStoryRequest request) {
+    public void createStory(@Valid final CreateStoryRequest request) {
         storyService.createSeveralStory(request.getStories(), request.getRoomId());
     }
 
     @MessageMapping(UPDATE_MESSAGE_MAPPING)
-    public void updateStory(final UpdateStoryRequest request) {
+    public void updateStory(@Valid final UpdateStoryRequest request) {
         storyService.updateStory(request.getStoryId(), request.getRequestStoryDto());
     }
 
     @MessageMapping(DELETE_MESSAGE_MAPPING)
-    public void deleteStory(final DeleteStoryRequest request) {
+    public void deleteStory(@Valid final DeleteStoryRequest request) {
         storyService.deleteStory(request.getStoryId());
     }
 

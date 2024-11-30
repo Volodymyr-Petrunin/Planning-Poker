@@ -1,0 +1,16 @@
+<div th:fragment="success-failure-message" xmlns:th="http://www.thymeleaf.org">
+    <div id="successAlert" class="alert alert-success alert-dismissible fade mb-3" role="alert" style="display: none;">
+        <span th:text="#{label.operation.successful}">Operation was successful.</span>
+        <button type="button" class="btn-close" aria-label="Close" onclick="this.parentElement.style.display='none';"></button>
+    </div>
+
+    <div id="failureAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close float-end" onclick="hideAlert()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <ul id="alertMessageList" class="mb-0" style="list-style-type: none;">
+
+        </ul>
+    </div>
+</div>

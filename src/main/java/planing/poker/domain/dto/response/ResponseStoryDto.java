@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class ResponseStoryDto {
+
     @Positive
     private Long id;
 

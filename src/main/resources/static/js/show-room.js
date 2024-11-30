@@ -138,6 +138,46 @@ document.addEventListener("DOMContentLoaded", function() {
         messagesList.scrollTop = messagesList.scrollHeight;
     }
 
+    // Alert block
+
+    addSubscription('/user/alert/argument/not/valid', (errorMessage) => {
+        const failureAlert = document.getElementById('failureAlert');
+        const alertMessageList = document.getElementById('alertMessageList');
+
+        if (failureAlert && alertMessageList) {
+            alertMessageList.innerHTML = '';
+
+            let errors = [];
+            try {
+                errors = JSON.parse(errorMessage.body);
+            } catch (e) {
+                console.error('Error parsing errorMessage:', e);
+                errors = [errorMessage.body];
+            }
+
+            errors.forEach((error) => {
+                const li = document.createElement('li');
+                li.textContent = error;
+                alertMessageList.appendChild(li);
+            });
+
+            failureAlert.style.display = 'block';
+            failureAlert.classList.add('show');
+        }
+    });
+
+    window.hideAlert = function () {
+        const failureAlert = document.getElementById('failureAlert');
+        if (failureAlert) {
+            failureAlert.style.display = 'none';
+            failureAlert.classList.remove('show');
+        }
+    };
+
+
+
+
+
 document.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'buttonSetCurrentStory') {
         const storyId = event.target.getAttribute('data-story-id');

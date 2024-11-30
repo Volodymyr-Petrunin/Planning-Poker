@@ -21,11 +21,15 @@ public class CustomErrorController implements ErrorController {
 
     private final String attributeStatusCode;
 
+    private final Byte numberOfPictures;
+
     private final Random random;
 
     @Autowired
-    public CustomErrorController(@Value("${error.status.code.attribute}") final String attributeStatusCode, final Random random) {
+    public CustomErrorController(@Value("${error.status.code.attribute}") final String attributeStatusCode,
+                                 @Value("${error.number.of.pictures}") final Byte numberOfPictures, final Random random) {
         this.attributeStatusCode = attributeStatusCode;
+        this.numberOfPictures = numberOfPictures;
         this.random = random;
     }
 
@@ -34,7 +38,7 @@ public class CustomErrorController implements ErrorController {
         final Object statusCode = request.getAttribute(attributeStatusCode);
         model.addAttribute("statusCode", statusCode);
 
-        int randomImageIndex = random.nextInt(4);
+        int randomImageIndex = random.nextInt(numberOfPictures);
         model.addAttribute("randomImageIndex", randomImageIndex);
 
         if (statusCode != null) {
