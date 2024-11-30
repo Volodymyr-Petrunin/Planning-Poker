@@ -4,11 +4,13 @@
         <button type="button" class="btn-close" aria-label="Close" onclick="this.parentElement.style.display='none';"></button>
     </div>
 
-    <div id="failureAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none">
+    <div id="failureAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
         <strong>Holy guacamole!</strong> You should check in on some of those fields below.
         <button type="button" class="close float-end" onclick="hideAlert()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h6 th:text="#{label.operation.failed}" id="alertMessageText">An error occurred.</h6>
+        <ul id="alertMessageList" class="mb-0" style="list-style-type: none;">
+
+        </ul>
     </div>
 </div>

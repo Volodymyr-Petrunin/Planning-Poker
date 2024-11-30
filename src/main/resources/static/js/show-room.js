@@ -142,24 +142,38 @@ document.addEventListener("DOMContentLoaded", function() {
 
     addSubscription('/user/alert/argument/not/valid', (errorMessage) => {
         const failureAlert = document.getElementById('failureAlert');
-        const alertMessageText = document.getElementById('alertMessageText');
+        const alertMessageList = document.getElementById('alertMessageList');
 
-        if (failureAlert) {
-            alertMessageText.textContent = errorMessage.body;
+        if (failureAlert && alertMessageList) {
+            alertMessageList.innerHTML = '';
+
+            let errors = [];
+            try {
+                errors = JSON.parse(errorMessage.body);
+            } catch (e) {
+                console.error('Error parsing errorMessage:', e);
+                errors = [errorMessage.body];
+            }
+
+            errors.forEach((error) => {
+                const li = document.createElement('li');
+                li.textContent = error;
+                alertMessageList.appendChild(li);
+            });
+
             failureAlert.style.display = 'block';
             failureAlert.classList.add('show');
-            failureAlert.style.opacity = '1';
-            failureAlert.classList.add('fade-in');
         }
     });
 
-     window.hideAlert = function() {
+    window.hideAlert = function () {
         const failureAlert = document.getElementById('failureAlert');
         if (failureAlert) {
             failureAlert.style.display = 'none';
             failureAlert.classList.remove('show');
         }
-    }
+    };
+
 
 
 
