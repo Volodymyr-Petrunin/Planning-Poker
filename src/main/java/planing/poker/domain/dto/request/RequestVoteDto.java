@@ -25,4 +25,6 @@ public class RequestVoteDto {
 
     @NotNull
     private ResponseStoryDto story;
+
+    private String roomCode;
 }

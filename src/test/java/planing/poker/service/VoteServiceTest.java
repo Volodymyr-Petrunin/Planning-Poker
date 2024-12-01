@@ -20,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -49,7 +50,7 @@ class VoteServiceTest {
         when(voteRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(voteMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseVoteDto createdVote = voteService.createVote(requestVoteDto);
+        final ResponseVoteDto createdVote = voteService.createVote(requestVoteDto, any());
 
         assertNotNull(createdVote);
 

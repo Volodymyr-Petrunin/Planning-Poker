@@ -14,4 +14,4 @@ ALTER TABLE event_messages
     ALTER COLUMN event_message_timestamp SET NOT NULL;
 
 ALTER TABLE votes
-    ADD CONSTRAINT uc_votes_vote_voter UNIQUE (vote_voter);
+    ADD CONSTRAINT uc_votes_vote_voter_story UNIQUE (vote_voter, story_id);
