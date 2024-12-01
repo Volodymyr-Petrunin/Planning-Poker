@@ -2,13 +2,10 @@ package planing.poker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import planing.poker.domain.dto.request.RequestVoteDto;
-import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.security.UserDetailsImpl;
-import planing.poker.service.UserService;
 import planing.poker.service.VoteService;
 
 @Controller
@@ -19,21 +16,14 @@ public class VoteController {
 
     private final VoteService voteService;
 
-    private final UserService userService;
-
     @Autowired
-    public VoteController(final VoteService voteService, final UserService userService) {
+    public VoteController(final VoteService voteService) {
         this.voteService = voteService;
-        this.userService = userService;
     }
 
     @MessageMapping(MESSAGE_MAPPING)
-    @SendTo(SEND_TO)
     public void sendVote(final RequestVoteDto vote, final Authentication authentication) {
         final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        final ResponseUserDto user = userService.getUserByEmail(userDetails.getUsername());
-        vote.setVoter(user);
-
-        voteService.createVote(vote);
+        voteService.createVote(vote, userDetails.getUsername());
     }
 }

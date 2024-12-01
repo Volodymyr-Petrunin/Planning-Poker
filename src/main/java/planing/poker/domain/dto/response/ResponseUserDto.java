@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import planing.poker.common.Role;
-import planing.poker.domain.RoomUserRole;
 import planing.poker.domain.SecurityRole;
 
 import java.util.List;

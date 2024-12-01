@@ -12,6 +12,7 @@
     <input type="hidden" id="isCreator" th:value="${isCreator}"/>
     <input type="hidden" id="roomId" th:field="*{id}"/>
     <input type="hidden" id="eventId" th:field="*{event.id}"/>
+    <input type="hidden" id="roomCode" th:field="*{roomCode}"/>
 
     <!-- Hidden elements for localization -->
     <span id="currentStoryText" th:text="#{label.current.story}" style="display:none;"></span>
@@ -88,18 +89,20 @@
             <tr>
                 <th th:text="#{label.story.title}">Title</th>
                 <th th:text="#{label.story.link}">Link</th>
-                <th th:text="#{label.actions}">Actions</th>
+                <th th:if="${isCreator}" th:text="#{label.actions}">Actions</th>
+                <th th:text="#{label.average.story.points}"></th>
             </tr>
             </thead>
             <tbody id="story-list" th:each="story : *{stories}">
             <tr th:attr="data-story-id=${story.id}">
                 <td th:text="${story.title}"></td>
                 <td><a th:href="${story.storyLink}" th:text="${story.storyLink}" target="_blank"></a></td>
-                <td>
+                <td th:if="${isCreator}">
                     <button class="btn btn-warning me-2" th:if="${isCreator}" id="buttonUpdateStory" th:attr="data-story-id=${story.id}">Update</button>
                     <button class="btn btn-danger me-2" th:if="${isCreator}" id="buttonDeleteStory" th:attr="data-story-id=${story.id}">Delete</button>
                     <button class="btn btn-success me-2" th:if="${isCreator}" id="buttonSetCurrentStory" th:attr="data-story-id=${story.id}">Set to current</button>
                 </td>
+                <td class="text-center" th:text="${story.averageVotePoints() ?: '&#11834;'}"></td>
             </tr>
             </tbody>
         </table>

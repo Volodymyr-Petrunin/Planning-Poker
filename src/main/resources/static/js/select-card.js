@@ -2,8 +2,12 @@ import { connectWebSocket, addSubscription, sendMessage } from './websocket-clie
 
 connectWebSocket();
 
-addSubscription('/topic/voteResult', function (result) {
-    showUserResults(JSON.parse(result.body));
+const noStorySelectedText = document.getElementById('noStorySelectedText').textContent;
+const roomCode = document.getElementById('roomCode').value;
+const newVoteTopic = `/topic/newVote/` + roomCode;
+
+addSubscription(newVoteTopic, function (result) {
+    // todo made something for show vote results
 });
 
 window.selectCard = function (points) {
@@ -88,8 +92,11 @@ function sendVote() {
     if (points && storyId) {
         sendMessage("/app/sendVote", {
             points: points,
-            story: { id: storyId, title: storyTitle, storyLink: storyLink }
+            story: { id: storyId, title: storyTitle, storyLink: storyLink },
+            roomCode: roomCode
         });
+    } else {
+        alert(noStorySelectedText)
     }
 }
 
