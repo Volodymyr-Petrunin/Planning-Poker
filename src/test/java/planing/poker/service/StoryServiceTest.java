@@ -109,7 +109,7 @@ class StoryServiceTest {
         when(storyRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseStoryDto updatedStory = storyService.updateStory(1 ,requestStoryDto);
+        final ResponseStoryDto updatedStory = storyService.updateStory(1 ,requestStoryDto, any());
 
         assertNotNull(updatedStory);
 
