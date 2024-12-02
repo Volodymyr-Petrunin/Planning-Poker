@@ -6,7 +6,7 @@
     <title>Room</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
-<body class="bg-dark navbar-dark" th:object="${room}">
+<body class="bg-dark navbar-dark" th:object="${room}" th:data-room="${@thymeleafUtils.toJson(room)}">
     <div th:replace="~{layouts/header :: header}"></div>
 
     <input type="hidden" id="isCreator" th:value="${isCreator}"/>
@@ -26,6 +26,7 @@
     <span id="timeUntilStart" th:text="#{timer.time.until.start}" style="display:none;"></span>
     <span id="roomNameCannotBeEmpty" th:text="#{label.room.name.cannot.be.empty}" style="display:none;"></span>
     <span id="roomWasClosed" th:text="#{label.room.was.closed.message}" style="display:none;"></span>
+    <span id="noVotesAvailable" th:text="#{label.no.votes.available}" style="display:none;"></span>
 
     <div class="text-light w-50 text-center">
         <div th:replace="~{/fragments/success-and-fail-message :: success-failure-message}"></div>
@@ -102,7 +103,11 @@
                     <button class="btn btn-danger me-2" th:if="${isCreator}" id="buttonDeleteStory" th:attr="data-story-id=${story.id}">Delete</button>
                     <button class="btn btn-success me-2" th:if="${isCreator}" id="buttonSetCurrentStory" th:attr="data-story-id=${story.id}">Set to current</button>
                 </td>
-                <td class="text-center" th:text="${story.averageVotePoints() ?: '&#11834;'}"></td>
+                <td class="text-center average-vote"
+                    th:text="${story.averageVotePoints() ?: '&#11834;'}"
+                    th:attr="data-story-id=${story.id}, data-votes=${@thymeleafUtils.toJson(story.votes)}"
+                    style="cursor: pointer;">
+                </td>
             </tr>
             </tbody>
         </table>
@@ -127,6 +132,9 @@
 
     <!-- Include the update story modal -->
     <th:block th:replace="~{fragments/update-story-modal :: update-story-modal}"></th:block>
+
+    <!-- Include the show votes modal -->
+    <th:block th:replace="~{fragments/show-votes-modal :: show-votes-modal}"></th:block>
 </body>
 
 
@@ -165,5 +173,8 @@
 
     <!-- Timer.js -->
     <script type="module" th:src="@{/js/timer.js}"></script>
+
+    <!-- Show-Votes-Modal.js -->
+    <script type="module" th:src="@{/js/show-votes-modal.js}"></script>
 
 </html>

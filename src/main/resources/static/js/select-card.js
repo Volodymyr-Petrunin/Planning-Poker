@@ -1,4 +1,4 @@
-import { connectWebSocket, addSubscription, sendMessage } from './websocket-client.js';
+import {addSubscription, connectWebSocket, sendMessage} from './websocket-client.js';
 
 connectWebSocket();
 
@@ -7,8 +7,41 @@ const roomCode = document.getElementById('roomCode').value;
 const newVoteTopic = `/topic/newVote/` + roomCode;
 
 addSubscription(newVoteTopic, function (result) {
-    // todo made something for show vote results
+    const voteData = JSON.parse(result.body);
+
+    const storyRow = document.querySelector(`tr[data-story-id="${voteData.storyId}"]`);
+    if (storyRow) {
+        const votesCell = storyRow.querySelector('td[data-votes]');
+        if (votesCell) {
+            const currentVotes = JSON.parse(votesCell.getAttribute('data-votes')) || [];
+
+            const existingVoteIndex = currentVotes.findIndex(v => v.voter.id === voteData.voter.id);
+            if (existingVoteIndex !== -1) {
+                currentVotes[existingVoteIndex] = voteData;
+            } else {
+                currentVotes.push(voteData);
+            }
+
+            votesCell.setAttribute('data-votes', JSON.stringify(currentVotes));
+
+            const averageVoteCell = storyRow.querySelector('.average-vote');
+            if (averageVoteCell) {
+                const newAverage = calculateAverageVotePoints(currentVotes);
+                averageVoteCell.textContent = newAverage ?? '&#11834;';
+            }
+        }
+    }
 });
+
+function calculateAverageVotePoints(votes) {
+    if (!votes || votes.length === 0) {
+        return null;
+    }
+
+    const totalPoints = votes.reduce((sum, vote) => sum + vote.points, 0);
+    return Math.floor(totalPoints / votes.length);
+}
+
 
 window.selectCard = function (points) {
     document.getElementById('selected-points').value = points;
