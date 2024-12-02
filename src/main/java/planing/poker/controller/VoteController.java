@@ -12,8 +12,6 @@ import planing.poker.service.VoteService;
 public class VoteController {
     private static final String MESSAGE_MAPPING = "/sendVote";
 
-    private static final String SEND_TO = "/topic/voteResult";
-
     private final VoteService voteService;
 
     @Autowired

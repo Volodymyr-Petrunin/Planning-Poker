@@ -1,0 +1,18 @@
+<div class="modal fade" id="showVotesModal" tabindex="-1" aria-labelledby="showVotesModalLabel" aria-hidden="true" th:fragment="show-votes-modal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showVotesModalLabel" th:text="#{label.votes}">Votes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul id="votesList" class="list-group bg-dark text-white font-weight-bold">
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" th:text="#{label.step.back}">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
