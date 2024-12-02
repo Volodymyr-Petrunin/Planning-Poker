@@ -18,4 +18,6 @@ public class CreateStoryRequest {
     @NotNull
     @Positive
     private long roomId;
+
+    private String roomCode;
 }

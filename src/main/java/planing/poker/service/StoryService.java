@@ -49,14 +49,15 @@ public class StoryService {
         this.roomMapper = roomMapper;
     }
 
-    public ResponseStoryDto createStory(final RequestStoryDto responseStoryDto) {
+    public ResponseStoryDto createStory(final RequestStoryDto responseStoryDto, final String roomCode) {
         final ResponseStoryDto createdStory = storyMapper.toDto(
                 storyRepository.save(storyMapper.toEntity(responseStoryDto)));
-        applicationEventPublisher.publishEvent(new StoryCreatedEvent(createdStory));
+        applicationEventPublisher.publishEvent(new StoryCreatedEvent(createdStory, roomCode));
         return createdStory;
     }
 
-    public List<ResponseStoryDto> createSeveralStory(final List<RequestStoryDto> storiesDto, final Long roomId) {
+    public List<ResponseStoryDto> createSeveralStory(final List<RequestStoryDto> storiesDto, final Long roomId,
+                                                     final String roomCode) {
         final List<Story> stories = storiesDto.stream().map(storyMapper::toEntity).toList();
 
         final List<Story> savedStories = storyRepository.saveAll(stories);
@@ -67,7 +68,7 @@ public class StoryService {
 
         final List<ResponseStoryDto> responseStories = savedStories.stream().map(storyMapper::toDto).toList();
 
-        responseStories.forEach(story -> applicationEventPublisher.publishEvent(new StoryCreatedEvent(story)));
+        responseStories.forEach(story -> applicationEventPublisher.publishEvent(new StoryCreatedEvent(story, roomCode)));
 
         return responseStories;
     }
@@ -86,15 +87,15 @@ public class StoryService {
                 .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
-    public ResponseStoryDto updateStory(final long id, final RequestStoryDto storyDto) {
+    public ResponseStoryDto updateStory(final long id, final RequestStoryDto storyDto, final String roomCode) {
         if (storyRepository.findById(id).isPresent()) {
             final Story story = storyMapper.toEntity(storyDto);
             story.setId(id);
 
             final ResponseStoryDto updatedStory = storyMapper.toDto(storyRepository.save(story));
-            applicationEventPublisher.publishEvent(new StoryUpdatedEvent(updatedStory));
+            applicationEventPublisher.publishEvent(new StoryUpdatedEvent(updatedStory, roomCode));
 
-            notifyIfCurrentStory(story);
+            notifyIfCurrentStory(story, roomCode);
 
             return updatedStory;
         } else {
@@ -102,26 +103,26 @@ public class StoryService {
         }
     }
 
-    public void deleteStory(final Long id) {
+    public void deleteStory(final Long id, final String roomCode) {
         Optional<Story> storyOptional = storyRepository.findById(id);
         if (storyOptional.isPresent()) {
             final Optional<Room> roomOptional = roomService.optionalRoomByCurrentStory(storyOptional.get());
 
-            roomOptional.ifPresent(room -> roomService.updateCurrentStory(room.getId(), null));
+            roomOptional.ifPresent(room -> roomService.updateCurrentStory(room.getId(), null, roomCode));
 
             storyRepository.deleteById(id);
-            applicationEventPublisher.publishEvent(new StoryDeletedEvent(id));
+            applicationEventPublisher.publishEvent(new StoryDeletedEvent(id, roomCode));
         } else {
             throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
     }
 
-    private void notifyIfCurrentStory(final Story story) {
+    private void notifyIfCurrentStory(final Story story, final String roomCode) {
         final Optional<Room> roomOptional = roomService.optionalRoomByCurrentStory(story);
 
         if (roomOptional.isPresent()) {
             ResponseRoomDto room = roomMapper.toDto(roomOptional.get());
-            applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(room));
+            applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(room, roomCode));
         }
     }
 }

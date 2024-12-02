@@ -14,4 +14,6 @@ public class UpdateCurrentStoryRequest {
 
     @NotNull
     private ResponseStoryDto responseStoryDto;
+
+    private String roomCode;
 }

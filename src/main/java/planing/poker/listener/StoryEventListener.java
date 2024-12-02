@@ -11,6 +11,12 @@ import planing.poker.event.story.StoryUpdatedEvent;
 @Component
 public class StoryEventListener {
 
+    private static final String TOPIC_STORY_CREATED_TEMPLATE = "/topic/storyCreated/%s";
+
+    private static final String TOPIC_STORY_UPDATED_TEMPLATE = "/topic/storyUpdated/%s";
+
+    private static final String TOPIC_STORY_DELETED_TEMPLATE = "/topic/storyDeleted/%s";
+
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
@@ -20,16 +26,23 @@ public class StoryEventListener {
 
     @EventListener
     public void handleStoryCreated(final StoryCreatedEvent event) {
-        messagingTemplate.convertAndSend("/topic/storyCreated", event.getStoryDto());
+        messagingTemplate.convertAndSend(
+                createTopic(TOPIC_STORY_CREATED_TEMPLATE, event.getRoomCode()), event.getStoryDto());
     }
 
     @EventListener
     public void handleStoryUpdated(final StoryUpdatedEvent event) {
-        messagingTemplate.convertAndSend("/topic/storyUpdated", event.getStoryDto());
+        messagingTemplate.convertAndSend(
+                createTopic(TOPIC_STORY_UPDATED_TEMPLATE, event.getRoomCode()), event.getStoryDto());
     }
 
     @EventListener
     public void handleStoryDeleted(final StoryDeletedEvent event) {
-        messagingTemplate.convertAndSend("/topic/storyDeleted", event.getStoryId());
+        messagingTemplate.convertAndSend(
+                createTopic(TOPIC_STORY_DELETED_TEMPLATE, event.getRoomCode()), event.getStoryId());
+    }
+
+    private String createTopic(final String template, final String... strings){
+        return String.format(template, strings);
     }
 }

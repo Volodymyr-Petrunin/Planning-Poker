@@ -37,6 +37,10 @@ public class EventMessageFactory {
         return createRequestEventMessageDto(eventId, userId, "messages.event.CURRENT_STORY_SELECTED", storyTitle);
     }
 
+    public RequestEventMessageDto createMessageCurrentStoryRemoved(final Long eventId, final Long userId, final String nickname) {
+        return createRequestEventMessageDto(eventId, userId, "messages.event.CURRENT_STORY_REMOVED", nickname);
+    }
+
     public RequestEventMessageDto createMessageVotingStarted(final Long eventId, final Long userId, final String startTime) {
         return createRequestEventMessageDto(eventId, userId, "messages.event.VOTING_STARTED", startTime);
     }

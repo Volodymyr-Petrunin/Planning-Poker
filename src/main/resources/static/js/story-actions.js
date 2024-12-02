@@ -1,4 +1,5 @@
 import { connectWebSocket, addSubscription, sendMessage } from './websocket-client.js';
+const roomCode = document.getElementById('roomCode').value;
 
 document.addEventListener("DOMContentLoaded", function () {
     connectWebSocket()
@@ -43,7 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('saveStoriesBtn').addEventListener('click', function () {
         var roomId = document.getElementById('roomId').value;
         if (stories.length > 0 && roomId) {
-            var payload = { stories: stories, roomId: Number(roomId) };
+            const payload = {
+                stories: stories, roomId: Number(roomId), roomCode: roomCode };
             sendMessage("/app/createStory", payload);
             stories = [];
             document.getElementById('createdStories').innerHTML = '';
@@ -82,7 +84,8 @@ document.addEventListener("DOMContentLoaded", function () {
             requestStoryDto: {
                 title: updateStoryTitleInput.value,
                 storyLink: updateStoryLinkInput.value
-            }
+            },
+            roomCode: roomCode
         };
 
         sendMessage('/app/updateStory', request);
@@ -97,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const confirmation = confirm(confirmText);
             if (confirmation) {
-                sendMessage('/app/deleteStory', { storyId: storyId });
+                sendMessage('/app/deleteStory', { storyId: storyId, roomCode: roomCode });
             }
         }
     });

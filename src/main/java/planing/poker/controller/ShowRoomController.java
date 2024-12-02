@@ -92,7 +92,7 @@ public class ShowRoomController {
 
     @MessageMapping(UPDATE_CURRENT_STORY_MESSAGE_MAPPING)
     public void updateCurrentStory(@Valid final UpdateCurrentStoryRequest request) {
-        roomService.updateCurrentStory(request.getStoryId(), request.getResponseStoryDto());
+        roomService.updateCurrentStory(request.getStoryId(), request.getResponseStoryDto(), request.getRoomCode());
     }
 
     @MessageMapping(UPDATE_ROOM_NAME_MESSAGE_MAPPING)
