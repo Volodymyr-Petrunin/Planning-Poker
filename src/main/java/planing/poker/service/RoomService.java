@@ -76,7 +76,7 @@ public class RoomService {
 
     public ResponseRoomDto createRoom(final RequestRoomDto roomDto, final String userEmail) {
         setCreator(roomDto, userEmail);
-        final List<ResponseStoryDto> stories = storyService.createSeveralStory(roomDto.getStories(), null);
+        final List<ResponseStoryDto> stories = storyService.createSeveralStory(roomDto.getStories(), null, null);
 
         final Room room = roomMapper.toEntity(roomDto);
         setRoomCode(room);
@@ -131,20 +131,30 @@ public class RoomService {
         }
     }
 
-    public ResponseRoomDto updateCurrentStory(final long roomId, final ResponseStoryDto responseStoryDto) {
+    public ResponseRoomDto updateCurrentStory(final long roomId, final ResponseStoryDto responseStoryDto, final String roomCode) {
         final ResponseRoomDto room = getRoomById(roomId);
         room.setCurrentStory(responseStoryDto);
 
         final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
-        applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(updatedRoom));
+        applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(updatedRoom, roomCode));
 
-        eventMessageService.createEventMessage(
-                eventMessageFactory.createMessageCurrentStorySelected(
-                        updatedRoom.getEvent().getId(),
-                        updatedRoom.getCreator().getId(),
-                        updatedRoom.getCurrentStory().getTitle()
-                )
-        );
+        if (updatedRoom.getCurrentStory() != null) {
+            eventMessageService.createEventMessage(
+                    eventMessageFactory.createMessageCurrentStorySelected(
+                            updatedRoom.getEvent().getId(),
+                            updatedRoom.getCreator().getId(),
+                            updatedRoom.getCurrentStory().getTitle()
+                    )
+            );
+        } else {
+            eventMessageService.createEventMessage(
+                    eventMessageFactory.createMessageCurrentStoryRemoved(
+                            updatedRoom.getEvent().getId(),
+                            updatedRoom.getCreator().getId(),
+                            updatedRoom.getCreator().getNickname()
+                    )
+            );
+        }
 
         return updatedRoom;
     }

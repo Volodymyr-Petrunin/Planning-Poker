@@ -11,4 +11,6 @@ public class DeleteStoryRequest {
     @NotNull
     @Positive
     private long storyId;
+
+    private String roomCode;
 }

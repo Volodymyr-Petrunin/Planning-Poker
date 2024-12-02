@@ -20,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -48,7 +49,7 @@ class StoryServiceTest {
         when(storyRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseStoryDto createdStory = storyService.createStory(requestStoryDto);
+        final ResponseStoryDto createdStory = storyService.createStory(requestStoryDto, any());
 
         assertNotNull(createdStory);
 
@@ -122,7 +123,7 @@ class StoryServiceTest {
     void testDeleteStory_ShouldDeleteStory() {
         doNothing().when(storyRepository).deleteById(EXPECTED_DTO.getId());
 
-        storyService.deleteStory(EXPECTED_DTO.getId());
+        storyService.deleteStory(EXPECTED_DTO.getId(), any());
 
         verify(storyRepository, times(1)).deleteById(EXPECTED_DTO.getId());
     }

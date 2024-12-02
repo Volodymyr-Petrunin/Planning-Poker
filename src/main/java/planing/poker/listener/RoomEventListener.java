@@ -17,7 +17,7 @@ public class RoomEventListener {
 
     public static final String TOPIC_ROOM_CLOSED = "/topic/roomClosed";
 
-    public static final String TOPIC_UPDATE_CURRENT_STORY = "/topic/updateCurrentStory";
+    public static final String TOPIC_UPDATE_CURRENT_STORY_TEMPLATE = "/topic/updateCurrentStory/%s";
 
     private final SimpMessagingTemplate messagingTemplate;
 
@@ -48,7 +48,11 @@ public class RoomEventListener {
 
     @EventListener
     public void handleRoomCurrentStoryUpdate(final RoomCurrentStoryEvent event) {
-        messagingTemplate.convertAndSend(TOPIC_UPDATE_CURRENT_STORY, event.getRoomDto());
+        messagingTemplate.convertAndSend(
+                createTopic(TOPIC_UPDATE_CURRENT_STORY_TEMPLATE, event.getRoomCode()), event.getRoomDto());
     }
 
+    private String createTopic(final String template, final String... strings){
+        return String.format(template, strings);
+    }
 }

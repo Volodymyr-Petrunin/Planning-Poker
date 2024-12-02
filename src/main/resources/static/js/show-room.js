@@ -1,9 +1,12 @@
 import {addSubscription, connectWebSocket, sendMessage} from './websocket-client.js';
+const roomCode = document.getElementById('roomCode').value;
 
 document.addEventListener("DOMContentLoaded", function() {
     connectWebSocket();
 
-    addSubscription('/topic/updateCurrentStory', function (message) {
+    const updateCurrentStoryTopic = `/topic/updateCurrentStory/` + roomCode;
+
+    addSubscription(updateCurrentStoryTopic, function (message) {
             const room = JSON.parse(message.body);
             const currentStorySection = document.getElementById('currentStorySection');
 
@@ -35,7 +38,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 500)
     });
 
-    addSubscription('/topic/storyCreated', function (message) {
+    const storyCreatedTopic = `/topic/storyCreated/` + roomCode;
+
+    addSubscription(storyCreatedTopic, function (message) {
             var storyCreated = JSON.parse(message.body);
 
             var storyList = document.getElementById('story-list');
@@ -62,7 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
             storyList.appendChild(newRow);
     });
 
-    addSubscription('/topic/storyUpdated', function (message) {
+    const storyUpdatedTopic = `/topic/storyUpdated/` + roomCode;
+
+    addSubscription(storyUpdatedTopic, function (message) {
             const updatedStory = JSON.parse(message.body);
             const storyRow = document.querySelector(`tr[data-story-id="${updatedStory.id}"]`);
 
@@ -76,7 +83,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-    addSubscription('/topic/storyDeleted', function(message) {
+    const storyDeletedTopic = `/topic/storyDeleted/` + roomCode;
+
+    addSubscription(storyDeletedTopic, function(message) {
             const deletedStoryId = JSON.parse(message.body);
 
             const storyRow = document.querySelector(`tr[data-story-id="${deletedStoryId}"]`);
@@ -194,7 +203,8 @@ document.addEventListener('click', function(event) {
                 id: storyId,
                 title: title,
                 storyLink: storyLink
-            }
+            },
+            roomCode: roomCode
         };
 
         sendMessage('/app/updateCurrentStory', request);

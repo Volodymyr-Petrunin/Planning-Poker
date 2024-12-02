@@ -34,17 +34,17 @@ public class StoryController {
 
     @MessageMapping(CREATE_MESSAGE_MAPPING)
     public void createStory(@Valid final CreateStoryRequest request) {
-        storyService.createSeveralStory(request.getStories(), request.getRoomId());
+        storyService.createSeveralStory(request.getStories(), request.getRoomId(), request.getRoomCode());
     }
 
     @MessageMapping(UPDATE_MESSAGE_MAPPING)
     public void updateStory(@Valid final UpdateStoryRequest request) {
-        storyService.updateStory(request.getStoryId(), request.getRequestStoryDto());
+        storyService.updateStory(request.getStoryId(), request.getRequestStoryDto(), request.getRoomCode());
     }
 
     @MessageMapping(DELETE_MESSAGE_MAPPING)
     public void deleteStory(@Valid final DeleteStoryRequest request) {
-        storyService.deleteStory(request.getStoryId());
+        storyService.deleteStory(request.getStoryId(), request.getRoomCode());
     }
 
     @InitBinder
