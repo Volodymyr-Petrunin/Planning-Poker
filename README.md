@@ -110,7 +110,7 @@ Use the following credentials to log in to the application:
 | user2@example.com       | user2PASS_ |
 | user3@example.com       | user3PASS_ |
 
-## And that's it! Congratulations on the successful setup! 🎉
+## And that's it! Congratulations on the successful setup Launch Guide! 🎉
 
 
 ## 📬 Contact
