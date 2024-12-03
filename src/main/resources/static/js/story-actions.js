@@ -1,5 +1,6 @@
 import { connectWebSocket, addSubscription, sendMessage } from './websocket-client.js';
 const roomCode = document.getElementById('roomCode').value;
+const enterValidUrlMessage = document.getElementById('enterValidUrl').textContent;
 
 document.addEventListener("DOMContentLoaded", function () {
     connectWebSocket()
@@ -21,6 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('add-story-btn').addEventListener('click', function () {
         var storyTitle = document.getElementById('storyTitle').value;
         var storyLink = document.getElementById('storyLink').value;
+
+        if (!storyLink || !isValidURL(storyLink)) {
+            alert(enterValidUrlMessage);
+            return;
+        }
 
         if (storyTitle && storyLink) {
             var story = { title: storyTitle, storyLink: storyLink };
@@ -79,11 +85,19 @@ document.addEventListener("DOMContentLoaded", function () {
     updateStoryButton.addEventListener('click', function () {
         if (!selectedStoryId) return;
 
+        const updatedTitle = updateStoryTitleInput.value;
+        const updatedLink = updateStoryLinkInput.value;
+
+        if (!updatedLink || !isValidURL(updatedLink)) {
+            alert(enterValidUrlMessage);
+            return;
+        }
+
         const request = {
             storyId: selectedStoryId,
             requestStoryDto: {
-                title: updateStoryTitleInput.value,
-                storyLink: updateStoryLinkInput.value
+                title: updatedTitle,
+                storyLink: updatedLink
             },
             roomCode: roomCode
         };
@@ -104,4 +118,13 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+
+    function isValidURL(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
 });
