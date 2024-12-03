@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
@@ -18,5 +19,6 @@ public class RequestStoryDto {
     private String title;
 
     @NotNull
+    @URL
     private String storyLink;
 }

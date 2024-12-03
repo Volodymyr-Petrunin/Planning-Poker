@@ -1,5 +1,6 @@
 package planing.poker.domain.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -48,6 +49,7 @@ public class RequestRoomDto {
 
     private ResponseStoryDto currentStory;
 
+    @Valid
     private List<RequestStoryDto> stories;
 
     private Duration voteDuration;
