@@ -4,7 +4,11 @@
 
 **Planning Poker** is a collaborative game used in **Agile software development** to estimate the effort required for tasks or features. By playing this game, teams can reach a consensus on task complexity in a fun, efficient, and democratic way.
 
-This project provides a **digital implementation** of the Planning Poker technique, making it easy for Agile teams to estimate tasks remotely or in person.
+This project provides a **digital implementation** of the Planning Poker technique,
+making it easy for Agile teams to estimate tasks remotely or in person.
+
+The application supports localization in three languages: **English**, **Ukrainian**, and **Swedish**,
+allowing teams from different regions to use it seamlessly.
 
 ---
 
@@ -80,7 +84,7 @@ git clone git@github.com:Volodymyr-Petrunin/Rock-Paper-Scissors.git
    Run the following command to clean and build the project:  
    
 ```bash
-   ./gradlew clean build
+./gradlew clean build
 ```
 
 ### 3. **Start Docker** 🐳  
