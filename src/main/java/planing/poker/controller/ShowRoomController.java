@@ -72,7 +72,7 @@ public class ShowRoomController {
     public String showRoomPage(@PathVariable final String roomCode, final Model model,
                                 @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         final ResponseRoomDto room = roomService.getRoomByCode(roomCode);
-        boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());
+        final boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());
         final User currentUser = userDetails.getUser(User.class);
         final String startTimeIso = getStartTimeIso(room);
 

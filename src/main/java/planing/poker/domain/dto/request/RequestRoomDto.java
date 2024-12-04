@@ -58,5 +58,8 @@ public class RequestRoomDto {
 
     private Boolean isVotingOpen;
 
+    @NotNull
+    private Boolean isAnonymousVoting;
+
     private EventDto event;
 }

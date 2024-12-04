@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.ExceptionMessages;
+import planing.poker.common.factory.EventMessageFactory;
 import planing.poker.domain.Vote;
 import planing.poker.domain.dto.request.RequestVoteDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
@@ -30,6 +31,10 @@ public class VoteService {
 
     private final UserService userService;
 
+    private final EventMessageService eventMessageService;
+
+    private final EventMessageFactory eventMessageFactory;
+
     private final StoryMapper storyMapper;
 
     private final UserMapper userMapper;
@@ -39,12 +44,15 @@ public class VoteService {
     @Autowired
     public VoteService(final VoteRepository voteRepository, final VoteMapper voteMapper,
                        final ExceptionMessages exceptionMessages, final UserService userService,
+                       final EventMessageService eventMessageService, final EventMessageFactory eventMessageFactory,
                        final StoryMapper storyMapper, final UserMapper userMapper,
                        final ApplicationEventPublisher applicationEventPublisher) {
         this.voteRepository = voteRepository;
         this.voteMapper = voteMapper;
         this.exceptionMessages = exceptionMessages;
         this.userService = userService;
+        this.eventMessageService = eventMessageService;
+        this.eventMessageFactory = eventMessageFactory;
         this.storyMapper = storyMapper;
         this.userMapper = userMapper;
         this.applicationEventPublisher = applicationEventPublisher;
@@ -69,6 +77,8 @@ public class VoteService {
                 .orElseGet(() -> voteMapper.toDto(voteRepository.save(vote)));
 
         applicationEventPublisher.publishEvent(new VoteCreatedEvent(responseVoteDto, requestVoteDto.getRoomCode()));
+
+        createMessageVoteSubmitted(requestVoteDto);
 
         return responseVoteDto;
     }
@@ -95,5 +105,25 @@ public class VoteService {
 
     public void deleteVote(final Long id) {
         voteRepository.deleteById(id);
+    }
+
+    private void createMessageVoteSubmitted(final RequestVoteDto requestVoteDto) {
+        if (requestVoteDto.getIsAnonymousVoting()) {
+            eventMessageService.createEventMessage(
+                    eventMessageFactory.createMessageVoteSubmittedIfVotingAnonymous(
+                            requestVoteDto.getEventId(),
+                            requestVoteDto.getVoter().getId(),
+                            requestVoteDto.getStory().getTitle()
+                    )
+            );
+        } else {
+            eventMessageService.createEventMessage(
+                    eventMessageFactory.createMessageVoteSubmitted(
+                            requestVoteDto.getEventId(),
+                            requestVoteDto.getVoter().getId(),
+                            requestVoteDto.getVoter().getNickname(),
+                            requestVoteDto.getPoints().toString())
+            );
+        }
     }
 }

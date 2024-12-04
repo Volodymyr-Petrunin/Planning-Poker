@@ -3,6 +3,8 @@ import {addSubscription, connectWebSocket, sendMessage} from './websocket-client
 connectWebSocket();
 
 const noStorySelectedText = document.getElementById('noStorySelectedText').textContent;
+const isAnonymousVoting = document.getElementById('isAnonymousVoting').value === 'true';
+const eventId = document.getElementById('eventId').value;
 const roomCode = document.getElementById('roomCode').value;
 const newVoteTopic = `/topic/newVote/` + roomCode;
 
@@ -126,7 +128,9 @@ function sendVote() {
         sendMessage("/app/sendVote", {
             points: points,
             story: { id: storyId, title: storyTitle, storyLink: storyLink },
-            roomCode: roomCode
+            roomCode: roomCode,
+            isAnonymousVoting: isAnonymousVoting,
+            eventId: eventId
         });
     } else {
         alert(noStorySelectedText)

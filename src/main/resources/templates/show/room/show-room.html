@@ -13,6 +13,7 @@
     <input type="hidden" id="roomId" th:field="*{id}"/>
     <input type="hidden" id="eventId" th:field="*{event.id}"/>
     <input type="hidden" id="roomCode" th:field="*{roomCode}"/>
+    <input type="hidden" id="isAnonymousVoting" th:field="*{isAnonymousVoting}"/>
 
     <!-- Hidden elements for localization -->
     <span id="currentStoryText" th:text="#{label.current.story}" style="display:none;"></span>
@@ -28,6 +29,7 @@
     <span id="roomWasClosed" th:text="#{label.room.was.closed.message}" style="display:none;"></span>
     <span id="noVotesAvailable" th:text="#{label.no.votes.available}" style="display:none;"></span>
     <span id="enterValidUrl" th:text="#{label.message.enter.valid.url}" style="display:none;"></span>
+    <span id="anonymousVotingMessage" th:text="#{label.room.message.anonymous.voting}" style="display:none;"></span>
 
     <div class="text-light w-50 text-center">
         <div th:replace="~{/fragments/success-and-fail-message :: success-failure-message}"></div>

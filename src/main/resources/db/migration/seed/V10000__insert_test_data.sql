@@ -21,13 +21,18 @@ VALUES
     (2, 'If you launch the project write to me', 'https://www.linkedin.com/in/volodymyr-petrunin-0316302b5/'),
     (3, 'Example Issue On GitHub', 'https://github.com/Volodymyr-Petrunin/Planning-Poker/issues/48'),
     (4, 'Move To Microservices', 'https://www.youtube.com/watch?v=rckfN7xFig0'),
-    (5, 'Example Delete Issue', 'https://www.google.se/?hl=sv');
+    (5, 'Example Delete Issue', 'https://www.google.se/?hl=sv'),
+    (6, 'Handle Sequence In Spring Boot Tests', 'https://stackoverflow.com/questions/79021656/how-to-handle-sequences-in-spring-boot-tests-with-sql-scripts'),
+    (7, 'If you launch the project write to me', 'https://www.linkedin.com/in/volodymyr-petrunin-0316302b5/'),
+    (8, 'Example Issue On GitHub', 'https://github.com/Volodymyr-Petrunin/Planning-Poker/issues/48'),
+    (9, 'Move To Microservices', 'https://www.youtube.com/watch?v=rckfN7xFig0'),
+    (10, 'Example Delete Issue', 'https://www.google.se/?hl=sv');
 
 -- Set the starting value of the sequence for the stories table.
--- The value 15 is chosen to avoid conflicts with existing IDs,
+-- The value 20 is chosen to avoid conflicts with existing IDs,
 -- as Hibernate uses allocationSize = 10. This means Hibernate
 -- reserves ranges of IDs in batches of 10.
-ALTER SEQUENCE story_seq RESTART WITH 15;
+ALTER SEQUENCE story_seq RESTART WITH 20;
 
 INSERT INTO rooms(room_id, room_code, room_name, room_creator, room_start_time, current_story_id, room_is_active, room_is_voting_open, room_start_date, room_vote_duration)
 VALUES
@@ -43,7 +48,7 @@ ALTER SEQUENCE room_seq RESTART WITH 12;
 INSERT INTO room_story (room_id, story_id)
 VALUES
     (1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
-    (2, 1), (2, 2), (2, 3), (2, 4), (2, 5);
+    (2, 6), (2, 7), (2, 8), (2, 9), (2, 10);
 
 INSERT INTO room_user_roles (id, user_id, room_id, role)
 VALUES
