@@ -48,6 +48,13 @@
         </button>
     </div>
 
+    <!-- Is Anonymous Voting -->
+    <div class="form-check form-switch text-white mb-2">
+        <label class="form-check-label" for="isAnonymousVote" th:text="#{label.room.turn.on.anonymous.voting}">Enable anonymous voting?</label>
+        <input class="form-check-input" type="checkbox"  role="switch" th:field="*{isAnonymousVoting}" id="isAnonymousVote">
+        <small class="text-danger" th:if="${#fields.hasErrors('isAnonymousVoting')}" th:errors="*{isAnonymousVoting}"></small>
+    </div>
+
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4 float-end" style="width: 100%; padding: 10px; font-size: 1rem;" id="doneButton" th:text="#{label.done}" disabled>Done</button>
 

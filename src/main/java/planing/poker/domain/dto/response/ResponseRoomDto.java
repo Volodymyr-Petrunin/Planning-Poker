@@ -60,5 +60,9 @@ public class ResponseRoomDto {
     @NotNull
     private Boolean isVotingOpen;
 
+    @NotNull
+    private Boolean isAnonymousVoting;
+
+    @NotNull
     private EventDto event;
 }

@@ -69,6 +69,9 @@ public class Room {
     @Column(name = "room_is_voting_open")
     private Boolean isVotingOpen;
 
+    @Column(name = "room_is_anonymous_voting")
+    private Boolean isAnonymousVoting;
+
     @OneToOne(mappedBy = "room")
     private Event event;
 
