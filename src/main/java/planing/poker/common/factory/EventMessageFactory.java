@@ -53,6 +53,10 @@ public class EventMessageFactory {
         return createRequestEventMessageDto(eventId, userId, "messages.event.VOTE_SUBMITTED", username, score);
     }
 
+    public RequestEventMessageDto createMessageVoteSubmittedIfVotingAnonymous(final Long eventId, final Long userId, final String storyName) {
+        return createRequestEventMessageDto(eventId, userId, "messages.event.VOTE_SUBMITTED_ANONYMOUS", storyName);
+    }
+
     public RequestEventMessageDto createMessageRoomCreated(final Long eventId, final Long userId, final String creationTime, final String creatorName) {
         return createRequestEventMessageDto(eventId, userId, "messages.event.ROOM_CREATED", creationTime, creatorName);
     }

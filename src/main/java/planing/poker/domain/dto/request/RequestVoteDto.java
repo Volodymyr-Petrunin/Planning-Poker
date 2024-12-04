@@ -1,5 +1,6 @@
 package planing.poker.domain.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,5 +27,13 @@ public class RequestVoteDto {
     @NotNull
     private ResponseStoryDto story;
 
+    @NotNull
+    @NotBlank
     private String roomCode;
+
+    @NotNull
+    private Boolean isAnonymousVoting;
+
+    @NotNull
+    private Long eventId;
 }
