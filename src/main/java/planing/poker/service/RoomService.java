@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import planing.poker.common.ExceptionMessages;
 import planing.poker.common.Role;
+import planing.poker.common.exception.RoomNotFoundException;
 import planing.poker.common.factory.EventMessageFactory;
 import planing.poker.common.generation.RoomCodeGeneration;
 import planing.poker.domain.*;
@@ -109,12 +110,12 @@ public class RoomService {
 
     public ResponseRoomDto getRoomById(final Long id) {
         return roomRepository.findById(id).map(roomMapper::toDto)
-                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE()));
+                .orElseThrow(() -> new RoomNotFoundException(exceptionMessages.CANNOT_FIND_ROOM()));
     }
 
     public ResponseRoomDto getRoomByCode(final String roomCode) {
         return roomMapper.toDto(roomRepository.findByRoomCode(roomCode)
-                .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
+                .orElseThrow(() -> new RoomNotFoundException(exceptionMessages.CANNOT_FIND_ROOM())));
     }
 
     public ResponseRoomDto updateRoom(long id, final RequestRoomDto requestRoomDto) {
