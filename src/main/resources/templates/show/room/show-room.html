@@ -6,7 +6,7 @@
     <title>Room</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
-<body class="bg-dark navbar-dark" th:object="${room}" th:data-room="${@thymeleafUtils.toJson(room)}">
+<body class="bg-dark navbar-dark" th:object="${room}">
     <div th:replace="~{layouts/header :: header}"></div>
 
     <input type="hidden" id="isCreator" th:value="${isCreator}"/>
