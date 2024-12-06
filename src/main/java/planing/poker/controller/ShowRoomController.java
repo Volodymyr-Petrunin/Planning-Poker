@@ -34,6 +34,8 @@ public class ShowRoomController {
 
     private static final String SHOW_ROOM_PAGE = "show/room/show-room";
 
+    private static final String SHOW_NON_ACTIVE_ROOM_PAGE = "show/room/not-active-room";
+
     private static final String UPDATE_CURRENT_STORY_MESSAGE_MAPPING = "/updateCurrentStory";
 
     private static final String UPDATE_ROOM_NAME_MESSAGE_MAPPING = "/updateRoomName";
@@ -72,6 +74,11 @@ public class ShowRoomController {
     public String showRoomPage(@PathVariable final String roomCode, final Model model,
                                 @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         final ResponseRoomDto room = roomService.getRoomByCode(roomCode);
+
+        if (!room.getIsActive()) {
+            return SHOW_NON_ACTIVE_ROOM_PAGE;
+        }
+
         final boolean isCreator = room.getCreator().getEmail().equals(userDetails.getUsername());
         final User currentUser = userDetails.getUser(User.class);
         final String startTimeIso = getStartTimeIso(room);

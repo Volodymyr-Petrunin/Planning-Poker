@@ -8,11 +8,11 @@ import planing.poker.common.exception.RoomNotFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final String ROOM_NOT_FIND_PATH = "/error/room-not-found";
+    private static final String ROOM_NOT_FIND_PAGE = "/error/room-not-found";
 
     @ExceptionHandler(RoomNotFoundException.class)
     public String handleRoomNotFound(final RoomNotFoundException ex, final Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return ROOM_NOT_FIND_PATH;
+        return ROOM_NOT_FIND_PAGE;
     }
 }
