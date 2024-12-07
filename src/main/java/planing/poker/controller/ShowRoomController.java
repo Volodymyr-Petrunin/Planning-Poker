@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import planing.poker.common.Role;
 import planing.poker.common.factory.EventMessageFactory;
+import planing.poker.controller.request.RoomVotingRequest;
 import planing.poker.controller.request.UpdateCurrentStoryRequest;
 import planing.poker.controller.request.UpdateRoomNameRequest;
 import planing.poker.domain.User;
@@ -41,6 +42,8 @@ public class ShowRoomController {
     private static final String UPDATE_ROOM_NAME_MESSAGE_MAPPING = "/updateRoomName";
 
     private static final String CLOSE_ROOM_MESSAGE_MAPPING = "/closeRoom";
+
+    private static final String ROOM_VOTING_MESSAGE_MAPPING = "/votingAction";
 
     private static final String ROOM = "room";
 
@@ -110,6 +113,11 @@ public class ShowRoomController {
     @MessageMapping(CLOSE_ROOM_MESSAGE_MAPPING)
     public void closeRoom(final Long roomId){
         roomService.closeRoom(roomId);
+    }
+
+    @MessageMapping(ROOM_VOTING_MESSAGE_MAPPING)
+    public void openVoting(@Valid final RoomVotingRequest request) {
+        roomService.openVoting(request.getRoomId(), request.getIsVotingOpen());
     }
 
 

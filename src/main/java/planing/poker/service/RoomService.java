@@ -185,6 +185,16 @@ public class RoomService {
         return updatedRoom;
     }
 
+    public ResponseRoomDto openVoting(final Long roomId, final boolean isVotingOpen) {
+        final ResponseRoomDto room = getRoomById(roomId);
+        room.setIsVotingOpen(isVotingOpen);
+
+        final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
+        applicationEventPublisher.publishEvent(new RoomVotingEvent(updatedRoom, updatedRoom.getRoomCode()));
+
+        return updatedRoom;
+    }
+
     public void deleteRoom(final Long id) {
         if (roomRepository.findById(id).isPresent()) {
             roomRepository.deleteById(id);
