@@ -185,9 +185,15 @@ public class RoomService {
         return updatedRoom;
     }
 
-    public ResponseRoomDto openVoting(final Long roomId, final boolean isVotingOpen) {
+    public ResponseRoomDto changeVotingStatus(final Long roomId, final boolean isVotingOpen) {
         final ResponseRoomDto room = getRoomById(roomId);
         room.setIsVotingOpen(isVotingOpen);
+
+        if (isVotingOpen) {
+            room.setVotingEndTime(LocalDateTime.now().plusMinutes(room.getVoteDuration().toMinutes()));
+        } else {
+            room.setVotingEndTime(null);
+        }
 
         final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
         applicationEventPublisher.publishEvent(new RoomVotingEvent(updatedRoom, updatedRoom.getRoomCode()));

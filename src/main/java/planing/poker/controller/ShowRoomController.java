@@ -116,8 +116,8 @@ public class ShowRoomController {
     }
 
     @MessageMapping(ROOM_VOTING_MESSAGE_MAPPING)
-    public void openVoting(@Valid final RoomVotingRequest request) {
-        roomService.openVoting(request.getRoomId(), request.getIsVotingOpen());
+    public void changeVotingStatus(@Valid final RoomVotingRequest request) {
+        roomService.changeVotingStatus(request.getRoomId(), request.getIsVotingOpen());
     }
 
 

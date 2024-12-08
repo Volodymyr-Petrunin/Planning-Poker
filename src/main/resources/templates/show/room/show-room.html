@@ -15,6 +15,7 @@
     <input type="hidden" id="roomCode" th:field="*{roomCode}"/>
     <input type="hidden" id="voteDuration" th:field="*{voteDuration}"/>
     <input type="hidden" id="isAnonymousVoting" th:field="*{isAnonymousVoting}"/>
+    <span type="hidden" id="votingEndTime" th:text="*{votingEndTime}" style="display: none;"/>
 
     <!-- Hidden elements for localization -->
     <span id="currentStoryText" th:text="#{label.current.story}" style="display:none;"></span>
@@ -179,11 +180,11 @@
     <!-- Invited-Users-Table-Form.js -->
     <script type="module" th:src="@{/js/invited-users-table-form.js}"></script>
 
-    <!-- Room-Voting-Actions.js -->
-    <script type="module" th:src="@{/js/room-voting-actions.js}"></script>
-
     <!-- Timer.js -->
     <script type="module" th:src="@{/js/timer.js}"></script>
+
+    <!-- Room-Voting-Actions.js -->
+    <script type="module" th:src="@{/js/room-voting-actions.js}"></script>
 
     <!-- Show-Votes-Modal.js -->
     <script type="module" th:src="@{/js/show-votes-modal.js}"></script>

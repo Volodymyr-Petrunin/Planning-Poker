@@ -57,7 +57,7 @@ public class RoomEventListener {
     @EventListener
     public void handleRoomVoting(final RoomVotingEvent event) {
         messagingTemplate.convertAndSend (
-                createTopic(TOPIC_ROOM_VOTING_TEMPLATE, event.getRoomCode()), event.getRoomDto().getIsVotingOpen());
+                createTopic(TOPIC_ROOM_VOTING_TEMPLATE, event.getRoomCode()), event.getRoomDto());
     }
 
     private String createTopic(final String template, final String... strings){
