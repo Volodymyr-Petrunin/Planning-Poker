@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import planing.poker.domain.dto.EventDto;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -59,6 +60,9 @@ public class ResponseRoomDto {
 
     @NotNull
     private Boolean isVotingOpen;
+
+    @NotNull
+    private LocalDateTime votingEndTime;
 
     @NotNull
     private Boolean isAnonymousVoting;

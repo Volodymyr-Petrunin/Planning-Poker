@@ -41,12 +41,12 @@ public class EventMessageFactory {
         return createRequestEventMessageDto(eventId, userId, "messages.event.CURRENT_STORY_REMOVED", nickname);
     }
 
-    public RequestEventMessageDto createMessageVotingStarted(final Long eventId, final Long userId, final String startTime) {
-        return createRequestEventMessageDto(eventId, userId, "messages.event.VOTING_STARTED", startTime);
+    public RequestEventMessageDto createMessageVotingStarted(final Long eventId, final Long userId, final String username) {
+        return createRequestEventMessageDto(eventId, userId, "messages.event.VOTING_STARTED", username);
     }
 
-    public RequestEventMessageDto createMessageVotingEnded(final Long eventId, final Long userId, final String endTime) {
-        return createRequestEventMessageDto(eventId, userId, "messages.event.VOTING_ENDED", endTime);
+    public RequestEventMessageDto createMessageVotingEnded(final Long eventId, final Long userId, final String username) {
+        return createRequestEventMessageDto(eventId, userId, "messages.event.VOTING_ENDED", username);
     }
 
     public RequestEventMessageDto createMessageVoteSubmitted(final Long eventId, final Long userId, final String username, final String score) {

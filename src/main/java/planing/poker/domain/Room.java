@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +69,9 @@ public class Room {
 
     @Column(name = "room_is_voting_open")
     private Boolean isVotingOpen;
+
+    @Column(name = "room_voting_end_time")
+    private LocalDateTime votingEndTime;
 
     @Column(name = "room_is_anonymous_voting")
     private Boolean isAnonymousVoting;

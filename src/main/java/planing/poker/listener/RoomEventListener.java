@@ -19,6 +19,8 @@ public class RoomEventListener {
 
     public static final String TOPIC_UPDATE_CURRENT_STORY_TEMPLATE = "/topic/updateCurrentStory/%s";
 
+    public static final String TOPIC_ROOM_VOTING_TEMPLATE = "/topic/updateVoting/%s";
+
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
@@ -50,6 +52,12 @@ public class RoomEventListener {
     public void handleRoomCurrentStoryUpdate(final RoomCurrentStoryEvent event) {
         messagingTemplate.convertAndSend(
                 createTopic(TOPIC_UPDATE_CURRENT_STORY_TEMPLATE, event.getRoomCode()), event.getRoomDto());
+    }
+
+    @EventListener
+    public void handleRoomVoting(final RoomVotingEvent event) {
+        messagingTemplate.convertAndSend (
+                createTopic(TOPIC_ROOM_VOTING_TEMPLATE, event.getRoomCode()), event.getRoomDto());
     }
 
     private String createTopic(final String template, final String... strings){

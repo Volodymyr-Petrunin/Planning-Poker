@@ -13,7 +13,9 @@
     <input type="hidden" id="roomId" th:field="*{id}"/>
     <input type="hidden" id="eventId" th:field="*{event.id}"/>
     <input type="hidden" id="roomCode" th:field="*{roomCode}"/>
+    <input type="hidden" id="voteDuration" th:field="*{voteDuration}"/>
     <input type="hidden" id="isAnonymousVoting" th:field="*{isAnonymousVoting}"/>
+    <span type="hidden" id="votingEndTime" th:text="*{votingEndTime}" style="display: none;"/>
 
     <!-- Hidden elements for localization -->
     <span id="currentStoryText" th:text="#{label.current.story}" style="display:none;"></span>
@@ -30,6 +32,9 @@
     <span id="noVotesAvailable" th:text="#{label.no.votes.available}" style="display:none;"></span>
     <span id="enterValidUrl" th:text="#{label.message.enter.valid.url}" style="display:none;"></span>
     <span id="anonymousVotingMessage" th:text="#{label.room.message.anonymous.voting}" style="display:none;"></span>
+    <span id="votingInProgress" th:text="#{label.voting.in.progress}" style="display:none;"></span>
+    <span id="votingOver" th:text="#{label.voting.over}" style="display:none;"></span>
+    <span id="timeUntilEnd" th:text="#{label.time.until.end}" style="display:none;"></span>
 
     <div class="text-light w-50 text-center">
         <div th:replace="~{/fragments/success-and-fail-message :: success-failure-message}"></div>
@@ -45,11 +50,12 @@
             <button class="btn btn-danger" id="btnCloseRoom" th:if="${isCreator}" th:text="#{label.close.room}">Close Room</button>
         </div>
 
-        <div class="text-light ms-4 mb-4 w-50" th:attr="data-start-time=${startTimeIso}">
+        <div class="text-light ms-4 mb-4 w-50" th:attr="data-start-time=${startTimeIso}" id="timerContainer">
             <h4 class="mt-3" th:text="#{label.start.date} + ': ' + ${#dates.format(room.startDate, 'EEEE dd MMMM yyyy')} + ' ' + #{label.at.clock} + ' ' + *{startTime}">
                 Start Date
             </h4>
             <h4 class="mt-3" id="timer" th:text="#{timer.time.until.start}">Time until start: </h4>
+            <button th:if="${isCreator}" type="button" id="start-voting" class="btn btn-warning mt-3" th:text="#{label.vote.start.assessment}">Start Assessment</button>
         </div>
     </div>
 
@@ -94,7 +100,7 @@
                 <th th:text="#{label.story.title}">Title</th>
                 <th th:text="#{label.story.link}">Link</th>
                 <th th:if="${isCreator}" th:text="#{label.actions}">Actions</th>
-                <th th:text="#{label.average.story.points}"></th>
+                <th th:text="#{label.average.story.points}">Average Estimate</th>
             </tr>
             </thead>
             <tbody id="story-list" th:each="story : *{stories}">
@@ -176,6 +182,9 @@
 
     <!-- Timer.js -->
     <script type="module" th:src="@{/js/timer.js}"></script>
+
+    <!-- Room-Voting-Actions.js -->
+    <script type="module" th:src="@{/js/room-voting-actions.js}"></script>
 
     <!-- Show-Votes-Modal.js -->
     <script type="module" th:src="@{/js/show-votes-modal.js}"></script>
