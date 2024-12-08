@@ -189,11 +189,7 @@ public class RoomService {
         final ResponseRoomDto room = getRoomById(roomId);
         room.setIsVotingOpen(isVotingOpen);
 
-        if (isVotingOpen) {
-            room.setVotingEndTime(LocalDateTime.now().plusMinutes(room.getVoteDuration().toMinutes()));
-        } else {
-            room.setVotingEndTime(null);
-        }
+        handleVotingStateChange(room, isVotingOpen);
 
         final ResponseRoomDto updatedRoom = roomMapper.toDto(roomRepository.save(roomMapper.responseToEntity(room)));
         applicationEventPublisher.publishEvent(new RoomVotingEvent(updatedRoom, updatedRoom.getRoomCode()));
@@ -274,5 +270,35 @@ public class RoomService {
         eventMessageService.createEventMessage(eventMessageFactory.createMessageRoomCreated(
                 room.getEvent().getId(), room.getCreator().getId(),
                 LocalDateTime.now().toString(), room.getCreator().getFirstName()));
+    }
+
+    private void handleVotingStateChange(ResponseRoomDto room, boolean isVotingOpen) {
+        if (isVotingOpen) {
+            room.setVotingEndTime(LocalDateTime.now().plusMinutes(room.getVoteDuration().toMinutes()));
+            createVotingMessage(room, true);
+        } else {
+            room.setVotingEndTime(null);
+            createVotingMessage(room, false);
+        }
+    }
+
+    private void createVotingMessage(ResponseRoomDto room, boolean isVotingStarted) {
+        if (isVotingStarted) {
+            eventMessageService.createEventMessage(
+                    eventMessageFactory.createMessageVotingStarted(
+                            room.getEvent().getId(),
+                            room.getCreator().getId(),
+                            room.getCreator().getNickname()
+                    )
+            );
+        } else {
+            eventMessageService.createEventMessage(
+                    eventMessageFactory.createMessageVotingEnded(
+                            room.getEvent().getId(),
+                            room.getCreator().getId(),
+                            room.getCreator().getNickname()
+                    )
+            );
+        }
     }
 }
