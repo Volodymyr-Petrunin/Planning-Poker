@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>planing.poker.domain</OriginalElement>
+  <nodes>
+    <node x="-2187.6089965397923" y="521.2710495963094">planing.poker.domain.Room</node>
+    <node x="-1793.116493656286" y="837.871972318339">planing.poker.domain.Vote</node>
+    <node x="-2177.1089965397923" y="-36.08996539792378">planing.poker.domain.User</node>
+    <node x="-2401.9543935409465" y="177.47762454440587">planing.poker.domain.Team</node>
+    <node x="-2204.102076124567" y="-155.5184544405996">planing.poker.domain.dto</node>
+    <node x="-1991.5276816608994" y="1216.4382929642443">planing.poker.domain.EventMessage</node>
+    <node x="-2158.1089965397923" y="342.4532871972317">planing.poker.domain.RoomUserRole</node>
+    <node x="-1928.0046136101494" y="364.4532871972317">planing.poker.domain.SecurityRole</node>
+    <node x="-2045.5276816608994" y="1014.0888119953865">planing.poker.domain.Event</node>
+    <node x="-1809.116493656286" y="521.2710495963094">planing.poker.domain.Story</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="planing.poker.domain.Vote" target="planing.poker.domain.Story" relationship="TO_ONE">
+      <point x="25.462030265272915" y="-55.774793079587425" />
+      <point x="-1706.654463391013" y="738.4547940023056" />
+      <point x="-1706.654463391013" y="646.1850740484402" />
+      <point x="34.17965702421179" y="64.91402445213089" />
+    </edge>
+    <edge source="planing.poker.domain.Team" target="planing.poker.domain.User" relationship="TO_MANY">
+      <point x="0.0" y="-60.0" />
+      <point x="-2322.4543935409465" y="74.91003460207622" />
+      <point x="-94.5" y="-15.0" />
+    </edge>
+    <edge source="planing.poker.domain.User" target="planing.poker.domain.Team" relationship="TO_MANY">
+      <point x="-94.5" y="-30.0" />
+      <point x="-2374.980263990765" y="59.91003460207622" />
+      <point x="-52.525870449818285" y="-59.391943529423344" />
+    </edge>
+    <edge source="planing.poker.domain.User" target="planing.poker.domain.SecurityRole" relationship="TO_ONE">
+      <point x="94.5" y="93.08996539792378" />
+      <point x="-1861.0046136101494" y="183.0" />
+      <point x="0.0" y="-38.0" />
+    </edge>
+    <edge source="planing.poker.domain.Event" target="planing.poker.domain.Room" relationship="TO_ONE">
+      <point x="-113.0" y="-49.0" />
+      <point x="44.581314878892954" y="181.0" />
+    </edge>
+    <edge source="planing.poker.domain.Room" target="planing.poker.domain.Event" relationship="TO_ONE">
+      <point x="89.80086302191785" y="179.94384313725857" />
+      <point x="-1992.8081335178745" y="947.2548189158036" />
+      <point x="-1992.8081335178745" y="1014.9758431372588" />
+      <point x="-66.8834184083014" y="-48.112968858127715" />
+    </edge>
+    <edge source="planing.poker.domain.User" target="planing.poker.domain.Room" relationship="TO_MANY">
+      <point x="0.0" y="-126.0" />
+      <point x="-2082.6089965397923" y="198.84401384083043" />
+      <point x="-1934.4429527104958" y="198.84401384083043" />
+      <point x="-1934.4429527104958" y="717.2710495963094" />
+      <point x="-105.0" y="15.0" />
+    </edge>
+    <edge source="planing.poker.domain.Room" target="planing.poker.domain.User" relationship="TO_MANY">
+      <point x="96.79772392155974" y="-11.593116493660887" />
+      <point x="-1638.46832756632" y="690.6779331026485" />
+      <point x="-1638.46832756632" y="89.91003460207622" />
+      <point x="94.5" y="0.0" />
+    </edge>
+    <edge source="planing.poker.domain.Room" target="planing.poker.domain.Story" relationship="TO_MANY">
+      <point x="102.53873799307075" y="-140.04830634371854" />
+      <point x="-1806.404582883515" y="562.2227432525908" />
+      <point x="-66.2880892272292" y="57.02013010380165" />
+    </edge>
+    <edge source="planing.poker.domain.RoomUserRole" target="planing.poker.domain.Room" relationship="TO_ONE">
+      <point x="0.0" y="60.0" />
+      <point x="0.0" y="-181.0" />
+    </edge>
+    <edge source="planing.poker.domain.Event" target="planing.poker.domain.EventMessage" relationship="TO_MANY">
+      <point x="0.0" y="49.0" />
+      <point x="-27.0" y="-71.0" />
+    </edge>
+    <edge source="planing.poker.domain.EventMessage" target="planing.poker.domain.User" relationship="TO_ONE">
+      <point x="64.89150200692347" y="-65.24772318338682" />
+      <point x="-1833.136179653976" y="1150.9233391003459" />
+      <point x="-1756.2963967704725" y="1150.9233391003459" />
+      <point x="-1756.2963967704725" y="987.5687151095732" />
+      <point x="-1830.7501730103802" y="987.5687151095732" />
+      <point x="-1830.7501730103802" y="495.868336793541" />
+      <point x="-1758.7089734717413" y="495.868336793541" />
+      <point x="-1758.7089734717413" y="89.91003460207622" />
+      <point x="94.5" y="0.0" />
+    </edge>
+    <edge source="planing.poker.domain.User" target="planing.poker.domain.RoomUserRole" relationship="TO_MANY">
+      <point x="15.0" y="126.0" />
+      <point x="15.0" y="-60.0" />
+    </edge>
+    <edge source="planing.poker.domain.Vote" target="planing.poker.domain.User" relationship="TO_ONE">
+      <point x="0.0" y="60.0" />
+      <point x="-1732.116493656286" y="1375.9382929642443" />
+      <point x="-2205.1089965397923" y="1375.9382929642443" />
+      <point x="-2205.1089965397923" y="89.91003460207622" />
+      <point x="-94.5" y="0.0" />
+    </edge>
+    <edge source="planing.poker.domain.Story" target="planing.poker.domain.Vote" relationship="TO_MANY">
+      <point x="-30.0" y="60.0" />
+      <point x="-38.0" y="-60.0" />
+    </edge>
+    <edge source="planing.poker.domain.RoomUserRole" target="planing.poker.domain.User" relationship="TO_ONE">
+      <point x="-36.32203986159993" y="-60.174603737035795" />
+      <point x="-2118.3569349942413" y="342.2786834601959" />
+      <point x="-2118.3569349942413" y="279.50188124566887" />
+      <point x="-35.74793845444901" y="127.78864350633194" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.8918285055957871" showDependencies="true" x="-1789.3160956862785" y="421.7697310265251" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
