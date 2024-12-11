@@ -14,11 +14,11 @@ public class UserEventListener {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    public static final String TOPIC_ROOM_CREATED = "/topic/userCreated";
+    public static final String TOPIC_USER_CREATED = "/topic/userCreated";
 
-    public static final String TOPIC_ROOM_UPDATED = "/topic/userUpdated";
+    public static final String TOPIC_USER_UPDATED = "/topic/userUpdated";
 
-    public static final String TOPIC_ROOM_DELETED = "/topic/userDeleted";
+    public static final String TOPIC_USER_DELETED = "/topic/userDeleted";
 
     private static final String TOPIC_CHANGE_USER_ROLE = "/topic/userRoleChanged";
 
@@ -29,17 +29,17 @@ public class UserEventListener {
 
     @EventListener
     public void handleUserCreated(final UserCreatedEvent event) {
-        messagingTemplate.convertAndSend(TOPIC_ROOM_CREATED, event.getResponseUserDto());
+        messagingTemplate.convertAndSend(TOPIC_USER_CREATED, event.getResponseUserDto());
     }
 
     @EventListener
     public void handleUserUpdated(final UserUpdatedEvent event) {
-        messagingTemplate.convertAndSend(TOPIC_ROOM_UPDATED, event.getResponseUserDto());
+        messagingTemplate.convertAndSend(TOPIC_USER_UPDATED, event.getResponseUserDto());
     }
 
     @EventListener
     public void handleUserDeleted(final UserDeletedEvent event) {
-        messagingTemplate.convertAndSend(TOPIC_ROOM_DELETED, event.getUserId());
+        messagingTemplate.convertAndSend(TOPIC_USER_DELETED, event.getUserId());
     }
 
     @EventListener

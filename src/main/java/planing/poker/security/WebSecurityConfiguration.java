@@ -22,6 +22,7 @@ public class WebSecurityConfiguration {
                         .requestMatchers("/register/user", "login/**").anonymous()
                         .requestMatchers("/room/**").authenticated()
                         .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/profile/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
