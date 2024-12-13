@@ -1,6 +1,9 @@
 package planing.poker.controller;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,8 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import planing.poker.domain.dto.request.RequestUserDto;
+import planing.poker.domain.dto.update.UpdateUserDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
+import planing.poker.security.CustomUserDetailsService;
 import planing.poker.security.UserDetailsImpl;
 import planing.poker.service.UserService;
 
@@ -25,8 +29,11 @@ public class UserProfileController {
 
     private final UserService userService;
 
-    public UserProfileController(final UserService userService) {
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public UserProfileController(final UserService userService, final CustomUserDetailsService customUserDetailsService) {
         this.userService = userService;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @GetMapping
@@ -37,15 +44,27 @@ public class UserProfileController {
     }
 
     @PostMapping
-    public String updateProfile(@ModelAttribute(USER) final RequestUserDto user, final BindingResult bindingResult,
+    public String updateProfile(@ModelAttribute(USER) final UpdateUserDto user, final BindingResult bindingResult,
                                 final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(USER, user);
             return SHOW_USER_PROFILE_PAGE;
         }
 
-//        userService.updateUser()
-        return null;
+        final ResponseUserDto responseUserDto = userService.updateUser(user);
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(responseUserDto.getEmail());
+        updateAuthentication(userDetails);
+
+        return SHOW_USER_PROFILE_PAGE;
     }
 
+    private void updateAuthentication(final UserDetails userDetails) {
+        final UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    }
 }
