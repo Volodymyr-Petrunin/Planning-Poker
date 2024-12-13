@@ -1,5 +1,6 @@
 package planing.poker.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +45,7 @@ public class UserProfileController {
     }
 
     @PostMapping
-    public String updateProfile(@ModelAttribute(USER) final UpdateUserDto user, final BindingResult bindingResult,
+    public String updateProfile(@Valid @ModelAttribute(USER) final UpdateUserDto user, final BindingResult bindingResult,
                                 final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(USER, user);

@@ -27,8 +27,12 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
     }
 
     @Override
-    public boolean isValid(final String string, final ConstraintValidatorContext constraintValidatorContext) {
-        return validatePassword(string);
+    public boolean isValid(final String password, final ConstraintValidatorContext constraintValidatorContext) {
+        if (password == null) {
+            return true;
+        }
+
+        return validatePassword(password);
     }
 
     private boolean validatePassword(final String password) {

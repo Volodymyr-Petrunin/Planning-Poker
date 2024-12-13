@@ -50,6 +50,10 @@
                             <button type="submit" class="btn btn-success" th:text="#{label.done}">Save</button>
                             <a href="/" class="btn btn-danger" th:text="#{label.step.back}">Cancel</a>
                         </div>
+
+                        <ul class="text-danger" th:if="${#fields.errors('*').size() > 0}">
+                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                        </ul>
                     </form>
                 </div>
             </div>
