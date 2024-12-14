@@ -27,7 +27,6 @@ public interface UserMapper {
         if (dto.getLastName() != null) entity.setLastName(dto.getLastName());
         if (dto.getNickname() != null) entity.setNickname(dto.getNickname());
         if (dto.getEmail() != null) entity.setEmail(dto.getEmail());
-        if (dto.getPassword() != null) entity.setPassword(dto.getPassword());
     }
 
     default List<Long> mapRoomsToIds(List<Room> rooms) {

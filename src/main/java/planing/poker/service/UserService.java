@@ -135,6 +135,22 @@ public class UserService {
         return updatedUser;
     }
 
+    public ResponseUserDto updatePassword(final long userId, final char[] password) {
+        final ResponseUserDto user = getUserById(userId);
+
+        try {
+            final String encodedPassword = passwordEncoder.encode(new String(password));
+            user.setPassword(encodedPassword);
+
+            final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(userMapper.responseToEntity(user)));
+            applicationEventPublisher.publishEvent(new UserUpdatedEvent(updatedUser));
+
+            return updatedUser;
+        } finally {
+            Arrays.fill(password, '\0');
+        }
+    }
+
     public void deleteUser(final Long id) {
         userRepository.deleteById(id);
         applicationEventPublisher.publishEvent(new UserDeletedEvent(id));

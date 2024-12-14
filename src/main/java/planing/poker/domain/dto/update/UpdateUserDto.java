@@ -38,12 +38,4 @@ public class UpdateUserDto {
     @NotBlank
     @Email
     private String email;
-
-    @NotBlank
-    @Password
-    private String password;
-
-    @NotBlank
-    @Password
-    private String passwordConfirm;
 }

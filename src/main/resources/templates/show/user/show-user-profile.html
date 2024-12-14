@@ -49,6 +49,9 @@
                         <div class="text-center">
                             <button type="submit" class="btn btn-success" th:text="#{label.done}">Save</button>
                             <a href="/" class="btn btn-danger" th:text="#{label.step.back}">Cancel</a>
+                            <a href="/profile/change/password" class="btn btn-warning" th:text="#{label.change.password}">
+                                Change Password
+                            </a>
                         </div>
 
                         <ul class="text-danger" th:if="${#fields.errors('*').size() > 0}">
