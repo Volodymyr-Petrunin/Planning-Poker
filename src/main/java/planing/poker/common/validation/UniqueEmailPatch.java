@@ -2,19 +2,18 @@ package planing.poker.common.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Documented;
 
-import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Documented
-@Target(FIELD)
+@Target({TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = UniqueEmailValidator.class)
-public @interface UniqueEmail {
+@Constraint(validatedBy = UniqueEmailPatchValidator.class)
+@Documented
+public @interface UniqueEmailPatch {
 
     String message() default "{messages.validation.email.in.use}";
 
@@ -22,3 +21,4 @@ public @interface UniqueEmail {
 
     Class<? extends Payload>[] payload() default {};
 }
+

@@ -35,7 +35,8 @@
     </div>
 
     <div class="col-md-3 text-end" sec:authorize="isAuthenticated()">
-        <form th:action="@{/logout}" method="post">
+        <a href="/profile" class="btn btn-outline-light me-2" style="display: inline-block;" th:text="#{label.profile}">Profile</a>
+        <form th:action="@{/logout}" method="post" style="display: inline-block;">
             <button type="submit" class="btn btn-outline-light me-2" th:text="#{label.logout}">Logout</button>
         </form>
     </div>

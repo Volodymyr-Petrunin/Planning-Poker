@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import planing.poker.domain.User;
+import planing.poker.domain.dto.update.UpdateUserDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 import planing.poker.factory.utils.ExpectedEntityDtoUtils;
 import planing.poker.factory.utils.ExpectedEntityUtils;
@@ -47,7 +48,6 @@ class UserServiceTest {
     @Test
     @DisplayName("Create User: Should create user and return correct DTO")
     void testCreateUser_ShouldCreateUser_AndReturnCorrectDto() {
-        when(userMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(userRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
         when(passwordEncoder.encode(EXPECTED_DTO.getPassword())).thenReturn(EXPECTED_DTO.getPassword());
@@ -57,7 +57,6 @@ class UserServiceTest {
         assertNotNull(createdUser);
 
         verify(userRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(userMapper, times(1)).toEntity(any());
         verify(userMapper, times(1)).toDto(EXPECTED_ENTITY);
         verify(passwordEncoder, times(1)).encode(EXPECTED_DTO.getPassword());
     }
@@ -107,16 +106,14 @@ class UserServiceTest {
     @Test
     @DisplayName("Update User: Should update user and return the updated DTO")
     void testUpdateUser_ShouldUpdateUser_AndReturnUpdatedDto() {
-        when(userMapper.toEntity(any())).thenReturn(EXPECTED_ENTITY);
         when(userRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
         when(userMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
 
-        final ResponseUserDto updatedUser = userService.updateUser(1 ,any());
+        final ResponseUserDto updatedUser = userService.updateUser(any());
 
         assertNotNull(updatedUser);
 
         verify(userRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(userMapper, times(1)).toEntity(any());
         verify(userMapper, times(1)).toDto(EXPECTED_ENTITY);
     }
 

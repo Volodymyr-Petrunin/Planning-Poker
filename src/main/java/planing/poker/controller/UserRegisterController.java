@@ -29,7 +29,7 @@ public class UserRegisterController {
     private final UserService userService;
 
     @Autowired
-    public UserRegisterController(UserService userService) {
+    public UserRegisterController(final UserService userService) {
         this.userService = userService;
     }
 

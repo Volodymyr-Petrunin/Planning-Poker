@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="bg-dark text-white">
+<div th:replace="~{layouts/header :: header}"></div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-white" style="background-color: #212529;">
+                <div class="card-header bg-primary text-white">
+                    <h3 th:text="#{label.profile}">User Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/profile}" method="post" th:object="${user}">
+                        <input type="hidden" name="id" th:field="*{id}">
+                        <!-- First Name -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label text-white h5" for="firstName" th:text="#{label.firstname}">First Name</label>
+                            <input type="text" id="firstName" th:field="*{firstName}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+                            <small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label text-white h5" for="lastName" th:text="#{label.lastname}">Surname</label>
+                            <input type="text" id="lastName" th:field="*{lastName}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+                            <small class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+                        </div>
+
+                        <!-- Nickname -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label text-white h5" for="nickname" th:text="#{label.nickname}">Nickname</label>
+                            <input type="text" id="nickname" th:field="*{nickname}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+                            <small class="text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></small>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label text-white h5" for="email" th:text="#{label.email}">Email</label>
+                            <input type="email" id="email" th:field="*{email}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+                            <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success" th:text="#{label.done}">Save</button>
+                            <a href="/" class="btn btn-danger" th:text="#{label.step.back}">Cancel</a>
+                            <a href="/profile/change/password" class="btn btn-warning" th:text="#{label.change.password}">
+                                Change Password
+                            </a>
+                        </div>
+
+                        <ul class="text-danger" th:if="${#fields.errors('*').size() > 0}">
+                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

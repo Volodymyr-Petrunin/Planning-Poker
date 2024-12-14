@@ -4,8 +4,10 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
-public class PasswordConstraintValidator implements ConstraintValidator<Password, String> {
+public class PasswordConstraintValidator implements ConstraintValidator<Password, Object> {
 
     private int minLength;
 
@@ -27,30 +29,52 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
     }
 
     @Override
-    public boolean isValid(final String string, final ConstraintValidatorContext constraintValidatorContext) {
-        return validatePassword(string);
+    public boolean isValid(final Object value, final ConstraintValidatorContext context) {
+        if (value == null) {
+            return true;
+        }
+
+        final String password;
+
+        if (value instanceof String string) {
+            password = string;
+        } else if (value instanceof char[] chars) {
+            password = new String(chars);
+        } else {
+            return false; // not supported type
+        }
+
+        return validatePassword(password);
     }
 
     private boolean validatePassword(final String password) {
-        if (password.length() < minLength || password.length() > maxLength) {
-            return false;
-        }
+        final char[] passwordChars = password.toCharArray();
 
-        int upperCaseChars = 0;
-        int lowerCaseChars = 0;
-        int specialChars = 0;
-
-        for (Character c : password.toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                upperCaseChars++;
-            } else if (Character.isLowerCase(c)) {
-                lowerCaseChars++;
-            } else if (!Character.isLetterOrDigit(c)) {
-                specialChars++;
+        try {
+            if (passwordChars.length < minLength || passwordChars.length > maxLength) {
+                return false;
             }
-        }
 
-        return upperCaseChars >= upperCaseCount && lowerCaseChars >= lowerCaseCount && specialChars >= specialCharCount;
+            int upperCaseChars = 0;
+            int lowerCaseChars = 0;
+            int specialChars = 0;
+
+            for (final char currentChar : passwordChars) {
+                if (Character.isUpperCase(currentChar)) {
+                    upperCaseChars++;
+                } else if (Character.isLowerCase(currentChar)) {
+                    lowerCaseChars++;
+                } else if (!Character.isLetterOrDigit(currentChar)) {
+                    specialChars++;
+                }
+            }
+
+            return upperCaseChars >= upperCaseCount
+                    && lowerCaseChars >= lowerCaseCount
+                    && specialChars >= specialCharCount;
+        } finally {
+            Arrays.fill(passwordChars, '\0');
+        }
     }
 
 }

@@ -15,6 +15,7 @@ import planing.poker.common.Role;
 import planing.poker.common.factory.EventMessageFactory;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
+import planing.poker.domain.dto.update.UpdateUserDto;
 import planing.poker.domain.dto.request.RequestUserDto;
 import planing.poker.domain.dto.response.ResponseRoomUserRoleDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
@@ -102,18 +103,14 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE())));
     }
 
-    public ResponseUserDto updateUser(final long id, final RequestUserDto userDto) {
-        if (userRepository.findById(id).isPresent()) {
-            final User user = userMapper.toEntity(userDto);
-            user.setId(id);
+    public ResponseUserDto updateUser(final UpdateUserDto userDto) {
+        final ResponseUserDto user = getUserById(userDto.getId());
+        userMapper.updateEntityFromDto(userDto, user);
 
-            final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(user));
-            applicationEventPublisher.publishEvent(new UserUpdatedEvent(updatedUser));
+        final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(userMapper.responseToEntity(user)));
+        applicationEventPublisher.publishEvent(new UserUpdatedEvent(updatedUser));
 
-            return updatedUser;
-        } else {
-            throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
-        }
+        return updatedUser;
     }
 
     public ResponseUserDto updateUserRole(final long roomId,final long userId, final Role role) {
@@ -138,17 +135,34 @@ public class UserService {
         return updatedUser;
     }
 
+    public ResponseUserDto updatePassword(final long userId, final char[] password) {
+        final ResponseUserDto user = getUserById(userId);
+
+        try {
+            final String encodedPassword = passwordEncoder.encode(new String(password));
+            user.setPassword(encodedPassword);
+
+            final ResponseUserDto updatedUser = userMapper.toDto(userRepository.save(userMapper.responseToEntity(user)));
+            applicationEventPublisher.publishEvent(new UserUpdatedEvent(updatedUser));
+
+            return updatedUser;
+        } finally {
+            Arrays.fill(password, '\0');
+        }
+    }
+
     public void deleteUser(final Long id) {
         userRepository.deleteById(id);
         applicationEventPublisher.publishEvent(new UserDeletedEvent(id));
     }
 
     public ResponseUserDto getUserByEmail(final String email) {
-        User user = userRepository.findByEmail(email);
+        final User user = userRepository.findByEmail(email);
 
         if (user == null) {
             throw new IllegalArgumentException(exceptionMessages.NO_FIND_MESSAGE());
         }
+
         return userMapper.toDto(user);
     }
 
