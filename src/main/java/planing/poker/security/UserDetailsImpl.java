@@ -54,7 +54,7 @@ public class UserDetailsImpl implements UserDetails {
         return user.getSecurityRole().equals(role);
     }
 
-    public <T extends User> T getUser(Class<T> tClass) {
+    public <T extends User> T getUser(final Class<T> tClass) {
         return tClass.cast(user);
     }
 }

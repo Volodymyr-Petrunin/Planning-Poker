@@ -17,11 +17,11 @@ public class GenerationRandomizer {
         this.random = random;
     }
 
-    public List<Character> generateRandomChars(char startChar, char endChar, int count) {
-        List<Character> charList = new ArrayList<>();
+    public List<Character> generateRandomChars(final char startChar, final char endChar, final int count) {
+        final List<Character> charList = new ArrayList<>();
 
         for (int index = 0; index < count; index++) {
-            char currentChar = (char) (random.nextInt(endChar - startChar + 1) + startChar);
+            final char currentChar = (char) (random.nextInt(endChar - startChar + 1) + startChar);
             charList.add(currentChar);
         }
 

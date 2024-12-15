@@ -1,6 +1,8 @@
 package planing.poker.mapper;
 
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.Mapping;
 import planing.poker.domain.Event;
 import planing.poker.domain.dto.EventDto;
 

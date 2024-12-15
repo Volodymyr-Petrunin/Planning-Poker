@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import planing.poker.common.validation.Password;
 import planing.poker.common.validation.UniqueEmailPatch;
 
 @Getter

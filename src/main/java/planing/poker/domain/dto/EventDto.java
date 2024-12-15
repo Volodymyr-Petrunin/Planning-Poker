@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import planing.poker.domain.Event;
 import planing.poker.domain.dto.response.ResponseEventMessageDto;
-import planing.poker.domain.dto.response.ResponseRoomDto;
 
 import java.util.List;
 

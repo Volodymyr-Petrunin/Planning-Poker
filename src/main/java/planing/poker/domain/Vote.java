@@ -1,6 +1,14 @@
 package planing.poker.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -32,7 +40,7 @@ public class Vote {
     public Vote() {
     }
 
-    public Vote(Long id, User voter, Integer points, Story story) {
+    public Vote(final Long id, final User voter, final Integer points, final Story story) {
         this.id = id;
         this.voter = voter;
         this.points = points;
@@ -40,7 +48,7 @@ public class Vote {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Vote vote)) return false;
         return Objects.equals(id, vote.id) && Objects.equals(voter, vote.voter)

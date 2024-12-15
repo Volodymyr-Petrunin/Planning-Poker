@@ -120,7 +120,6 @@ public class ShowRoomController {
         roomService.changeVotingStatus(request.getRoomId(), request.getIsVotingOpen());
     }
 
-
     private List<ResponseUserDto> getUsersByRoleInRoom(final ResponseRoomDto room, final Role role) {
         final List<ResponseUserDto> users = room.getInvitedUsers().stream()
                 .filter(user -> user.getRoles().stream()

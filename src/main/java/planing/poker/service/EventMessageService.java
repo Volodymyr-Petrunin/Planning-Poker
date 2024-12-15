@@ -56,7 +56,6 @@ public class EventMessageService {
         return responseEventMessageDto;
     }
 
-
     public List<ResponseEventMessageDto> getAllEventMessages() {
         return eventMessageRepository.findAll().stream().map(eventMessageMapper::toDto).toList();
     }

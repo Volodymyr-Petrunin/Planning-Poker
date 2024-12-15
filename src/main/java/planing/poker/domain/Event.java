@@ -48,14 +48,14 @@ public class Event {
 
     public Event() {}
 
-    public Event(Long id, Room room, List<EventMessage> eventMessages) {
+    public Event(final Long id, final Room room, final List<EventMessage> eventMessages) {
         this.id = id;
         this.room = room;
         this.eventMessages = eventMessages;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Event event)) return false;
         return Objects.equals(id, event.id) && Objects.equals(room, event.room)

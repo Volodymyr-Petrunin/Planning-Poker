@@ -104,7 +104,7 @@ public class StoryService {
     }
 
     public void deleteStory(final Long id, final String roomCode) {
-        Optional<Story> storyOptional = storyRepository.findById(id);
+        final Optional<Story> storyOptional = storyRepository.findById(id);
         if (storyOptional.isPresent()) {
             final Optional<Room> roomOptional = roomService.optionalRoomByCurrentStory(storyOptional.get());
 
@@ -121,7 +121,7 @@ public class StoryService {
         final Optional<Room> roomOptional = roomService.optionalRoomByCurrentStory(story);
 
         if (roomOptional.isPresent()) {
-            ResponseRoomDto room = roomMapper.toDto(roomOptional.get());
+            final ResponseRoomDto room = roomMapper.toDto(roomOptional.get());
             applicationEventPublisher.publishEvent(new RoomCurrentStoryEvent(room, roomCode));
         }
     }

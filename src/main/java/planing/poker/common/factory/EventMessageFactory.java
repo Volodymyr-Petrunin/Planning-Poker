@@ -17,7 +17,7 @@ public class EventMessageFactory {
     private final MessageSource messageSource;
 
     @Autowired
-    public EventMessageFactory(MessageSource messageSource) {
+    public EventMessageFactory(final MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
@@ -84,7 +84,7 @@ public class EventMessageFactory {
     private String serializeArgs(final Object... args) {
         try {
             return args == null || args.length == 0 ? "" : new ObjectMapper().writeValueAsString(args);
-        } catch (JsonProcessingException e) {
+        } catch (final JsonProcessingException e) {
             throw new MessageParsingException("Failed to serialize message arguments", e);
         }
     }

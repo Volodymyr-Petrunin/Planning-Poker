@@ -38,11 +38,11 @@ public class CustomErrorController implements ErrorController {
         final Object statusCode = request.getAttribute(attributeStatusCode);
         model.addAttribute("statusCode", statusCode);
 
-        int randomImageIndex = random.nextInt(numberOfPictures);
+        final int randomImageIndex = random.nextInt(numberOfPictures);
         model.addAttribute("randomImageIndex", randomImageIndex);
 
         if (statusCode != null) {
-            int status = Integer.parseInt(statusCode.toString());
+            final int status = Integer.parseInt(statusCode.toString());
 
             if (status == 404) {
                 return ERROR_NOT_FOUND;

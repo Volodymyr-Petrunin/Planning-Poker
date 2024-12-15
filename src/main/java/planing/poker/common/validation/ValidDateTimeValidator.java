@@ -6,7 +6,6 @@ import planing.poker.domain.dto.request.RequestRoomDto;
 
 import java.time.LocalDateTime;
 
-
 public class ValidDateTimeValidator implements ConstraintValidator<ValidDateTime, RequestRoomDto> {
 
     @Override

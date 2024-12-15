@@ -1,7 +1,11 @@
 package planing.poker.mapper;
 
 import jakarta.persistence.EntityManager;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.Mapping;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import planing.poker.common.Role;
 import planing.poker.domain.Room;
@@ -33,8 +37,8 @@ public abstract class RoomUserRoleMapper {
         entity.setRole(Role.valueOf(requestDto.getNewRole()));
     }
 
-    public RoomUserRole responseToEntity(ResponseRoomUserRoleDto responseDto) {
-        RoomUserRole entity = new RoomUserRole();
+    public RoomUserRole responseToEntity(final ResponseRoomUserRoleDto responseDto) {
+        final RoomUserRole entity = new RoomUserRole();
         entity.setId(responseDto.getId());
         entity.setUser(entityManager.find(User.class, responseDto.getUserId()));
         entity.setRoom(entityManager.find(Room.class, responseDto.getRoomId()));

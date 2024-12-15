@@ -1,6 +1,8 @@
 package planing.poker.mapper;
 
-import org.mapstruct.*;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 import planing.poker.domain.Vote;
 import planing.poker.domain.dto.request.RequestVoteDto;
 import planing.poker.domain.dto.response.ResponseVoteDto;

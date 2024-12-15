@@ -25,9 +25,12 @@ public class RoomCodeGeneration {
 
     private final ExceptionMessages exceptionMessages;
 
-    public RoomCodeGeneration(@Value("${room.code.numbers}") short numbers, @Value("${room.code.lowerCase}") short lowerCase,
-                              @Value("${room.code.upperCase}") short upperCase, final GenerationRandomizer generationRandomizer,
-                              @Qualifier("random") final Random random,final ExceptionMessages exceptionMessages) {
+    public RoomCodeGeneration(@Value("${room.code.numbers}") final short numbers,
+                              @Value("${room.code.lowerCase}") final short lowerCase,
+                              @Value("${room.code.upperCase}") final short upperCase,
+                              final GenerationRandomizer generationRandomizer,
+                              @Qualifier("random") final Random random,
+                              final ExceptionMessages exceptionMessages) {
         this.upperCase = upperCase;
         this.numbers = numbers;
         this.lowerCase = lowerCase;
@@ -41,7 +44,7 @@ public class RoomCodeGeneration {
             throw new IllegalArgumentException(exceptionMessages.INVALID_CODE_CONFIGURATION());
         }
 
-        List<Character> code = new ArrayList<>();
+        final List<Character> code = new ArrayList<>();
 
         code.addAll(generationRandomizer.generateRandomChars('A', 'Z', upperCase));
 
@@ -51,9 +54,9 @@ public class RoomCodeGeneration {
 
         Collections.shuffle(code, random);
 
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
-        for (char character : code) {
+        for (final char character : code) {
             result.append(character);
         }
 

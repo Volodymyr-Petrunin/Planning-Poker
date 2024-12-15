@@ -1,7 +1,10 @@
 package planing.poker.mapper;
 
 import jakarta.persistence.EntityManager;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import planing.poker.domain.EventMessage;
 import planing.poker.domain.User;
