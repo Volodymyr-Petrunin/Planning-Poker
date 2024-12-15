@@ -36,6 +36,12 @@ public class UserProfileController {
 
     private static final String REQUEST_CHANGE_PASSWORD = "requestChangePassword";
 
+    private static final String USER_ID = "userId";
+
+    private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
+
+    private static final String SUCCESS_MESSAGE_ATTRIBUTE = "successMessage";
+
     private final UserService userService;
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -56,13 +62,19 @@ public class UserProfileController {
     public String updateProfile(@Valid @ModelAttribute(USER) final UpdateUserDto user, final BindingResult bindingResult,
                                 final Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute(ERROR_MESSAGE_ATTRIBUTE, true);
             model.addAttribute(USER, user);
             return SHOW_USER_PROFILE_PAGE;
         }
 
-        final ResponseUserDto responseUserDto = userService.updateUser(user);
-        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(responseUserDto.getEmail());
-        updateAuthentication(userDetails);
+        try {
+            final ResponseUserDto responseUserDto = userService.updateUser(user);
+            final UserDetails userDetails = customUserDetailsService.loadUserByUsername(responseUserDto.getEmail());
+            updateAuthentication(userDetails);
+            model.addAttribute(SUCCESS_MESSAGE_ATTRIBUTE, true);
+        } catch (final Exception e) {
+            model.addAttribute(ERROR_MESSAGE_ATTRIBUTE, true);
+        }
 
         return SHOW_USER_PROFILE_PAGE;
     }
@@ -71,24 +83,29 @@ public class UserProfileController {
     public String changePassword(final Model model, @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         final User user = userDetails.getUser(User.class);
         model.addAttribute(REQUEST_CHANGE_PASSWORD, new RequestChangePassword());
-        model.addAttribute("userId", user.getId());
+        model.addAttribute(USER_ID, user.getId());
         return SHOW_CHANGE_PASSWORD_PAGE;
     }
 
     @PostMapping(CHANGE_PASSWORD_URL)
     public String updatePassword(@Valid @ModelAttribute(REQUEST_CHANGE_PASSWORD) final RequestChangePassword request,
-                                 final BindingResult bindingResult) {
+                                 final BindingResult bindingResult, final Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute(USER_ID, request.getUserId());
+            model.addAttribute(ERROR_MESSAGE_ATTRIBUTE, true);
             return SHOW_CHANGE_PASSWORD_PAGE;
         }
 
         try {
             userService.updatePassword(request.getUserId(), request.getPassword());
+            model.addAttribute(SUCCESS_MESSAGE_ATTRIBUTE, true);
+        } catch (final Exception e) {
+            model.addAttribute(ERROR_MESSAGE_ATTRIBUTE, true);
         } finally {
             request.clearPasswords();
         }
 
-        return "redirect:" + BASE_URL;
+        return SHOW_CHANGE_PASSWORD_PAGE;
     }
 
     private void updateAuthentication(final UserDetails userDetails) {
