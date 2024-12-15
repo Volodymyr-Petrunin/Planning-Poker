@@ -12,6 +12,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card text-white" style="background-color: #212529;">
+
+                <div th:if="${successMessage}" class="alert alert-success">
+                    <span th:text="#{label.success.profile.update}">Profile updated successfully!</span>
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <span th:text="#{label.fail.profile.update}">Failed to update profile. Please try again.</span>
+                </div>
+
+
                 <div class="card-header bg-primary text-white">
                     <h3 th:text="#{label.profile}">User Profile</h3>
                 </div>
