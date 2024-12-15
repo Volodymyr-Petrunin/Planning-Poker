@@ -46,7 +46,7 @@ public class Team {
     private List<User> members;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Team team)) return false;
         return Objects.equals(id, team.id) && Objects.equals(name, team.name);

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import planing.poker.common.Role;
 
 /**
  * DTO for {@link planing.poker.domain.RoomUserRole}

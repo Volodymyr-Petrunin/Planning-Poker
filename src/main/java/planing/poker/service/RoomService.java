@@ -10,11 +10,19 @@ import planing.poker.common.Role;
 import planing.poker.common.exception.RoomNotFoundException;
 import planing.poker.common.factory.EventMessageFactory;
 import planing.poker.common.generation.RoomCodeGeneration;
-import planing.poker.domain.*;
+import planing.poker.domain.User;
+import planing.poker.domain.Room;
+import planing.poker.domain.Story;
+import planing.poker.domain.RoomUserRole;
 import planing.poker.domain.dto.response.ResponseRoomDto;
 import planing.poker.domain.dto.request.RequestRoomDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
-import planing.poker.event.room.*;
+import planing.poker.event.room.RoomVotingEvent;
+import planing.poker.event.room.RoomClosedEvent;
+import planing.poker.event.room.RoomCreatedEvent;
+import planing.poker.event.room.RoomDeletedEvent;
+import planing.poker.event.room.RoomCurrentStoryEvent;
+import planing.poker.event.room.RoomUpdatedEvent;
 import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.RoomRepository;
@@ -118,7 +126,7 @@ public class RoomService {
                 .orElseThrow(() -> new RoomNotFoundException(exceptionMessages.CANNOT_FIND_ROOM())));
     }
 
-    public ResponseRoomDto updateRoom(long id, final RequestRoomDto requestRoomDto) {
+    public ResponseRoomDto updateRoom(final long id, final RequestRoomDto requestRoomDto) {
         if (roomRepository.findById(id).isPresent()) {
             final Room room = roomMapper.toEntity(requestRoomDto);
             room.setId(id);
@@ -272,7 +280,7 @@ public class RoomService {
                 LocalDateTime.now().toString(), room.getCreator().getFirstName()));
     }
 
-    private void handleVotingStateChange(ResponseRoomDto room, boolean isVotingOpen) {
+    private void handleVotingStateChange(final ResponseRoomDto room, final boolean isVotingOpen) {
         if (isVotingOpen) {
             room.setVotingEndTime(LocalDateTime.now().plusMinutes(room.getVoteDuration().toMinutes()));
             createVotingMessage(room, true);
@@ -282,7 +290,7 @@ public class RoomService {
         }
     }
 
-    private void createVotingMessage(ResponseRoomDto room, boolean isVotingStarted) {
+    private void createVotingMessage(final ResponseRoomDto room, final boolean isVotingStarted) {
         if (isVotingStarted) {
             eventMessageService.createEventMessage(
                     eventMessageFactory.createMessageVotingStarted(

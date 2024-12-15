@@ -12,7 +12,7 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
     private final UserRepository userRepository;
 
     @Autowired
-    public UniqueEmailValidator(UserRepository userRepository) {
+    public UniqueEmailValidator(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

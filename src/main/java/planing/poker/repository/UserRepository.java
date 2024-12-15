@@ -5,7 +5,7 @@ import planing.poker.domain.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByEmail(final String email);
+    User findByEmail(String email);
 
-    boolean existsByEmail(final String email);
+    boolean existsByEmail(String email);
 }

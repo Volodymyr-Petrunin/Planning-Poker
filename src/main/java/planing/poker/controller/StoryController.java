@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
 import planing.poker.common.CustomBinderInitializer;
 import planing.poker.controller.request.CreateStoryRequest;
 import planing.poker.controller.request.DeleteStoryRequest;

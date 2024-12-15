@@ -1,6 +1,12 @@
 package planing.poker.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +35,7 @@ public class Story {
     public Story() {
     }
 
-    public Story(Long id, String title, String storyLink, List<Vote> votes) {
+    public Story(final Long id, final String title, final String storyLink, final List<Vote> votes) {
         this.id = id;
         this.title = title;
         this.storyLink = storyLink;
@@ -37,7 +43,7 @@ public class Story {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Story story)) return false;
         return Objects.equals(id, story.id) && Objects.equals(title, story.title)
