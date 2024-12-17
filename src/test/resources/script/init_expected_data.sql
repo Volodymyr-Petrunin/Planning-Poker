@@ -11,15 +11,15 @@ TRUNCATE TABLE teams CASCADE;
 ALTER SEQUENCE user_seq RESTART WITH 1;
 
 -- Insert data into the 'users' table
-INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, user_role, security_role)
-VALUES (nextval('user_seq'), 'Expected Name', 'Expected Lastname', 'Expected Nickname', 'expected@email.gg', 'Expected pass', 'USER_ELECTOR', 'ROLE_USER');
+INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, security_role)
+VALUES (nextval('user_seq'), 'Expected Name', 'Expected Lastname', 'Expected Nickname', 'expected@email.gg', 'Expected pass', 'ROLE_USER');
 
 -- Adjust sequence
 ALTER SEQUENCE user_seq RESTART WITH 2;
 
 -- Insert data into the 'users' table
-INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, user_role, security_role)
-VALUES (nextval('user_seq'), 'User', 'Creator', 'UserCreator', 'UserCreator@email.gg', 'UserCreatorPass', 'USER_PRESENTER', 'ROLE_ADMIN');
+INSERT INTO users (user_id, user_firstname, user_lastname, user_nickname, user_email, user_password, security_role)
+VALUES (nextval('user_seq'), 'User', 'Creator', 'UserCreator', 'UserCreator@email.gg', 'UserCreatorPass', 'ROLE_ADMIN');
 
 -- Adjust sequence
 ALTER SEQUENCE story_seq RESTART WITH 1;
@@ -32,9 +32,9 @@ VALUES (nextval('story_seq'), 'Story Title', 'Story Link');
 ALTER SEQUENCE room_seq RESTART WITH 1;
 
 -- Insert data into the 'rooms' table
-INSERT INTO rooms(room_id, room_code, room_name, room_creator, room_start_date, room_start_time, current_story_id,
-                  room_is_active, room_is_voting_open, room_vote_duration)
-VALUES (nextval('room_seq'), 'ABC123', 'Test Room', 2, '2000-01-01', '10:00', 1, true, false, '00:05');
+INSERT INTO rooms(room_id, room_code, room_name, room_creator, room_start_time, current_story_id, room_is_active,
+                  room_is_voting_open, room_start_date, room_vote_duration, room_is_anonymous_voting)
+VALUES (nextval('room_seq'), 'ABC123', 'Test Room', 2, '10:00', 1, true, false, '2000-01-01', 5, false);
 
 -- Adjust sequence
 ALTER SEQUENCE vote_seq RESTART WITH 1;
@@ -54,9 +54,9 @@ VALUES (nextval('event_seq'));
 ALTER SEQUENCE event_message_seq RESTART WITH 1;
 
 -- Insert data into the 'event_messages' table
-INSERT INTO event_messages (event_message_id, event_message_user, event_message_message, event_message_timestamp)
+INSERT INTO event_messages (event_message_id, event_message_user, event_message_timestamp, event_message_args, event_message_key)
 VALUES
-    (nextval('event_message_seq'), 1, 'Sample event message', '2024-01-01 00:00:00');
+    (nextval('event_message_seq'), 1, '2024-01-01 00:00:00', 'The first story', 'messages.event.CURRENT_STORY_SELECTED');
 
 -- Insert connection data
 INSERT INTO event_room(room_room_id, event_event_id) VALUES (1, 1);

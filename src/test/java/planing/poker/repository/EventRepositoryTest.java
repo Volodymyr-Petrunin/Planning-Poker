@@ -79,8 +79,8 @@ class EventRepositoryTest {
         final Room newRoom = new Room();
 
         final List<EventMessage> newEventMessages = List.of (
-                new EventMessage(null, ExpectedEntityUtils.getUserCreator(), "New message 1", FIXED_TIMESTAMP),
-                new EventMessage(null, ExpectedEntityUtils.getUserElector(), "New message 2", FIXED_TIMESTAMP)
+                new EventMessage(null, ExpectedEntityUtils.getUserCreator(), "any.key", "arg", FIXED_TIMESTAMP),
+                new EventMessage(null, ExpectedEntityUtils.getUserElector(), "any.key", "arg", FIXED_TIMESTAMP)
         );
 
         final List<Event> eventBatch = List.of(
