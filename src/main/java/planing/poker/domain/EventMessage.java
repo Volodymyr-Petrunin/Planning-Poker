@@ -10,7 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import planing.poker.common.exception.MessageParsingException;
 
@@ -20,6 +22,8 @@ import java.util.Objects;
 @Entity(name = "event_messages")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EventMessage {
     @Id
     @Column(unique = true, nullable = false, name = "event_message_id")
@@ -39,19 +43,6 @@ public class EventMessage {
 
     @Column(name = "event_message_timestamp", nullable = false)
     private LocalDateTime timestamp;
-
-    public EventMessage() {
-
-    }
-
-    public EventMessage(final Long id, final User user, final String messageKey,
-                        final String messageArgs, final LocalDateTime timestamp) {
-        this.id = id;
-        this.user = user;
-        this.messageKey = messageKey;
-        this.messageArgs= messageArgs;
-        this.timestamp = timestamp;
-    }
 
     public Object[] parseArgs() {
         if (messageArgs == null || messageArgs.isBlank()) {

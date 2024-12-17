@@ -13,7 +13,6 @@ import planing.poker.domain.Vote;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static planing.poker.factory.StoryFactory.createNewStory;
