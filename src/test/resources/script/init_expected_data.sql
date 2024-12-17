@@ -34,7 +34,7 @@ ALTER SEQUENCE room_seq RESTART WITH 1;
 -- Insert data into the 'rooms' table
 INSERT INTO rooms(room_id, room_code, room_name, room_creator, room_start_time, current_story_id, room_is_active,
                   room_is_voting_open, room_start_date, room_vote_duration, room_is_anonymous_voting)
-VALUES (nextval('room_seq'), 'ABC123', 'Test Room', 2, '10:00', 1, true, false, '2000-01-01', 5, false);
+VALUES (nextval('room_seq'), 'ABC123', 'Test Room', 2, '10:00', 1, true, false, '2000-01-01', 300000000000, false);
 
 -- Adjust sequence
 ALTER SEQUENCE vote_seq RESTART WITH 1;

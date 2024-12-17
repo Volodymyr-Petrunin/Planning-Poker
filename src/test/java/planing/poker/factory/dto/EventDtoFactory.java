@@ -10,6 +10,6 @@ public class EventDtoFactory {
     private static final Long EXPECTED_ID = 1L;
 
     public static EventDto createEvent(final ResponseRoomDto responseRoomDto, final List<ResponseEventMessageDto> eventMessages) {
-        return new EventDto(EXPECTED_ID, responseRoomDto, eventMessages);
+        return new EventDto(EXPECTED_ID, responseRoomDto.getId(), eventMessages);
     }
 }

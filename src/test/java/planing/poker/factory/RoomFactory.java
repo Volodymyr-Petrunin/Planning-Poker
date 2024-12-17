@@ -4,8 +4,8 @@ import planing.poker.domain.Event;
 import planing.poker.domain.Room;
 import planing.poker.domain.Story;
 import planing.poker.domain.User;
+import planing.poker.factory.utils.ExpectedEntityUtils;
 
-import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,6 +21,7 @@ public class RoomFactory {
     private static final LocalTime EXPECTED_START_TIME = LocalTime.of(10, 0);
     private static final boolean EXPECTED_IS_ACTIVE = true;
     private static final boolean EXPECTED_IS_VOTING_OPEN = false;
+    private static final boolean EXPECTED_IS_ANONYMOUS_VOTING = false;
     private static final Duration EXPECTED_VOTE_DURATION = Duration.ofMinutes(5);
 
     public static Room createRoom(final User creator, final Story currentStory) {
@@ -34,6 +35,7 @@ public class RoomFactory {
                 .setCurrentStory(currentStory)
                 .setIsActive(EXPECTED_IS_ACTIVE)
                 .setIsVotingOpen(EXPECTED_IS_VOTING_OPEN)
+                .setIsAnonymousVoting(EXPECTED_IS_ANONYMOUS_VOTING)
                 .setVoteDuration(EXPECTED_VOTE_DURATION)
                 .setInvitedUsers(Collections.emptyList())
                 .setStories(Collections.emptyList());
@@ -55,5 +57,18 @@ public class RoomFactory {
                 .setStories(stories)
                 .setEvent(event);
 
+    }
+
+    public static Room createNewRoom() {
+        return new Room()
+                .setId(null)
+                .setRoomCode("NEW123")
+                .setRoomName("New Room")
+                .setCreator(ExpectedEntityUtils.getUserCreator())
+                .setStartDate(LocalDate.of(2024,9,30))
+                .setStartTime(LocalTime.of(12, 0))
+                .setVoteDuration(Duration.ofMinutes(10))
+                .setIsActive(true)
+                .setIsVotingOpen(true);
     }
 }

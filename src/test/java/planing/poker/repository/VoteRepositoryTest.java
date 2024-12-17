@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
-import planing.poker.common.Role;
-import planing.poker.domain.SecurityRole;
 import planing.poker.domain.Story;
 import planing.poker.domain.User;
 import planing.poker.domain.Vote;
@@ -18,6 +16,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static planing.poker.factory.StoryFactory.createNewStory;
+import static planing.poker.factory.UserFactory.createNewUser;
 import static planing.poker.factory.utils.ExpectedEntityUtils.getVote;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -41,6 +41,7 @@ class VoteRepositoryTest {
     private VoteRepository voteRepository;
 
     private Vote expected;
+
     private Vote actual;
 
     @BeforeAll
@@ -91,10 +92,9 @@ class VoteRepositoryTest {
     @Test
     @DisplayName("Insert Batch of Votes: Should insert a batch of votes and return the expected list")
     void testInsertBatchOfVotes_ShouldInsertBatchOfVotes_AndReturnExpectedList() {
-        final User newUser = new User(null, "Other Voter", "Lastname", "Nickname",
-                "other@email.com", "pass", Role.USER_ELECTOR, SecurityRole.ROLE_USER, Collections.emptyList(), Collections.emptyList());
+        final User newUser = createNewUser();
 
-        final Story newStory = new Story(null, "Another Story", "Another Description", Collections.emptyList());
+        final Story newStory = createNewStory();
 
         final List<Vote> voteBatch = Arrays.asList(
                 new Vote(null, EXPECTED_ELECTOR, EXPECTED_POINTS, EXPECTED_STORY),

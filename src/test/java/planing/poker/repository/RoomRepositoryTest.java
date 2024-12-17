@@ -9,23 +9,22 @@ import org.springframework.transaction.annotation.Transactional;
 import planing.poker.domain.*;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 
-import java.sql.Date;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static planing.poker.factory.RoomFactory.createNewRoom;
 
 @SpringBootTest
 @DisplayName("Room Repository Tests")
 @Sql(scripts = {"classpath:script/init_expected_data.sql"})
 @Transactional
 class RoomRepositoryTest {
+
     @Autowired
     private RoomRepository roomRepository;
 
     private Room expected;
+
     private Room actual;
 
     @Test
@@ -74,15 +73,7 @@ class RoomRepositoryTest {
     @Test
     @DisplayName("Insert Batch of Rooms: Should insert a batch of rooms and return the expected list")
     void testInsertBatchOfRooms_ShouldInsertBatchOfRooms_AndReturnExpectedList() {
-        final Room newRoom = new Room()
-                .setRoomCode("NEW123")
-                .setRoomName("New Room")
-                .setCreator(ExpectedEntityUtils.getUserCreator())
-                .setStartDate(LocalDate.of(2024,9,30))
-                .setStartTime(LocalTime.of(12, 0))
-                .setVoteDuration(Duration.ofMinutes(10))
-                .setIsActive(true)
-                .setIsVotingOpen(true);
+        final Room newRoom = createNewRoom();
 
         final List<Room> roomBatch = List.of(newRoom);
 

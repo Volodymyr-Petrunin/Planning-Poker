@@ -25,6 +25,7 @@ class TeamRepositoryTest {
     private TeamRepository teamRepository;
 
     private Team expected;
+
     private Team actual;
 
     @Test
