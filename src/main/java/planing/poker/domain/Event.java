@@ -12,7 +12,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.Objects;
 @Entity(name = "Events")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @NamedEntityGraph(name = "event-with-room-entity-graph", attributeNodes = {
         @NamedAttributeNode("room")
 })
@@ -45,14 +49,6 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "event_message_id")
     )
     private List<EventMessage> eventMessages;
-
-    public Event() {}
-
-    public Event(final Long id, final Room room, final List<EventMessage> eventMessages) {
-        this.id = id;
-        this.room = room;
-        this.eventMessages = eventMessages;
-    }
 
     @Override
     public boolean equals(final Object o) {
