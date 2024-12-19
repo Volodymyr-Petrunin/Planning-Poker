@@ -1,15 +1,21 @@
 package planing.poker.service;
 
+import com.navercorp.fixturemonkey.FixtureMonkey;
+import com.navercorp.fixturemonkey.api.introspector.FieldReflectionArbitraryIntrospector;
+import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationEventPublisher;
+import planing.poker.common.ExceptionMessages;
+import planing.poker.domain.Room;
 import planing.poker.domain.Story;
 import planing.poker.domain.dto.request.RequestStoryDto;
 import planing.poker.domain.dto.response.ResponseStoryDto;
-import planing.poker.factory.utils.ExpectedEntityDtoUtils;
-import planing.poker.factory.utils.ExpectedEntityUtils;
+import planing.poker.mapper.RoomMapper;
 import planing.poker.mapper.StoryMapper;
 import planing.poker.repository.StoryRepository;
 
@@ -29,11 +35,24 @@ import static org.mockito.Mockito.doNothing;
 @SpringBootTest
 @DisplayName("Story Service Tests")
 class StoryServiceTest {
-    private static final ResponseStoryDto EXPECTED_DTO = ExpectedEntityDtoUtils.getStory();
-    private static final Story EXPECTED_ENTITY = ExpectedEntityUtils.getStory();
+
+    private static final FixtureMonkey fixtureMonkey = FixtureMonkey.builder()
+            .objectIntrospector(FieldReflectionArbitraryIntrospector.INSTANCE)
+            .plugin(new JakartaValidationPlugin())
+            .defaultNotNull(true)
+            .build();
+
+    private static ResponseStoryDto expectedResponseDto;
+
+    private static RequestStoryDto expectedRequestDto;
+
+    private static Story expectedEntity;
 
     @InjectMocks
     private StoryService storyService;
+
+    @Mock
+    private RoomService roomService;
 
     @Mock
     private StoryRepository storyRepository;
@@ -41,28 +60,43 @@ class StoryServiceTest {
     @Mock
     private StoryMapper storyMapper;
 
+    @Mock
+    private RoomMapper roomMapper;
+
+    @Mock
+    private ExceptionMessages exceptionMessages;
+
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
+
+    @BeforeAll
+    static void setUp() {
+        expectedResponseDto = fixtureMonkey.giveMeOne(ResponseStoryDto.class);
+        expectedRequestDto  = fixtureMonkey.giveMeOne(RequestStoryDto.class);
+        expectedEntity = fixtureMonkey.giveMeOne(Story.class);
+    }
+
     @Test
     @DisplayName("Create Story: Should create story and return correct DTO")
     void testCreateStory_ShouldCreateStory_AndReturnCorrectDto() {
-        final RequestStoryDto requestStoryDto = new RequestStoryDto();
-        when(storyMapper.toEntity(requestStoryDto)).thenReturn(EXPECTED_ENTITY);
-        when(storyRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
-        when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
+        when(storyMapper.toEntity(expectedRequestDto)).thenReturn(expectedEntity);
+        when(storyRepository.save(expectedEntity)).thenReturn(expectedEntity);
+        when(storyMapper.toDto(expectedEntity)).thenReturn(expectedResponseDto);
 
-        final ResponseStoryDto createdStory = storyService.createStory(requestStoryDto, any());
+        final ResponseStoryDto createdStory = storyService.createStory(expectedRequestDto, any());
 
         assertNotNull(createdStory);
 
-        verify(storyRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(storyMapper, times(1)).toEntity(requestStoryDto);
-        verify(storyMapper, times(1)).toDto(EXPECTED_ENTITY);
+        verify(storyRepository, times(1)).save(expectedEntity);
+        verify(storyMapper, times(1)).toEntity(expectedRequestDto);
+        verify(storyMapper, times(1)).toDto(expectedEntity);
     }
 
     @Test
     @DisplayName("Get All Stories: Should return all stories as a list of DTOs")
     void testGetAllStories_ShouldReturnAllStories() {
-        when(storyRepository.findAll()).thenReturn(List.of(EXPECTED_ENTITY));
-        when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
+        when(storyRepository.findAll()).thenReturn(List.of(expectedEntity));
+        when(storyMapper.toDto(expectedEntity)).thenReturn(expectedResponseDto);
 
         final List<ResponseStoryDto> stories = storyService.getAllStories();
 
@@ -70,61 +104,60 @@ class StoryServiceTest {
         assertEquals(1, stories.size());
 
         verify(storyRepository, times(1)).findAll();
-        verify(storyMapper, times(1)).toDto(EXPECTED_ENTITY);
+        verify(storyMapper, times(1)).toDto(expectedEntity);
     }
 
     @Test
     @DisplayName("Get Story By ID: Should return the correct story DTO for given ID")
     void testGetStoryById_ShouldReturnStory() {
-        when(storyRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.of(EXPECTED_ENTITY));
-        when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
+        when(storyRepository.findById(expectedResponseDto.getId())).thenReturn(Optional.of(expectedEntity));
+        when(storyMapper.toDto(expectedEntity)).thenReturn(expectedResponseDto);
 
-        final ResponseStoryDto story = storyService.getStoryById(EXPECTED_DTO.getId());
+        final ResponseStoryDto story = storyService.getStoryById(expectedResponseDto.getId());
 
         assertNotNull(story);
-        assertEquals(EXPECTED_DTO.getId(), story.getId());
+        assertEquals(expectedResponseDto.getId(), story.getId());
 
-        verify(storyRepository, times(1)).findById(EXPECTED_DTO.getId());
-        verify(storyMapper, times(1)).toDto(EXPECTED_ENTITY);
+        verify(storyRepository, times(1)).findById(expectedResponseDto.getId());
+        verify(storyMapper, times(1)).toDto(expectedEntity);
     }
 
     @Test
     @DisplayName("Get Story By ID: Should throw exception if story is not found")
     void testGetStoryById_ShouldThrowExceptionIfNotFound() {
-        when(storyRepository.findById(EXPECTED_DTO.getId())).thenReturn(Optional.empty());
+        when(storyRepository.findById(expectedResponseDto.getId())).thenReturn(Optional.empty());
+        when(exceptionMessages.NO_FIND_MESSAGE()).thenReturn("Error Message!");
 
-        final Exception exception = assertThrows(
-                IllegalArgumentException.class, () -> storyService.getStoryById(EXPECTED_DTO.getId()));
+        assertThrows(IllegalArgumentException.class, () -> storyService.getStoryById(expectedResponseDto.getId()));
 
-        assertEquals("message.not.find.object", exception.getMessage());
-
-        verify(storyRepository, times(1)).findById(EXPECTED_DTO.getId());
+        verify(storyRepository, times(1)).findById(expectedResponseDto.getId());
     }
 
     @Test
     @DisplayName("Update Story: Should update story and return the updated DTO")
     void testUpdateStory_ShouldUpdateStory_AndReturnUpdatedDto() {
-        final RequestStoryDto requestStoryDto = new RequestStoryDto();
-        when(storyMapper.toEntity(requestStoryDto)).thenReturn(EXPECTED_ENTITY);
-        when(storyRepository.save(EXPECTED_ENTITY)).thenReturn(EXPECTED_ENTITY);
-        when(storyMapper.toDto(EXPECTED_ENTITY)).thenReturn(EXPECTED_DTO);
+        when(storyMapper.toEntity(expectedRequestDto)).thenReturn(expectedEntity);
+        when(storyRepository.findById(1L)).thenReturn(Optional.of(expectedEntity));
+        when(roomService.optionalRoomByCurrentStory(expectedEntity)).thenReturn(Optional.of(fixtureMonkey.giveMeOne(Room.class)));
+        when(storyRepository.save(expectedEntity)).thenReturn(expectedEntity);
+        when(storyMapper.toDto(expectedEntity)).thenReturn(expectedResponseDto);
 
-        final ResponseStoryDto updatedStory = storyService.updateStory(1 ,requestStoryDto, any());
+        final ResponseStoryDto updatedStory = storyService.updateStory(1 ,expectedRequestDto, any());
 
         assertNotNull(updatedStory);
-
-        verify(storyRepository, times(1)).save(EXPECTED_ENTITY);
-        verify(storyMapper, times(1)).toEntity(requestStoryDto);
-        verify(storyMapper, times(1)).toDto(EXPECTED_ENTITY);
+        verify(storyRepository, times(1)).save(expectedEntity);
+        verify(storyMapper, times(1)).toEntity(expectedRequestDto);
+        verify(storyMapper, times(1)).toDto(expectedEntity);
     }
 
     @Test
     @DisplayName("Delete Story: Should delete story by given ID")
     void testDeleteStory_ShouldDeleteStory() {
-        doNothing().when(storyRepository).deleteById(EXPECTED_DTO.getId());
+        doNothing().when(storyRepository).deleteById(expectedResponseDto.getId());
+        when(storyRepository.findById(expectedResponseDto.getId())).thenReturn(Optional.of(expectedEntity));
 
-        storyService.deleteStory(EXPECTED_DTO.getId(), any());
+        storyService.deleteStory(expectedResponseDto.getId(), any());
 
-        verify(storyRepository, times(1)).deleteById(EXPECTED_DTO.getId());
+        verify(storyRepository, times(1)).deleteById(expectedResponseDto.getId());
     }
 }
