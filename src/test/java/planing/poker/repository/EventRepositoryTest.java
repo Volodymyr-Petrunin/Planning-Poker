@@ -11,10 +11,10 @@ import planing.poker.domain.EventMessage;
 import planing.poker.domain.Room;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static planing.poker.factory.utils.ExpectedEntityUtils.getEvent;
+import static planing.poker.factory.utils.ExpectedEntityUtils.getFixedTimestamp;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,13 +24,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Sql(value = "classpath:script/init_expected_data.sql")
 @Transactional
 class EventRepositoryTest {
-    private static final LocalDateTime FIXED_TIMESTAMP = LocalDateTime
-            .of(2024, 1, 1, 0, 0, 0);
 
     @Autowired
     private EventRepository eventRepository;
 
     private Event expected;
+
     private Event actual;
 
 
@@ -79,8 +78,8 @@ class EventRepositoryTest {
         final Room newRoom = new Room();
 
         final List<EventMessage> newEventMessages = List.of (
-                new EventMessage(null, ExpectedEntityUtils.getUserCreator(), "New message 1", FIXED_TIMESTAMP),
-                new EventMessage(null, ExpectedEntityUtils.getUserElector(), "New message 2", FIXED_TIMESTAMP)
+                new EventMessage(null, ExpectedEntityUtils.getUserCreator(), "any.key", "arg", getFixedTimestamp()),
+                new EventMessage(null, ExpectedEntityUtils.getUserElector(), "any.key", "arg", getFixedTimestamp())
         );
 
         final List<Event> eventBatch = List.of(

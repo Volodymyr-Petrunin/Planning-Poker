@@ -28,6 +28,7 @@ class StoryRepositoryTest {
     private StoryRepository storyRepository;
 
     private Story expected;
+
     private Story actual;
 
     @Test

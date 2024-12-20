@@ -3,6 +3,7 @@ package planing.poker.factory.utils;
 import planing.poker.domain.*;
 import planing.poker.factory.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ExpectedEntityUtils {
@@ -14,6 +15,8 @@ public class ExpectedEntityUtils {
     private static final Vote vote = VoteFactory.createVote(userElector, story);
     private static final EventMessage eventMessage = EventMessageFactory.createEventMessage(userElector);
     private static final Event event = EventFactory.createEvent(room, List.of(eventMessage));
+    private static final LocalDateTime FIXED_TIMESTAMP = LocalDateTime
+            .of(2024, 1, 1, 0, 0, 0);
 
     public static User getUserElector() {
         return userElector;
@@ -45,5 +48,9 @@ public class ExpectedEntityUtils {
 
     public static Event getEvent() {
         return event;
+    }
+
+    public static LocalDateTime getFixedTimestamp() {
+        return FIXED_TIMESTAMP;
     }
 }

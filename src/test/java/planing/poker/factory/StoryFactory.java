@@ -22,4 +22,8 @@ public class StoryFactory {
     public static Story createStory(final Long id, final String title, final String link, final List<Vote> votes) {
         return new Story(id, title, link, votes);
     }
+
+    public static Story createNewStory() {
+        return new Story(null, "Another Story", "Another Description", Collections.emptyList());
+    }
 }

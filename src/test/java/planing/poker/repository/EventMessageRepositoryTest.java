@@ -6,18 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
-import planing.poker.common.Role;
 import planing.poker.domain.EventMessage;
-import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 import planing.poker.factory.utils.ExpectedEntityUtils;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import static planing.poker.factory.UserFactory.createNewUser;
 import static planing.poker.factory.utils.ExpectedEntityUtils.getEventMessage;
+import static planing.poker.factory.utils.ExpectedEntityUtils.getFixedTimestamp;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,17 +23,19 @@ import static org.junit.jupiter.api.Assertions.*;
 @Sql(value = "classpath:script/init_expected_data.sql")
 @Transactional
 class EventMessageRepositoryTest {
+
     @Autowired
     private EventMessageRepository eventMessageRepository;
 
     private EventMessage expected;
+
     private EventMessage actual;
 
     @Test
     @DisplayName("Create Event Message: Should create an event message and return it with a generated ID")
     void testCreateEventMessage_ShouldCreateExpectedEventMessage_AndReturnWithId() {
-        expected = new EventMessage(null, ExpectedEntityUtils.getUserCreator(), "Create room",
-                LocalDateTime.of(2000, 1, 1, 1, 1, 1));
+        expected = new EventMessage(
+                null, ExpectedEntityUtils.getUserCreator(), "any.key", "Create room", getFixedTimestamp());
 
         actual = eventMessageRepository.save(expected);
 
@@ -77,12 +77,11 @@ class EventMessageRepositoryTest {
     @Test
     @DisplayName("Insert Batch of Event Messages: Should insert a batch of messages and return the expected list")
     void testInsertBatchOfEventMessages_ShouldInsertBatchOfMessages_AndReturnExpectedList() {
-        final User newUser = new User(null, "Another User", "Lastname", "Nickname",
-                "another@email.com", "password", Role.USER_SPECTATOR, SecurityRole.ROLE_USER, Collections.emptyList(), Collections.emptyList());
+        final User newUser = createNewUser();
 
         final List<EventMessage> messageBatch = Arrays.asList(
-                new EventMessage(null, ExpectedEntityUtils.getUserElector(), "First event message", LocalDateTime.now()),
-                new EventMessage(null, newUser, "Second event message", LocalDateTime.now())
+                new EventMessage(null, ExpectedEntityUtils.getUserElector(), "any.key","First event message", getFixedTimestamp()),
+                new EventMessage(null, newUser, "any.key" ,"Second event message", getFixedTimestamp())
         );
 
         final List<EventMessage> actualMessages = eventMessageRepository.saveAll(messageBatch);

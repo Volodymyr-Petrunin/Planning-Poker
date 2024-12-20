@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
-import planing.poker.common.Role;
 import planing.poker.domain.User;
-import planing.poker.factory.UserFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import static planing.poker.factory.UserFactory.createNewUser;
 import static planing.poker.factory.utils.ExpectedEntityUtils.getUserCreator;
 import static planing.poker.factory.utils.ExpectedEntityUtils.getUserElector;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,6 +27,7 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     private User expected;
+
     private User actual;
 
 
@@ -36,8 +35,7 @@ class UserRepositoryTest {
     @DisplayName("Create User: Should create an expected user and return user with generated ID")
     void testCreateUser_ShouldCreateExpectedUser_AndReturnUserWithId() {
         final long expectedId = 3;
-        expected = UserFactory.createCustomUser(null, "New", "User",
-                "NEW_USER", "newUser@email", "newPass", Role.USER_ELECTOR);
+        expected = createNewUser();
 
         actual = userRepository.save(expected);
         expected.setId(expectedId);
@@ -85,7 +83,7 @@ class UserRepositoryTest {
     @DisplayName("Insert Batch of Users: Should insert a batch of users and return expected list")
     void testInsertBatchOfUsers_ShouldInsertBatchOfUsers_AndShouldReturnExpectedList() {
         final List<User> userBatch = new ArrayList<>(List.of(getUserElector(), getUserCreator()));
-        userBatch.add(new User().setFirstName("First").setLastName("Last").setRoles(Collections.emptyList()));
+        userBatch.add(createNewUser());
 
         userBatch.forEach(user -> user.setId(null));
 

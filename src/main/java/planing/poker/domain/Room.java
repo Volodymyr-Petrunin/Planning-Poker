@@ -94,17 +94,17 @@ public class Room {
         if (this == o) return true;
         if (!(o instanceof Room room)) return false;
         return Objects.equals(id, room.id) && Objects.equals(roomCode, room.roomCode)
-                && Objects.equals(roomName, room.roomName) && Objects.equals(creator, room.creator)
-                && Objects.equals(invitedUsers, room.invitedUsers) && Objects.equals(startDate, room.startDate)
-                && Objects.equals(startTime, room.startTime) && Objects.equals(currentStory, room.currentStory)
-                && Objects.equals(stories, room.stories) && Objects.equals(voteDuration, room.voteDuration)
+                && Objects.equals(roomName, room.roomName) && Objects.equals(creator.getId(), room.creator.getId())
+                && Objects.equals(startDate, room.startDate) && Objects.equals(startTime, room.startTime)
+                && Objects.equals(currentStory.getId(), room.currentStory.getId())
+                && Objects.equals(voteDuration, room.voteDuration)
                 && Objects.equals(isActive, room.isActive) && Objects.equals(isVotingOpen, room.isVotingOpen);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, roomCode, roomName, creator, invitedUsers, startDate, startTime, currentStory,
-                stories, voteDuration, isActive, isVotingOpen);
+        return Objects.hash(id, roomCode, roomName, startDate, startTime, voteDuration,
+                isActive, isVotingOpen, votingEndTime, isAnonymousVoting);
     }
 
     @Override
@@ -113,15 +113,13 @@ public class Room {
                 "id=" + id +
                 ", roomCode='" + roomCode + '\'' +
                 ", roomName='" + roomName + '\'' +
-                ", creator=" + creator +
-                ", invitedUsers=" + invitedUsers +
                 ", startDate=" + startDate +
                 ", startTime=" + startTime +
-                ", currentStory=" + currentStory +
-                ", stories=" + stories +
                 ", voteDuration=" + voteDuration +
                 ", isActive=" + isActive +
                 ", isVotingOpen=" + isVotingOpen +
+                ", votingEndTime=" + votingEndTime +
+                ", isAnonymousVoting=" + isAnonymousVoting +
                 '}';
     }
 }

@@ -1,6 +1,5 @@
 package planing.poker.factory;
 
-import planing.poker.common.Role;
 import planing.poker.domain.SecurityRole;
 import planing.poker.domain.User;
 
@@ -15,7 +14,6 @@ public class UserFactory {
     private static final String EXPECTED_NICKNAME = "Expected Nickname";
     private static final String EXPECTED_EMAIL = "expected@email.gg";
     private static final String EXPECTED_PASS = "Expected pass";
-    private static final Role EXPECTED_ROLE = Role.USER_ELECTOR;
     private static final SecurityRole EXPECTED_SECURITY_ROLE = SecurityRole.ROLE_USER;
 
     private static final String CREATOR_NAME = "User";
@@ -23,7 +21,6 @@ public class UserFactory {
     private static final String CREATOR_NICKNAME = "UserCreator";
     private static final String CREATOR_EMAIL = "UserCreator@email.gg";
     private static final String CREATOR_PASS = "UserCreatorPass";
-    private static final Role CREATOR_ROLE = Role.USER_PRESENTER;
     private static final SecurityRole CREATOR_SECURITY_ROLE = SecurityRole.ROLE_ADMIN;
 
     public static User createExpectedElector() {
@@ -51,8 +48,7 @@ public class UserFactory {
     }
 
     public static User createCustomUser(final Long id, final String name, final String lastName,
-                                        final String nickname, final String email, final String password,
-                                        final Role role) {
+                                        final String nickname, final String email, final String password) {
         return new User()
                 .setId(id)
                 .setFirstName(name)
@@ -61,5 +57,11 @@ public class UserFactory {
                 .setEmail(email)
                 .setPassword(password)
                 .setRoles(Collections.emptyList());
+    }
+
+    public static User createNewUser() {
+        return new User(null, "Another User", "Lastname", "Nickname",
+                "another@email.com", "password",Collections.emptyList(), SecurityRole.ROLE_USER,
+                Collections.emptyList(), Collections.emptyList());
     }
 }

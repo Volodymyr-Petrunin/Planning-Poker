@@ -51,8 +51,8 @@ public class Vote {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Vote vote)) return false;
-        return Objects.equals(id, vote.id) && Objects.equals(voter, vote.voter)
-                && Objects.equals(points, vote.points) && Objects.equals(story, vote.story);
+        return Objects.equals(id, vote.id) && Objects.equals(voter.getId(), vote.voter.getId())
+                && Objects.equals(points, vote.points) && Objects.equals(story.getId(), vote.story.getId());
     }
 
     @Override
