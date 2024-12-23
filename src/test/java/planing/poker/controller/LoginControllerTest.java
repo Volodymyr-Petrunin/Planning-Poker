@@ -1,53 +1,62 @@
 package planing.poker.controller;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.security.core.Authentication;
-import org.springframework.ui.Model;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.ui.Model;
+import org.springframework.security.core.Authentication;
+
+@DisplayName("Login Controller Test")
+@ExtendWith(MockitoExtension.class)
 class LoginControllerTest {
 
+    private static final String LOGIN_PAGE = "login/login-page";
+
+    private static final String REDIRECT_HOME = "redirect:/";
+
+    private static final String ERROR_ATTRIBUTE = "error";
+
+    @InjectMocks
     private LoginController loginController;
 
+    @Mock
     private Model model;
 
+    @Mock
     private Authentication authentication;
 
-    @BeforeEach
-    void setUp() {
-        loginController = new LoginController();
-        model = mock(Model.class);
-        authentication = mock(Authentication.class);
-    }
-
     @Test
+    @DisplayName("Should return login page with error when error parameter is provided")
     void testLoginWithError() {
-        String error = "Invalid credentials";
+        final String error = "Invalid credentials";
 
-        String viewName = loginController.login(error, null, model);
+        final String viewName = loginController.login(error, null, model);
 
-        assertEquals("login/login-page", viewName);
-        verify(model).addAttribute("error", true);
+        assertEquals(LOGIN_PAGE, viewName);
+        verify(model).addAttribute(ERROR_ATTRIBUTE, true);
     }
 
     @Test
+    @DisplayName("Should return login page without error when error parameter is not provided")
     void testLoginWithoutError() {
-        String viewName = loginController.login(null, null, model);
+        final String viewName = loginController.login(null, null, model);
 
-        assertEquals("login/login-page", viewName);
-        verify(model).addAttribute("error", false);
+        assertEquals(LOGIN_PAGE, viewName);
+        verify(model).addAttribute(ERROR_ATTRIBUTE, false);
     }
 
     @Test
+    @DisplayName("Should redirect to home page when user is authenticated")
     void testLoginWhenAuthenticated() {
-        when(authentication.isAuthenticated()).thenReturn(true);
+        final String viewName = loginController.login(null, authentication, model);
 
-        String viewName = loginController.login(null, authentication, model);
-
-        assertEquals("redirect:/", viewName);
+        assertEquals(REDIRECT_HOME, viewName);
         verifyNoInteractions(model);
     }
 }
