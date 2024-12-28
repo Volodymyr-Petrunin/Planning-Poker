@@ -2,6 +2,7 @@ package planing.poker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import planing.poker.domain.dto.request.RequestVoteDto;
@@ -20,7 +21,7 @@ public class VoteController {
     }
 
     @MessageMapping(MESSAGE_MAPPING)
-    public void sendVote(final RequestVoteDto vote, final Authentication authentication) {
+    public void sendVote(@Payload final RequestVoteDto vote, final Authentication authentication) {
         final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         voteService.createVote(vote, userDetails.getUsername());
     }

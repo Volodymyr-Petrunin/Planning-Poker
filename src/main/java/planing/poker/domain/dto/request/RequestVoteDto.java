@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import planing.poker.domain.dto.response.ResponseStoryDto;
 import planing.poker.domain.dto.response.ResponseUserDto;
 
@@ -17,6 +18,7 @@ import planing.poker.domain.dto.response.ResponseUserDto;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class RequestVoteDto {
 
     private ResponseUserDto voter;
