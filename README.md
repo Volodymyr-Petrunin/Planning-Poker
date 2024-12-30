@@ -59,6 +59,7 @@ Accurate **task estimation** is essential for successful project management in A
 - **JUnit**: For unit and integration testing.
 - **Mockito**: For mocking dependencies in tests.
 - **TestContainers**: For testing with PostgreSQL in isolated containers.
+- **FixtureMonkey**: Fixture Monkey generates objects with random data, making your tests faster and easier to write. [Documentation](https://naver.github.io/fixture-monkey/v1-1-0/)
 
 ### **DevOps and Deployment**
 - **Docker**: To containerize the application and ensure consistency across environments.
