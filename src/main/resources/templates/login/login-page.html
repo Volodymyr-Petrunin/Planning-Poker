@@ -11,6 +11,8 @@
     <section class="w-100 p-4 d-flex justify-content-center pb-4">
         <div th:replace="~{login/login-form :: login-form}"></div>
     </section>
+
+    <div th:replace="~{layouts/include-js :: include-js}"></div>
 </body>
     <script th:src="@{/js/alert-on-login-error.js}"></script>
 </html>

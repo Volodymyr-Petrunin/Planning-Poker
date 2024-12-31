@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
             }
 
-            newRow.innerHTML = `
+    newRow.innerHTML = `
         <td>${storyCreated.title}</td>
         <td><a href="${storyCreated.storyLink}" target="_blank">${storyCreated.storyLink}</a></td>
         <td>${actionButtons}</td>

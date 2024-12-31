@@ -54,6 +54,7 @@ window.selectCard = function (points) {
     cards.forEach(card => card.classList.remove('border-primary'));
 
     event.target.closest('.card').classList.add('active');
+    event.target.closest('.card').classList.add('border');
     event.target.closest('.card').classList.add('border-2');
     event.target.closest('.card').classList.add('border-primary');
 }

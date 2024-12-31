@@ -18,10 +18,10 @@
 
         <!-- Language link -->
         <li class="nav-item dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  th:text="#{label.select.language}">
+            <a class="nav-link dropdown-toggle text-light" href="#" id="dropdownMenuButton" role="button" data-mdb-toggle="dropdown" aria-expanded="false" th:text="#{label.select.language}">
                 Select Language
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="langDropdown">
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="?lang=en" th:text="#{messages.templates.header.lang.eng}">EN</a></li>
                 <li><a class="dropdown-item" href="?lang=swe" th:text="#{messages.templates.header.lang.swe}">SWE</a></li>
                 <li><a class="dropdown-item" href="?lang=uk" th:text="#{messages.templates.header.lang.uk}">UK</a></li>
@@ -41,6 +41,6 @@
         </form>
     </div>
 
-    <!--    Add Bootstrap Script Inside the header-->
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- MDBootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css">
 </header>

@@ -6,42 +6,56 @@
       th:fragment="reg-user-form">
 
     <!-- First Name -->
-    <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="firstName" th:text="#{label.firstname}">First Name</label>
-        <input type="text" id="firstName" th:field="*{firstName}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+    <div class="form-outline mb-4" data-mdb-input-init>
+        <div class="form-outline">
+            <input type="text" id="firstName" th:field="*{firstName}" class="form-control form-control-lg text-light" data-mdb-showcounter="true" maxlength="50" required />
+            <label class="form-label text-white" for="firstName" th:text="#{label.firstname}">First Name</label>
+            <div class="form-helper"></div>
+        </div>
         <small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
     </div>
 
     <!-- Last Name -->
     <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="lastName" th:text="#{label.lastname}">Surname</label>
-        <input type="text" id="lastName" th:field="*{lastName}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+        <div class="form-outline">
+            <input type="text" id="lastName" th:field="*{lastName}" class="form-control form-control-lg text-light" data-mdb-showcounter="true" maxlength="50" required />
+            <label class="form-label text-white" for="lastName" th:text="#{label.lastname}">Surname</label>
+            <div class="form-helper"></div>
+        </div>
         <small class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
     </div>
 
     <!-- Nickname -->
-    <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="nickname" th:text="#{label.nickname}">Nickname</label>
-        <input type="text" id="nickname" th:field="*{nickname}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+    <div class="mb-4">
+        <div class="form-outline">
+            <input type="text" id="nickname" th:field="*{nickname}" class="form-control form-control-lg text-light" data-mdb-showcounter="true" maxlength="100" required />
+            <label class="form-label text-white" for="nickname" th:text="#{label.nickname}">Nickname</label>
+            <div class="form-helper"></div>
+        </div>
         <small class="text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></small>
     </div>
 
     <!-- Email -->
-    <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="email" th:text="#{label.email}">Email</label>
-        <input type="email" id="email" th:field="*{email}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+    <div class="mb-4">
+        <div class="form-outline">
+            <input type="email" id="email" th:field="*{email}" class="form-control form-control-lg text-light" required />
+            <label class="form-label text-white" for="email" th:text="#{label.email}">Email</label>
+        </div>
         <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
     </div>
 
     <!-- Password -->
-    <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="password" th:text="#{label.password}">Password</label>
-        <input type="password" id="password" th:field="*{password}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
-        <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+    <div class="mb-5">
+        <div class="form-outline">
+            <input type="password" id="password" th:field="*{password}" class="form-control form-control-lg text-light" required />
+            <label class="form-label text-white" for="password" th:text="#{label.password}">Password</label>
+            <div class="form-helper" th:text="#{label.password.rules}"></div>
+        </div>
     </div>
+    <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
 
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-4" style="width: 100%; padding: 10px; font-size: 1rem;" th:text="#{label.register}">Register</button>
+    <button type="submit" class="btn btn-primary btn-block mb-4" th:text="#{label.register}">Register</button>
 
     <!-- Already registered -->
     <div class="text-center text-white">
