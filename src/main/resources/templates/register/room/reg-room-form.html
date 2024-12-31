@@ -10,23 +10,30 @@
     <input type="hidden" id="storiesInput" th:field="*{stories}" />
 
     <!-- Room Name -->
-    <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="firstName" th:text="#{label.room.name}">Room Name</label>
-        <input type="text" id="firstName" th:field="*{roomName}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+    <div class="mb-4">
+        <div class="form-outline">
+            <input type="text" id="firstName" th:field="*{roomName}" class="form-control form-control-lg text-light" data-mdb-showcounter="true" maxlength="100" required />
+            <label class="form-label text-white" for="firstName" th:text="#{label.room.name}">Room Name</label>
+            <div class="form-helper"></div>
+        </div>
         <small class="text-danger" th:if="${#fields.hasErrors('roomName')}" th:errors="*{roomName}"></small>
     </div>
 
     <!-- Start Date -->
-    <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="startDate" th:text="#{label.start.date}">Start Date</label>
-        <input type="date" id="startDate" th:field="*{startDate}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+    <div class="mb-4">
+        <div class="form-outline datepicker">
+            <input type="date" id="startDate" th:field="*{startDate}" class="form-control form-control-lg text-light" required />
+            <label class="form-label text-white" for="startDate" th:text="#{label.start.date}">Start Date</label>
+        </div>
         <small class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></small>
     </div>
 
     <!-- Start Time -->
-    <div class="form-outline mb-4">
-        <label class="form-label text-white h5" for="startTime" th:text="#{label.start.time}">Start Time</label>
-        <input type="time" id="startTime" th:field="*{startTime}" class="form-control bg-dark text-white rounded border-2" style="border-color: #2f3944;" required />
+    <div class="mb-4">
+        <div class="form-outline ">
+            <input type="time" id="startTime" th:field="*{startTime}" class="form-control form-control-lg text-light" required />
+            <label class="form-label text-white" for="startTime" th:text="#{label.start.time}">Start Time</label>
+        </div>
         <small class="text-danger" th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"></small>
     </div>
 
