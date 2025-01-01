@@ -121,3 +121,23 @@ For any questions or feedback, feel free to reach out:
 - **Email:** petruninvolodymyr@gmail.com
 - **Telegram:** [Telegram Profile](https://t.me/VolodymyrPetrunin)
 - **GitHub:** [GitHub Profile](https://github.com/Volodymyr-Petrunin)
+
+## 💻 Application Preview
+
+### 1. **Main Page**
+![Main Page EN](./docs/screenshots/Planing-Poker-Main-Page-EN.png)
+
+### 2. **Login Page**
+![Login Page](./docs/screenshots/Planing-Poker-Login-Page.png)
+
+### 3. **Estimate Cards**
+![Estimate Cards Form](./docs/screenshots/Planing-Poker-Estimate-Cards.png)
+
+### 4. **Messages**
+![Messages EN](./docs/screenshots/Planing-Poker-Messages-EN.png)
+
+### 📂 More Screenshots
+
+Additional screenshots with different localizations are available in the `/docs/screenshots` folder. 
+Feel free to explore them for a deeper understanding of the application's functionality!
+
