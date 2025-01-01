@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const messagesList = document.getElementById('messagesList');
 
         const messageItem = document.createElement('li');
-        messageItem.classList.add('list-group-item', 'bg-dark', 'text-light');
+        messageItem.classList.add('list-group-item', 'bg-dark', 'text-light', 'border', 'border-light');
         messageItem.textContent = `${timestamp} - ${localizedMessage}`;
         messageItem.classList.add('fade-in');
         messagesList.appendChild(messageItem);
