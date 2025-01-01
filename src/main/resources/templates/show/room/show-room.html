@@ -108,9 +108,9 @@
                 <td th:text="${story.title}"></td>
                 <td><a th:href="${story.storyLink}" th:text="${story.storyLink}" target="_blank"></a></td>
                 <td th:if="${isCreator}">
-                    <button class="btn btn-warning me-2" th:if="${isCreator}" id="buttonUpdateStory" th:attr="data-story-id=${story.id}">Update</button>
-                    <button class="btn btn-danger me-2" th:if="${isCreator}" id="buttonDeleteStory" th:attr="data-story-id=${story.id}">Delete</button>
-                    <button class="btn btn-success me-2" th:if="${isCreator}" id="buttonSetCurrentStory" th:attr="data-story-id=${story.id}">Set to current</button>
+                    <button class="btn btn-warning me-2" th:if="${isCreator}" id="buttonUpdateStory" th:attr="data-story-id=${story.id}" th:text="#{label.update}">Update</button>
+                    <button class="btn btn-danger me-2" th:if="${isCreator}" id="buttonDeleteStory" th:attr="data-story-id=${story.id}" th:text="#{label.remove}">Delete</button>
+                    <button class="btn btn-success me-2" th:if="${isCreator}" id="buttonSetCurrentStory" th:attr="data-story-id=${story.id}" th:text="#{label.set.current.story}">Set to current</button>
                 </td>
                 <td class="text-center average-vote"
                     th:text="${story.averageVotePoints() ?: '&#11834;'}"
@@ -122,10 +122,10 @@
         </table>
     </div>
 
-    <div th:if="${isCreator}">
+    <div th:if="${isCreator}" class="d-flex justify-content-center flex-column align-items-center mb-3">
         <input type="hidden" id="storiesInput" />
 
-        <button type="button" class="btn btn-primary border border-1 border-black float-end" data-bs-toggle="modal" data-bs-target="#createStoryModal" th:text="#{label.add.stories}">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStoryModal" th:text="#{label.add.stories}">
             Add Stories
         </button>
     </div>
